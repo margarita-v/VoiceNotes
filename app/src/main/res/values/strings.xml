@@ -3,4 +3,5 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="start_speech">Say something interesting!</string>
     <string name="speech_not_supported">Your device doesn\'t support speech input</string>
+    <string name="photo">photo</string>
 </resources>

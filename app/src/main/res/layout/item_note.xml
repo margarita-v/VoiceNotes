@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="@dimen/default_margin">
+
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="@dimen/photo_size"
+                android:layout_height="@dimen/photo_size"
+                android:contentDescription="@string/photo"
+                app:srcCompat="@mipmap/ic_launcher"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivPhoto"
+                android:layout_toEndOf="@id/ivPhoto"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/title_font_size"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="This should be a long description like this example that I'm showing. Some long text like this."/>
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvDescription"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="@dimen/date_font_size"
+                tools:text="31 dec. 2017"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
