@@ -14,6 +14,7 @@ import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.models.NoteItem
 import kotlinx.android.synthetic.main.fragment_news.*
 import java.util.*
+import android.support.v7.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +29,16 @@ class MainActivity : AppCompatActivity() {
     private val notesList by lazy {
         rvList.setHasFixedSize(true)
         rvList.layoutManager = LinearLayoutManager(this)
+        rvList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    fab.show()
+                } else {
+                    fab.hide()
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
         rvList
     }
 
