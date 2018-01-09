@@ -1,10 +1,24 @@
 package com.margarita.voicenotes.common
 
 import android.content.Context
+import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.*
+
+/**
+ * Function for simple inflating layout file to view group
+ * @param layoutRes ID of layout file which will be inflated to the view group
+ * @param attachToRoot Flag which shows if we need to attach to the root this view
+ * @return View with inflated layout
+ */
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+}
 
 /**
  * Function for showing a simple Toast message

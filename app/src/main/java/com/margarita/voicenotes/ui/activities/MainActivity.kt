@@ -7,9 +7,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.ActivityNotFoundException
 import android.speech.RecognizerIntent
 import android.content.Intent
+import android.support.v7.widget.LinearLayoutManager
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.NotesAdapter
 import com.margarita.voicenotes.common.showToast
-import kotlinx.android.synthetic.main.content_main.*
+import com.margarita.voicenotes.models.NoteItem
+import kotlinx.android.synthetic.main.fragment_news.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -19,11 +22,37 @@ class MainActivity : AppCompatActivity() {
      */
     private val requestCodeForSpeech = 100
 
+    /**
+     * Lazy initialization for RecyclerView which will be executed once
+     */
+    private val notesList by lazy {
+        rvList.setHasFixedSize(true)
+        rvList.layoutManager = LinearLayoutManager(this)
+        rvList
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
+        setupAdapter()
+        fab.setOnClickListener { startSpeechRecognition() }
+    }
+
+    /**
+     * Function for initialization of the RecyclerView's adapter
+     */
+    private fun setupAdapter() {
+        val adapter = NotesAdapter()
+        val notes = (1..10).map {
+            NoteItem(
+                    it,
+                    "$it A very long text of note. What's up? How are you? I am writing a useful app for you! And what are you doing?",
+                    1457207701L - it * 200
+            )
+        }
+        adapter.setNotes(notes)
+        notesList.adapter = adapter
     }
 
     /**
@@ -54,8 +83,8 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == requestCodeForSpeech &&
                 resultCode == Activity.RESULT_OK && data != null) {
-            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            tvSpeechResult.text = result[0]
+            //val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            //tvSpeechResult.text = result[0]
         }
     }
 }
