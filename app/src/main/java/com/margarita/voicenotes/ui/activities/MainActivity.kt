@@ -1,4 +1,4 @@
-package com.margarita.voicenotes
+package com.margarita.voicenotes.ui.activities
 
 import android.app.Activity
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.ActivityNotFoundException
 import android.speech.RecognizerIntent
 import android.content.Intent
+import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.showToast
 import kotlinx.android.synthetic.main.content_main.*
 import java.util.*
