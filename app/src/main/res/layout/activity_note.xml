@@ -24,9 +24,11 @@
                 android:layout_width="@dimen/mic_icon_size"
                 android:layout_height="@dimen/mic_icon_size"
                 android:layout_gravity="center"
+                android:adjustViewBounds="false"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/speak"
-                android:scaleType="fitXY"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
                 android:tint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_mic_white_24dp" />
 
