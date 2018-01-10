@@ -107,8 +107,13 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == requestCodeForSpeech &&
                 resultCode == Activity.RESULT_OK && data != null) {
-            //val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            //tvSpeechResult.text = result[0]
+            val intent = Intent(this, NoteActivity::class.java)
+
+            val intentKey = RecognizerIntent.EXTRA_RESULTS
+            val result = data.getStringArrayListExtra(intentKey)
+
+            intent.putStringArrayListExtra(intentKey, result)
+            startActivity(intent)
         }
     }
 }

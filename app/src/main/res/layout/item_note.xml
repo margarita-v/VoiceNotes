@@ -27,10 +27,7 @@
                 android:layout_marginBottom="@dimen/margin8"
                 android:layout_marginLeft="@dimen/margin16"
                 android:layout_marginStart="@dimen/margin16"
-                android:adjustViewBounds="false"
                 android:contentDescription="@string/photo"
-                android:cropToPadding="false"
-                android:scaleType="fitCenter"
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <RelativeLayout

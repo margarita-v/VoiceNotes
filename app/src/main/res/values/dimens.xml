@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Sizes of image buttons and views -->
+    <!-- Sizes of widgets -->
     <dimen name="image_button_size">30dp</dimen>
+    <dimen name="mic_icon_size">30dp</dimen>
     <dimen name="photo_size">70dp</dimen>
+    <dimen name="edit_text_height">200dp</dimen>
 
     <!-- Margin values -->
     <dimen name="margin3">3dp</dimen>
