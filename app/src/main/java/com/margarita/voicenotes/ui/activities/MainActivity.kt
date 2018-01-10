@@ -8,13 +8,14 @@ import android.content.ActivityNotFoundException
 import android.speech.RecognizerIntent
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.NotesAdapter
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.models.NoteItem
 import kotlinx.android.synthetic.main.fragment_news.*
 import java.util.*
-import android.support.v7.widget.RecyclerView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,19 +25,31 @@ class MainActivity : AppCompatActivity() {
     private val requestCodeForSpeech = 100
 
     /**
+     * Translation Y value for a floating action button for its animation
+     */
+    private val fabTranslationYForHide by lazy {
+        fab.width * 1.5f
+    }
+
+    /**
      * Lazy initialization for RecyclerView which will be executed once
      */
     private val notesList by lazy {
         rvList.setHasFixedSize(true)
         rvList.layoutManager = LinearLayoutManager(this)
-        rvList.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    fab.show()
-                } else {
-                    fab.hide()
-                }
-                super.onScrollStateChanged(recyclerView, newState)
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                fabAnimate(dy > 0)
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+            /**
+             * Function for showing animation for hide and show a floating action button
+             * @param isForHide If True then we should hide FAB, show otherwise
+             */
+            private fun fabAnimate(isForHide: Boolean) {
+                val translationY = if (isForHide) fabTranslationYForHide else 0f
+                fab.animate().translationY(translationY).start()
             }
         })
         rvList
