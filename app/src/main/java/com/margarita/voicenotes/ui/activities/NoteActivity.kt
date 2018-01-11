@@ -12,12 +12,40 @@ import com.margarita.voicenotes.common.showToast
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
 
+/**
+ * Activity for a note creation, showing and editing
+ */
 class NoteActivity : AppCompatActivity() {
 
     /**
-     * Request code for recognition activity
+     * Storage of static constants
      */
-    private val requestCodeForSpeech = 100
+    private companion object {
+        /**
+         * Key for Bundle for saving a flag for started recognition service
+         */
+        const val RECOGNITION_SERVICE_FLAG = "START_RECOGNITION"
+
+        /**
+         * Key for Bundle for saving a flag for screen orientation changing
+         */
+        const val SCREEN_ORIENTATION_CHANGED_FLAG = "ROTATED"
+
+        /**
+         * Request code for recognition service
+         */
+        const val SPEECH_REQUEST_CODE = 100
+    }
+
+    /**
+     * Flag which shows if the recognition service was started
+     */
+    private var isRecognitionServiceStarted = false
+
+    /**
+     * Flag which shows if the screeen orientation was changed
+     */
+    private var isScreenOrientationChanged = false
 
     /**
      * Intent for starting speech recognition service
@@ -38,10 +66,23 @@ class NoteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
-        //TODO Add launch flag and save it to Bundle
-        //TODO Add function which will check flag and launch service
+        if (savedInstanceState != null) {
+            isRecognitionServiceStarted =
+                    savedInstanceState.getBoolean(RECOGNITION_SERVICE_FLAG)
+            isScreenOrientationChanged =
+                    savedInstanceState.getBoolean(SCREEN_ORIENTATION_CHANGED_FLAG)
+        }
         startSpeechRecognition()
+        // This flag used once on activity creation, so we should set it to false
+        isScreenOrientationChanged = false
         imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putBoolean(RECOGNITION_SERVICE_FLAG, isRecognitionServiceStarted)
+        // This method is always called when screen orientation is changing
+        outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
     }
 
     /**
@@ -57,7 +98,10 @@ class NoteActivity : AppCompatActivity() {
      */
     private fun startSpeechRecognition() {
         try {
-            startActivityForResult(recognitionIntent, requestCodeForSpeech)
+            if (!isRecognitionServiceStarted && !isScreenOrientationChanged) {
+                startActivityForResult(recognitionIntent, SPEECH_REQUEST_CODE)
+                isRecognitionServiceStarted = true
+            }
         } catch (a: ActivityNotFoundException) {
             showToast(R.string.speech_not_supported)
         }
@@ -68,7 +112,8 @@ class NoteActivity : AppCompatActivity() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == requestCodeForSpeech &&
+        isRecognitionServiceStarted = false
+        if (requestCode == SPEECH_REQUEST_CODE &&
                 resultCode == Activity.RESULT_OK && data != null) {
             val resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             val speechResult = resultArray[0]
