@@ -4,6 +4,7 @@
     <string name="start_speech">Say something interesting!</string>
     <string name="speech_not_supported">Your device doesn\'t support speech input</string>
     <string name="speak">Speak</string>
+    <string name="new_note">New note</string>
     <string name="note_text">Note text</string>
     <string name="save">Save</string>
     <string name="photo">Photo</string>

@@ -45,6 +45,14 @@ class NoteActivity : AppCompatActivity() {
     }
 
     /**
+     * Providing a correct navigation to the parent activity
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    /**
      * Function for launching speech recognition service
      */
     private fun startSpeechRecognition() {
