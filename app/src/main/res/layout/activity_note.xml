@@ -70,10 +70,21 @@
                     android:id="@+id/tvPhoto"
                     android:layout_toRightOf="@id/ivPhoto"
                     android:layout_toEndOf="@id/ivPhoto"
+                    android:layout_toLeftOf="@id/space"
+                    android:layout_toStartOf="@id/space"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:text="@string/set_photo"/>
+
+                <Space
+                    android:id="@+id/space"
+                    android:layout_width="@dimen/margin8"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/imgBtnPhoto"
+                    android:layout_toStartOf="@id/imgBtnPhoto"/>
 
                 <ImageButton
                     android:id="@+id/imgBtnPhoto"

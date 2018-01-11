@@ -11,4 +11,5 @@
     <string name="set_photo">Set photo…</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="choose_photo">Choose photo from file system</string>
+    <string name="category_stub">A very very very very long name of category</string>
 </resources>
