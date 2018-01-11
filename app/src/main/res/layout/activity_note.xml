@@ -45,8 +45,10 @@
 
                 <EditText
                     android:id="@+id/etNote"
+                    android:gravity="top"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:minHeight="@dimen/edit_text_height"
                     android:hint="@string/note_text" />
 
             </android.support.design.widget.TextInputLayout>
@@ -57,22 +59,43 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageButton
-                    android:id="@+id/imgBtnPhoto"
+                <ImageView
+                    android:id="@+id/ivPhoto"
                     android:layout_width="@dimen/photo_size"
                     android:layout_height="@dimen/photo_size"
-                    android:adjustViewBounds="false"
                     android:contentDescription="@string/photo"
-                    android:cropToPadding="false"
-                    app:srcCompat="@mipmap/ic_launcher" />
+                    app:srcCompat="@mipmap/ic_launcher"/>
 
                 <TextView
-                    android:layout_toRightOf="@id/imgBtnPhoto"
-                    android:layout_toEndOf="@id/imgBtnPhoto"
+                    android:id="@+id/tvPhoto"
+                    android:layout_toRightOf="@id/ivPhoto"
+                    android:layout_toEndOf="@id/ivPhoto"
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/add_photo"/>
+                    android:text="@string/set_photo"/>
+
+                <ImageButton
+                    android:id="@+id/imgBtnPhoto"
+                    android:layout_width="@dimen/mic_icon_size"
+                    android:layout_height="@dimen/mic_icon_size"
+                    android:layout_toLeftOf="@id/imgBtnChoosePhoto"
+                    android:layout_toStartOf="@id/imgBtnChoosePhoto"
+                    android:contentDescription="@string/take_a_photo"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/imgBtnChoosePhoto"
+                    android:layout_width="@dimen/mic_icon_size"
+                    android:layout_height="@dimen/mic_icon_size"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:contentDescription="@string/choose_photo"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    app:srcCompat="@drawable/ic_photo_library_black_24dp" />
             </RelativeLayout>
 
             <Button

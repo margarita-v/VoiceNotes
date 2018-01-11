@@ -3,9 +3,11 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="start_speech">Say something interesting!</string>
     <string name="speech_not_supported">Your device doesn\'t support speech input</string>
-    <string name="photo">Photo</string>
     <string name="speak">Speak</string>
     <string name="note_text">Note text</string>
     <string name="save">Save</string>
-    <string name="add_photo">Add photo</string>
+    <string name="photo">Photo</string>
+    <string name="set_photo">Set photo…</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="choose_photo">Choose photo from file system</string>
 </resources>
