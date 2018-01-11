@@ -116,7 +116,8 @@ class NoteActivity : AppCompatActivity() {
         if (requestCode == SPEECH_REQUEST_CODE &&
                 resultCode == Activity.RESULT_OK && data != null) {
             val resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            val speechResult = resultArray[0]
+            val speechResult = resultArray[0].capitalize()
+            // Capitalize the first letter of note
             etNote.setText(speechResult, TextView.BufferType.EDITABLE)
             etNote.setSelection(speechResult.length)
         }
