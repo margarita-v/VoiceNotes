@@ -9,6 +9,7 @@ import android.speech.RecognizerIntent
 import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.showToast
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
 
@@ -34,7 +35,12 @@ class NoteActivity : AppCompatActivity() {
         /**
          * Request code for recognition service
          */
-        const val SPEECH_REQUEST_CODE = 100
+        const val SPEECH_REQUEST_CODE = 1
+
+        /**
+         * Request code for a photo selection
+         */
+        const val PICK_PHOTO_REQUEST_CODE = 2
     }
 
     /**
@@ -63,6 +69,15 @@ class NoteActivity : AppCompatActivity() {
                         getString(R.string.start_speech))
     }
 
+    /**
+     * Intent for choosing photo from gallery
+     */
+    private val pickPhotoFromGalleryIntent by lazy {
+        val intentType = "image/*"
+        Intent().setType(intentType)
+                .setAction(Intent.ACTION_GET_CONTENT)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
@@ -76,6 +91,7 @@ class NoteActivity : AppCompatActivity() {
         // This flag used once on activity creation, so we should set it to false
         isScreenOrientationChanged = false
         imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
+        imgBtnChoosePhoto.setOnClickListener { pickImageFromGallery() }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -94,6 +110,17 @@ class NoteActivity : AppCompatActivity() {
     }
 
     /**
+     * Function for choosing a photo for note from gallery
+     */
+    private fun pickImageFromGallery() {
+        startActivityForResult(
+                Intent.createChooser(
+                        pickPhotoFromGalleryIntent,
+                        getString(R.string.choose_photo)),
+                PICK_PHOTO_REQUEST_CODE)
+    }
+
+    /**
      * Function for launching speech recognition service
      */
     private fun startSpeechRecognition() {
@@ -108,18 +135,29 @@ class NoteActivity : AppCompatActivity() {
     }
 
     /**
-     * Function for receiving speech input
+     * Function for receiving an activity's result
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         isRecognitionServiceStarted = false
-        if (requestCode == SPEECH_REQUEST_CODE &&
-                resultCode == Activity.RESULT_OK && data != null) {
-            val resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-            val speechResult = resultArray[0].capitalize()
-            // Capitalize the first letter of note
-            etNote.setText(speechResult, TextView.BufferType.EDITABLE)
-            etNote.setSelection(speechResult.length)
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            when (requestCode) {
+                // Result of a speech recognition
+                SPEECH_REQUEST_CODE -> {
+                    val resultArray =
+                            data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                    val speechResult = resultArray[0].capitalize()
+                    // Capitalize the first letter of note
+                    etNote.setText(speechResult, TextView.BufferType.EDITABLE)
+                    etNote.setSelection(speechResult.length)
+                }
+                // Result of choosing photo from gallery
+                PICK_PHOTO_REQUEST_CODE -> {
+                    Picasso.with(this)
+                            .load(data.data)
+                            .into(ivPhoto)
+                }
+            }
         }
     }
 }
