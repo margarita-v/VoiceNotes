@@ -12,10 +12,7 @@ import android.speech.RecognizerIntent
 import android.support.v4.content.FileProvider
 import android.widget.TextView
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.createImageFile
-import com.margarita.voicenotes.common.loadImage
-import com.margarita.voicenotes.common.showCropActivity
-import com.margarita.voicenotes.common.showToast
+import com.margarita.voicenotes.common.*
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
@@ -124,9 +121,12 @@ class NoteActivity : AppCompatActivity() {
         startSpeechRecognition()
         // This flag used once on activity creation, so we should set it to false
         isScreenOrientationChanged = false
+        configureOptionalButtons(photoUri != null)
         imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
         imgBtnPhoto.setOnClickListener { takePhoto() }
         imgBtnChoosePhoto.setOnClickListener { pickImageFromGallery() }
+        imgBtnCrop.setOnClickListener { cropImage() }
+        imgBtnDelete.setOnClickListener { deleteImage() }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -165,6 +165,26 @@ class NoteActivity : AppCompatActivity() {
             takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
             startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST_CODE)
         }
+    }
+
+    /**
+     * Function for changing a photo's thumbnail
+     */
+    private fun cropImage() {
+        if (photoUri != null) {
+            showCropActivity(photoUri!!)
+        } else {
+            showToast(R.string.image_loading_error)
+        }
+    }
+
+    /**
+     * Function for deleting a chosen photo of the note
+     */
+    private fun deleteImage() {
+        ivPhoto.setDefaultImage(this)
+        photoUri = null
+        configureOptionalButtons(false)
     }
 
     /**
@@ -215,30 +235,29 @@ class NoteActivity : AppCompatActivity() {
                     // If request code is equal to request code for pick photo from gallery,
                     // we should set photoUri, otherwise photoUri had been already set
                     photoUri = data?.data
-                    showCropActivity()
+                    cropImage()
                 }
 
                 // Result of taking photo
-                TAKE_PHOTO_REQUEST_CODE -> showCropActivity()
+                TAKE_PHOTO_REQUEST_CODE -> cropImage()
 
                 // Result of image cropping
                 CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
                     val resultImage = CropImage.getActivityResult(data)
                     croppedPhotoUri = resultImage.uri
                     ivPhoto.loadImage(this, croppedPhotoUri!!)
+                    configureOptionalButtons(true)
                 }
             } // when
         } // if
     } // fun
 
     /**
-     * Function for showing a photo for the note
+     * Function for configuration of states for optional buttons
+     * @param enabled Flag which shows the state of optional buttons
      */
-    private fun showCropActivity() {
-        if (photoUri != null) {
-            showCropActivity(photoUri!!)
-        } else {
-            showToast(R.string.image_loading_error)
-        }
+    private fun configureOptionalButtons(enabled: Boolean) {
+        imgBtnCrop.setEnabledIconColor(enabled)
+        imgBtnDelete.setEnabledIconColor(enabled)
     }
 }

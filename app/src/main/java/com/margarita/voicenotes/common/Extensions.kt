@@ -2,9 +2,12 @@ package com.margarita.voicenotes.common
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.net.Uri
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +38,29 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
  */
 fun ImageView.loadImage(context: Context, uri: Uri) {
     Picasso.with(context).load(uri).into(this)
+}
+
+/**
+ * Function for setting filter for an image button's background and its drawable resource
+ * @param enabled Flag which shows if we should set or clear filter
+ */
+fun ImageView.setEnabledIconColor(enabled: Boolean) {
+    isEnabled = enabled
+    if (enabled) {
+        background?.colorFilter = null
+        drawable?.colorFilter = null
+    } else {
+        background?.setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN)
+        drawable?.setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN)
+    }
+}
+
+/**
+ * Function for setting a default image to image view
+ * @param context Context of function call
+ */
+fun ImageView.setDefaultImage(context: Context) {
+    setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
 }
 
 /**
