@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore.Images.Media
 import android.speech.RecognizerIntent
 import android.widget.TextView
 import com.margarita.voicenotes.R
@@ -74,8 +75,9 @@ class NoteActivity : AppCompatActivity() {
      */
     private val pickPhotoFromGalleryIntent by lazy {
         val intentType = "image/*"
-        Intent().setType(intentType)
-                .setAction(Intent.ACTION_GET_CONTENT)
+        val pickIntent = Intent(Intent.ACTION_PICK, Media.EXTERNAL_CONTENT_URI)
+                .setType(intentType)
+        Intent.createChooser(pickIntent, getString(R.string.choose_photo))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,11 +115,7 @@ class NoteActivity : AppCompatActivity() {
      * Function for choosing a photo for note from gallery
      */
     private fun pickImageFromGallery() {
-        startActivityForResult(
-                Intent.createChooser(
-                        pickPhotoFromGalleryIntent,
-                        getString(R.string.choose_photo)),
-                PICK_PHOTO_REQUEST_CODE)
+        startActivityForResult(pickPhotoFromGalleryIntent, PICK_PHOTO_REQUEST_CODE)
     }
 
     /**
