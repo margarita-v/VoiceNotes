@@ -3,14 +3,18 @@ package com.margarita.voicenotes.ui.activities
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
+import android.support.v4.content.FileProvider
 import android.widget.TextView
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.createImageFile
+import com.margarita.voicenotes.common.loadImage
 import com.margarita.voicenotes.common.showToast
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
 
@@ -23,6 +27,11 @@ class NoteActivity : AppCompatActivity() {
      * Storage of static constants
      */
     private companion object {
+        /**
+         * Authority for the application's file provider
+         */
+        const val FILE_PROVIDER_AUTHORITY = "com.margarita.voicenotes.android.fileprovider"
+
         /**
          * Key for Bundle for saving a flag for started recognition service
          */
@@ -42,6 +51,11 @@ class NoteActivity : AppCompatActivity() {
          * Request code for a photo selection
          */
         const val PICK_PHOTO_REQUEST_CODE = 2
+
+        /**
+         * Request code for taking photo
+         */
+        const val TAKE_PHOTO_REQUEST_CODE = 3
     }
 
     /**
@@ -53,6 +67,11 @@ class NoteActivity : AppCompatActivity() {
      * Flag which shows if the screen orientation was changed
      */
     private var isScreenOrientationChanged = false
+
+    /**
+     * Uri for the photo of note
+     */
+    private var photoUri: Uri? = null
 
     /**
      * Intent for starting speech recognition service
@@ -79,6 +98,13 @@ class NoteActivity : AppCompatActivity() {
                 .setType(intentType)
     }
 
+    /**
+     * Intent for taking photo
+     */
+    private val takePhotoIntent by lazy {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
@@ -92,6 +118,7 @@ class NoteActivity : AppCompatActivity() {
         // This flag used once on activity creation, so we should set it to false
         isScreenOrientationChanged = false
         imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
+        imgBtnPhoto.setOnClickListener { takePhoto() }
         imgBtnChoosePhoto.setOnClickListener { pickImageFromGallery() }
     }
 
@@ -116,6 +143,20 @@ class NoteActivity : AppCompatActivity() {
     private fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
             startActivityForResult(pickPhotoFromGalleryIntent, PICK_PHOTO_REQUEST_CODE)
+        }
+    }
+
+    /**
+     * Function for taking photo for note
+     */
+    private fun takePhoto() {
+        if (checkIntentHandlers(takePhotoIntent)) {
+            val photoFile = createImageFile(
+                    getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+            photoUri = FileProvider.getUriForFile(
+                    this, FILE_PROVIDER_AUTHORITY, photoFile)
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST_CODE)
         }
     }
 
@@ -159,13 +200,13 @@ class NoteActivity : AppCompatActivity() {
                     etNote.setText(speechResult, TextView.BufferType.EDITABLE)
                     etNote.setSelection(speechResult.length)
                 }
-                // Result of choosing photo from gallery
-                PICK_PHOTO_REQUEST_CODE -> {
-                    Picasso.with(this)
-                            .load(data.data)
-                            .into(ivPhoto)
+                else -> {
+                    if (requestCode == PICK_PHOTO_REQUEST_CODE) {
+                        photoUri = data.data
+                    }
+                    ivPhoto.loadImage(this, photoUri!!)
                 }
-            }
-        }
-    }
+            } // when
+        } // if
+    } // fun
 }
