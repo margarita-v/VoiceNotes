@@ -50,7 +50,7 @@ class NoteActivity : AppCompatActivity() {
     private var isRecognitionServiceStarted = false
 
     /**
-     * Flag which shows if the screeen orientation was changed
+     * Flag which shows if the screen orientation was changed
      */
     private var isScreenOrientationChanged = false
 
@@ -114,7 +114,7 @@ class NoteActivity : AppCompatActivity() {
      * Function for choosing a photo for note from gallery
      */
     private fun pickImageFromGallery() {
-        if (pickPhotoFromGalleryIntent.resolveActivity(packageManager) != null) {
+        if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
             startActivityForResult(pickPhotoFromGalleryIntent, PICK_PHOTO_REQUEST_CODE)
         }
     }
@@ -124,7 +124,8 @@ class NoteActivity : AppCompatActivity() {
      */
     private fun startSpeechRecognition() {
         try {
-            if (!isRecognitionServiceStarted && !isScreenOrientationChanged) {
+            if (!isRecognitionServiceStarted && !isScreenOrientationChanged &&
+                    checkIntentHandlers(recognitionIntent)) {
                 startActivityForResult(recognitionIntent, SPEECH_REQUEST_CODE)
                 isRecognitionServiceStarted = true
             }
@@ -132,6 +133,14 @@ class NoteActivity : AppCompatActivity() {
             showToast(R.string.speech_not_supported)
         }
     }
+
+    /**
+     * Function which checks if the user's device has apps which can handle intent
+     * @param intent Intent which should be handled
+     * @return True if intent could be handled, False otherwise
+     */
+    private fun checkIntentHandlers(intent: Intent) =
+            intent.resolveActivity(packageManager) != null
 
     /**
      * Function for receiving an activity's result
