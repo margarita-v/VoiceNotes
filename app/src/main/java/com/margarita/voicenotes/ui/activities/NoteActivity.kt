@@ -189,24 +189,39 @@ class NoteActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         isRecognitionServiceStarted = false
-        if (resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 // Result of a speech recognition
                 SPEECH_REQUEST_CODE -> {
-                    val resultArray =
-                            data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                    val speechResult = resultArray[0].capitalize()
-                    // Capitalize the first letter of note
-                    etNote.setText(speechResult, TextView.BufferType.EDITABLE)
-                    etNote.setSelection(speechResult.length)
-                }
-                else -> {
-                    if (requestCode == PICK_PHOTO_REQUEST_CODE) {
-                        photoUri = data.data
+                    if (data != null) {
+                        val resultArray =
+                                data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                        val speechResult = resultArray[0].capitalize()
+                        // Capitalize the first letter of note
+                        etNote.setText(speechResult, TextView.BufferType.EDITABLE)
+                        etNote.setSelection(speechResult.length)
                     }
-                    ivPhoto.loadImage(this, photoUri!!)
                 }
+                // Result of a choosing photo from gallery
+                PICK_PHOTO_REQUEST_CODE -> {
+                    // If request code is equal to request code for pick photo from gallery,
+                    // we should set photoUri, otherwise photoUri had been already set
+                    photoUri = data?.data
+                    showPhoto()
+                }
+                // Result of taking photo
+                TAKE_PHOTO_REQUEST_CODE -> showPhoto()
             } // when
         } // if
     } // fun
+
+    /**
+     * Function for showing a photo for the note
+     */
+    private fun showPhoto() {
+        if (photoUri != null) {
+            ivPhoto.loadImage(this, photoUri!!)
+        } else
+            showToast(R.string.image_loading_error)
+    }
 }
