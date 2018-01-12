@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.common
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.LayoutRes
@@ -9,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.margarita.voicenotes.R
 import com.squareup.picasso.Picasso
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,6 +44,28 @@ fun ImageView.loadImage(context: Context, uri: Uri) {
  */
 fun Context.showToast(@StringRes messageRes: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, messageRes, duration).show()
+}
+
+// Requested size of image cropping area
+private const val IMAGE_REQUESTED_SIZE = 400
+// Min size of the result of image cropping
+private const val MIN_IMAGE_SIZE = 200
+
+/**
+ * Function for showing a crop activity
+ * @param imageUri Uri of image which will be cropped
+ */
+fun Activity.showCropActivity(imageUri: Uri) {
+    CropImage.activity(imageUri)
+            .setGuidelines(CropImageView.Guidelines.ON)
+            .setActivityTitle(getString(R.string.crop_image))
+            .setCropShape(CropImageView.CropShape.RECTANGLE)
+            .setRequestedSize(IMAGE_REQUESTED_SIZE, IMAGE_REQUESTED_SIZE)
+            .setMinCropResultSize(MIN_IMAGE_SIZE, MIN_IMAGE_SIZE)
+            .setMultiTouchEnabled(true)
+            .setFixAspectRatio(true)
+            .setCropMenuCropButtonTitle(getString(R.string.done))
+            .start(this)
 }
 
 //region Constants for date parsing

@@ -14,7 +14,9 @@ import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.loadImage
+import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
+import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.android.synthetic.main.activity_note.*
 import java.util.*
 
@@ -72,6 +74,11 @@ class NoteActivity : AppCompatActivity() {
      * Uri for the photo of note
      */
     private var photoUri: Uri? = null
+
+    /**
+     * Uri for the cropped photo of note
+     */
+    private var croppedPhotoUri: Uri? = null
 
     /**
      * Intent for starting speech recognition service
@@ -202,15 +209,24 @@ class NoteActivity : AppCompatActivity() {
                         etNote.setSelection(speechResult.length)
                     }
                 }
+
                 // Result of a choosing photo from gallery
                 PICK_PHOTO_REQUEST_CODE -> {
                     // If request code is equal to request code for pick photo from gallery,
                     // we should set photoUri, otherwise photoUri had been already set
                     photoUri = data?.data
-                    showPhoto()
+                    showCropActivity()
                 }
+
                 // Result of taking photo
-                TAKE_PHOTO_REQUEST_CODE -> showPhoto()
+                TAKE_PHOTO_REQUEST_CODE -> showCropActivity()
+
+                // Result of image cropping
+                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                    val resultImage = CropImage.getActivityResult(data)
+                    croppedPhotoUri = resultImage.uri
+                    ivPhoto.loadImage(this, croppedPhotoUri!!)
+                }
             } // when
         } // if
     } // fun
@@ -218,10 +234,11 @@ class NoteActivity : AppCompatActivity() {
     /**
      * Function for showing a photo for the note
      */
-    private fun showPhoto() {
+    private fun showCropActivity() {
         if (photoUri != null) {
-            ivPhoto.loadImage(this, photoUri!!)
-        } else
+            showCropActivity(photoUri!!)
+        } else {
             showToast(R.string.image_loading_error)
+        }
     }
 }
