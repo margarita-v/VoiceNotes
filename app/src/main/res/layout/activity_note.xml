@@ -21,8 +21,8 @@
 
             <ImageButton
                 android:id="@+id/imgBtnSpeak"
-                android:layout_width="@dimen/mic_icon_size"
-                android:layout_height="@dimen/mic_icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
                 android:layout_gravity="center"
                 android:adjustViewBounds="false"
                 android:background="?android:attr/selectableItemBackground"
@@ -64,6 +64,9 @@
                     android:layout_width="@dimen/photo_size"
                     android:layout_height="@dimen/photo_size"
                     android:contentDescription="@string/photo"
+                    android:layout_marginLeft="@dimen/margin3"
+                    android:layout_marginStart="@dimen/margin3"
+                    android:layout_centerVertical="true"
                     app:srcCompat="@mipmap/ic_launcher"/>
 
                 <TextView
@@ -90,25 +93,45 @@
 
                 <ImageButton
                     android:id="@+id/imgBtnPhoto"
-                    android:layout_width="@dimen/mic_icon_size"
-                    android:layout_height="@dimen/mic_icon_size"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
                     android:layout_toLeftOf="@id/imgBtnChoosePhoto"
                     android:layout_toStartOf="@id/imgBtnChoosePhoto"
                     android:contentDescription="@string/take_a_photo"
-                    android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
                     app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
 
                 <ImageButton
                     android:id="@+id/imgBtnChoosePhoto"
-                    android:layout_width="@dimen/mic_icon_size"
-                    android:layout_height="@dimen/mic_icon_size"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:contentDescription="@string/choose_photo"
-                    android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
                     app:srcCompat="@drawable/ic_photo_library_black_24dp" />
+
+                <ImageButton
+                    android:id="@+id/imgBtnCrop"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_below="@id/imgBtnPhoto"
+                    android:layout_toRightOf="@id/space"
+                    android:layout_toEndOf="@id/space"
+                    android:background="?android:attr/selectableItemBackground"
+                    app:srcCompat="@drawable/ic_crop_black_24dp"
+                    android:contentDescription="@string/crop_image" />
+
+                <ImageButton
+                    android:id="@+id/imgBtnDelete"
+                    android:layout_width="@dimen/icon_size"
+                    android:layout_height="@dimen/icon_size"
+                    android:layout_toRightOf="@id/imgBtnCrop"
+                    android:layout_toEndOf="@id/imgBtnCrop"
+                    android:layout_below="@id/imgBtnChoosePhoto"
+                    android:background="?android:attr/selectableItemBackground"
+                    app:srcCompat="@drawable/ic_delete_black_24dp"
+                    android:contentDescription="@string/delete_image" />
             </RelativeLayout>
 
             <Button

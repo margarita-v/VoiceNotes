@@ -3,7 +3,7 @@
     <!-- Sizes of widgets -->
     <dimen name="image_button_size">30dp</dimen>
     <dimen name="mic_icon_size_old">30dp</dimen>
-    <dimen name="mic_icon_size">50dp</dimen>
+    <dimen name="icon_size">50dp</dimen>
     <dimen name="photo_size">70dp</dimen>
     <dimen name="edit_text_height">200dp</dimen>
 

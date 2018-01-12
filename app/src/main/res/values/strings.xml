@@ -10,6 +10,7 @@
     <string name="done">Done</string>
     <string name="image_loading_error">Image loading error!</string>
     <string name="crop_image">Crop image</string>
+    <string name="delete_image">Delete image</string>
     <string name="photo">Photo</string>
     <string name="set_photo">Set photo…</string>
     <string name="take_a_photo">Take a photo</string>
