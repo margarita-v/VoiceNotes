@@ -1,10 +1,9 @@
 package com.margarita.voicenotes.ui.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.margarita.voicenotes.R
 
-class ViewNoteActivity : AppCompatActivity() {
+class ViewNoteActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

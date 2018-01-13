@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -20,7 +19,7 @@ import java.util.*
 /**
  * Activity for a note creation, showing and editing
  */
-class NewNoteActivity : AppCompatActivity() {
+class NewNoteActivity : BaseActivity() {
 
     /**
      * Storage of static constants
@@ -134,14 +133,6 @@ class NewNoteActivity : AppCompatActivity() {
         outState?.putBoolean(RECOGNITION_SERVICE_FLAG, isRecognitionServiceStarted)
         // This method is always called when screen orientation is changing
         outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
-    }
-
-    /**
-     * Providing a correct navigation to the parent activity
-     */
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
     }
 
     /**
