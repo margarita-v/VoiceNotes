@@ -19,6 +19,11 @@ interface NotesView {
     fun hideLoading()
 
     /**
+     * Show empty view if the list of notes is empty
+     */
+    fun showEmptyView()
+
+    /**
      * Show error message
      * @param messageRes String resource ID for a message text
      */

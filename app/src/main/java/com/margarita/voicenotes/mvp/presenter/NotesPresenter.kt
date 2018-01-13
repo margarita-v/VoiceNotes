@@ -6,5 +6,6 @@ class NotesPresenter(private val view: NotesView) {
 
     fun loadNotes() {
         //TODO Load notes from database
+        //TODO Check if the list is empty
     }
 }

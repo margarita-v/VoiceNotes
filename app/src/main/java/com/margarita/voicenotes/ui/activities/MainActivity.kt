@@ -67,11 +67,15 @@ class MainActivity : AppCompatActivity(), NotesView {
     }
 
     override fun showLoading() {
-        progressBar.visibility = View.VISIBLE
+        setupWidgets(true)
     }
 
     override fun hideLoading() {
-        progressBar.visibility = View.GONE
+        setupWidgets(false)
+    }
+
+    override fun showEmptyView() {
+
     }
 
     override fun showError(@StringRes messageRes: Int) {
@@ -95,5 +99,14 @@ class MainActivity : AppCompatActivity(), NotesView {
         }
         adapter.setNotes(notes)
         notesList.adapter = adapter
+    }
+
+    /**
+     * Setup visibility for widgets
+     * @param isLoading Flag which shows if the loading is performing
+     */
+    private fun setupWidgets(isLoading: Boolean) {
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        fab.visibility = if (isLoading) View.GONE else View.VISIBLE
     }
 }
