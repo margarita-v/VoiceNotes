@@ -4,20 +4,32 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
+import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.NotesAdapter
+import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.mvp.view.NotesView
 import kotlinx.android.synthetic.main.fragment_news.*
+import kotlinx.android.synthetic.main.progress_bar.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NotesView {
 
     /**
      * Translation Y value for a floating action button for its animation
      */
     private val fabTranslationYForHide by lazy {
         fab.width * 1.5f
+    }
+
+    /**
+     * Adapter for RecyclerView
+     */
+    private val adapter by lazy {
+        NotesAdapter()
     }
 
     /**
@@ -54,11 +66,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        progressBar.visibility = View.GONE
+    }
+
+    override fun showError(@StringRes messageRes: Int) {
+        showToast(messageRes)
+    }
+
+    override fun setNotes(notes: List<NoteItem>) {
+        adapter.setNotes(notes)
+    }
+
     /**
      * Function for initialization of the RecyclerView's adapter
      */
     private fun setupAdapter() {
-        val adapter = NotesAdapter()
         val notes = (1..10).map {
             NoteItem(
                     it,
