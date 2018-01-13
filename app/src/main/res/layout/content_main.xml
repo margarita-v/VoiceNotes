@@ -51,7 +51,7 @@
                 android:layout_marginTop="10dp"
                 android:text="@string/tap_on_mic"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/title_font_size" />
+                android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 
     </RelativeLayout>

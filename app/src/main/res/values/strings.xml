@@ -5,7 +5,10 @@
     <string name="speech_not_supported">Your device doesn\'t support speech input</string>
     <string name="speak">Speak</string>
     <string name="new_note">New note</string>
+    <string name="note_info">Note info</string>
     <string name="note_text">Note text</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
     <string name="save">Save</string>
     <string name="done">Done</string>
     <string name="image_loading_error">Image loading error!</string>

@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setupAdapter()
         fab.setOnClickListener {
-            startActivity(Intent(this, NoteActivity::class.java))
+            startActivity(Intent(this, NewNoteActivity::class.java))
         }
     }
 

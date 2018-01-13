@@ -14,13 +14,13 @@ import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_note.*
+import kotlinx.android.synthetic.main.activity_new_note.*
 import java.util.*
 
 /**
  * Activity for a note creation, showing and editing
  */
-class NoteActivity : AppCompatActivity() {
+class NewNoteActivity : AppCompatActivity() {
 
     /**
      * Storage of static constants
@@ -111,7 +111,7 @@ class NoteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note)
+        setContentView(R.layout.activity_new_note)
         if (savedInstanceState != null) {
             isRecognitionServiceStarted =
                     savedInstanceState.getBoolean(RECOGNITION_SERVICE_FLAG)
