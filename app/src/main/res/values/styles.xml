@@ -23,6 +23,12 @@
         <item name="colorControlHighlight">@color/colorGradientEnd</item>
     </style>
 
+    <!-- Theme for a note item with ripple effect -->
+    <style name="AppTheme.NoteItemThemeWithRipple">
+        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="colorControlHighlight">@color/colorChosenNote</item>
+    </style>
+
     <!-- Style for divider view -->
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
