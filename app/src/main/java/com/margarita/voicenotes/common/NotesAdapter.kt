@@ -9,7 +9,8 @@ import com.margarita.voicenotes.ui.holders.NoteViewHolder
 /**
  * Adapter for a note items list
  */
-class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
+class NotesAdapter(private val noteClickListener: OnNoteClickListener):
+        RecyclerView.Adapter<NoteViewHolder>() {
 
     /**
      * List of notes
@@ -20,16 +21,9 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
             NoteViewHolder(parent.inflate(R.layout.item_note))
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) =
-            holder.bind(notes[position])
+            holder.bind(notes[position], noteClickListener)
 
     override fun getItemCount() = notes.size
-
-    /**
-     * Function for getting a note by its position
-     * @param position Position of note
-     * @return Note at the given position
-     */
-    fun getItem(position: Int) = notes[position]
 
     /**
      * Function for setting a list of notes to the adapter
@@ -39,5 +33,17 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
         this.notes.clear()
         this.notes.addAll(notes)
         notifyDataSetChanged()
+    }
+
+    /**
+     * Interface for a note click event handling
+     */
+    interface OnNoteClickListener {
+
+        /**
+         * Function for performing a note click event
+         * @param noteItem Note item which was clicked
+         */
+        fun onNoteClick(noteItem: NoteItem)
     }
 }

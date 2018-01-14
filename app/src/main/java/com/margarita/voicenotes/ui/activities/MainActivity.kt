@@ -27,10 +27,19 @@ class MainActivity : AppCompatActivity(), NotesView {
     }
 
     /**
+     * Listener for a note click event
+     */
+    private val noteClickListener = object: NotesAdapter.OnNoteClickListener {
+        override fun onNoteClick(noteItem: NoteItem) {
+            showNoteInfo(noteItem)
+        }
+    }
+
+    /**
      * Adapter for RecyclerView
      */
     private val adapter by lazy {
-        NotesAdapter()
+        NotesAdapter(noteClickListener)
     }
 
     /**
@@ -122,9 +131,10 @@ class MainActivity : AppCompatActivity(), NotesView {
 
     /**
      * Function for showing the note's info
+     * @param noteItem Note which info will be shown
      */
-    private fun showNoteInfo() {
+    private fun showNoteInfo(noteItem: NoteItem) {
         startActivity(Intent(this, ViewNoteActivity::class.java)
-                .putExtra(getString(R.string.note_intent), adapter.getItem(0)))
+                .putExtra(getString(R.string.note_intent), noteItem))
     }
 }
