@@ -13,6 +13,7 @@ import com.margarita.voicenotes.common.NotesAdapter
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.models.NoteItem
 import com.margarita.voicenotes.mvp.view.NotesView
+import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.progress_bar.*
 
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity(), NotesView {
     }
 
     override fun showEmptyView() {
-
+        setupEmptyView(true)
     }
 
     override fun showError(@StringRes messageRes: Int) {
@@ -83,6 +84,7 @@ class MainActivity : AppCompatActivity(), NotesView {
     }
 
     override fun setNotes(notes: List<NoteItem>) {
+        setupEmptyView(false)
         adapter.setNotes(notes)
     }
 
@@ -108,5 +110,13 @@ class MainActivity : AppCompatActivity(), NotesView {
     private fun setupWidgets(isLoading: Boolean) {
         progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         fab.visibility = if (isLoading) View.GONE else View.VISIBLE
+    }
+
+    /**
+     * Setup visibility for an empty view
+     * @param isVisible Flag which shows if the empty view should be visible
+     */
+    private fun setupEmptyView(isVisible: Boolean) {
+        rootLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

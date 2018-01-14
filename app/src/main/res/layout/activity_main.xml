@@ -29,6 +29,8 @@
 
         <include layout="@layout/fragment_news" />
 
+        <include layout="@layout/empty_view" />
+
         <include layout="@layout/progress_bar" />
 
     </FrameLayout>
