@@ -56,7 +56,7 @@
                     android:textSize="@dimen/font_size_14" />
 
                 <TextView
-                    android:id="@+id/tvNote"
+                    android:id="@+id/tvDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin4"

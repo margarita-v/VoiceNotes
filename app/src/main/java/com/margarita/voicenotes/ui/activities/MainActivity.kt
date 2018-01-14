@@ -119,4 +119,12 @@ class MainActivity : AppCompatActivity(), NotesView {
     private fun setupEmptyView(isVisible: Boolean) {
         rootLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
+
+    /**
+     * Function for showing the note's info
+     */
+    private fun showNoteInfo() {
+        startActivity(Intent(this, ViewNoteActivity::class.java)
+                .putExtra(getString(R.string.note_intent), adapter.getItem(0)))
+    }
 }

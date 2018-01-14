@@ -25,6 +25,13 @@ class NotesAdapter : RecyclerView.Adapter<NoteViewHolder>() {
     override fun getItemCount() = notes.size
 
     /**
+     * Function for getting a note by its position
+     * @param position Position of note
+     * @return Note at the given position
+     */
+    fun getItem(position: Int) = notes[position]
+
+    /**
      * Function for setting a list of notes to the adapter
      * @param notes List of note items which will be stored in the adapter
      */

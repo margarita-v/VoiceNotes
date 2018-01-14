@@ -5,6 +5,7 @@
     <string name="speech_not_supported">Your device doesn\'t support speech input</string>
     <string name="speak">Speak</string>
     <string name="empty_list">The note list is empty</string>
+    <string name="note_intent">Note</string>
     <string name="new_note">New note</string>
     <string name="note_info">Note info</string>
     <string name="note_text">Note text</string>

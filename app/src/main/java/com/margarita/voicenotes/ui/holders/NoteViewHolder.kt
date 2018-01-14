@@ -2,7 +2,6 @@ package com.margarita.voicenotes.ui.holders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.margarita.voicenotes.common.parseDate
 import com.margarita.voicenotes.models.NoteItem
 import kotlinx.android.synthetic.main.item_note.view.*
 
@@ -17,6 +16,6 @@ class NoteViewHolder(view: View): RecyclerView.ViewHolder(view) {
      */
     fun bind(noteItem: NoteItem) = with(itemView) {
         tvDescription.text = noteItem.description
-        tvDate.text = noteItem.date.parseDate()
+        tvDate.text = noteItem.parseDate()
     }
 }
