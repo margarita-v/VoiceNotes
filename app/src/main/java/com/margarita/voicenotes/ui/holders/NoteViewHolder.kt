@@ -14,13 +14,29 @@ class NoteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     /**
      * Function for binding a noteItem item and showing its info in view
      * @param noteViewModel Note which info will be shown
+     * @param position Position of chosen note
+     * @param noteClickListener Listener of note click events
      */
     fun bind(noteViewModel: NoteViewModel,
+             position: Int,
              noteClickListener: NotesAdapter.OnNoteClickListener) = with(itemView) {
-        checkBox.visibility = if (noteViewModel.checked) View.VISIBLE else View.GONE
+
         val noteItem = noteViewModel.noteItem
         setOnClickListener { noteClickListener.onNoteClick(noteItem) }
+        setOnLongClickListener { noteClickListener.onNoteLongClick(position) }
         tvDescription.text = noteItem.description
         tvDate.text = noteItem.parseDate()
+
+        val checked = noteViewModel.checked
+        checkBox.visibility = if (checked) View.VISIBLE else View.GONE
+        checkBox.isChecked = checked
+        /*
+        if (checked) {
+            checkBox.setOnCheckedChangeListener { _, _ ->
+                noteClickListener.onNoteLongClick(position)
+            }
+        } else {
+            checkBox.setOnCheckedChangeListener(null)
+        }*/
     }
 }

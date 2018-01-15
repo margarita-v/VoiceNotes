@@ -33,12 +33,17 @@ class MainActivity : AppCompatActivity(), NotesView {
         override fun onNoteClick(noteItem: NoteItem) {
             showNoteInfo(noteItem)
         }
+
+        override fun onNoteLongClick(position: Int): Boolean {
+            adapter.selectItem(position)
+            return true
+        }
     }
 
     /**
      * Adapter for RecyclerView
      */
-    private val adapter by lazy {
+    private val adapter : NotesAdapter by lazy {
         NotesAdapter(noteClickListener)
     }
 
