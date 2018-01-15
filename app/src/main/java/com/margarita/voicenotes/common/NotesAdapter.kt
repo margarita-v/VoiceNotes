@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.models.NoteViewModel
 import com.margarita.voicenotes.ui.holders.NoteViewHolder
 
 /**
@@ -15,7 +16,12 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener):
     /**
      * List of notes
      */
-    private var notes = ArrayList<NoteItem>()
+    private var notes = ArrayList<NoteViewModel>()
+
+    /**
+     * Flag which shows if the multi choice mode is on
+     */
+    var isMultiChoiceMode = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             NoteViewHolder(parent.inflate(R.layout.item_note))
@@ -31,7 +37,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener):
      */
     fun setNotes(notes: List<NoteItem>) {
         this.notes.clear()
-        this.notes.addAll(notes)
+        notes.forEach { this.notes.add(NoteViewModel(it)) }
         notifyDataSetChanged()
     }
 
