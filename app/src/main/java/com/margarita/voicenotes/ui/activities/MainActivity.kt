@@ -30,13 +30,25 @@ class MainActivity : AppCompatActivity(), NotesView {
      * Listener for a note click event
      */
     private val noteClickListener = object: NotesAdapter.OnNoteClickListener {
-        override fun onNoteClick(noteItem: NoteItem) {
-            showNoteInfo(noteItem)
+        override fun onNoteClick(noteItem: NoteItem, position: Int) {
+            if (!adapter.isMultiChoiceMode) {
+                showNoteInfo(noteItem)
+            } else {
+                selectItem(position)
+            }
         }
 
         override fun onNoteLongClick(position: Int): Boolean {
-            adapter.selectItem(position)
+            selectItem(position)
             return true
+        }
+
+        /**
+         * Function for a note item selection
+         * @param position Position of selected note item
+         */
+        private fun selectItem(position: Int) {
+            adapter.selectItem(position)
         }
     }
 

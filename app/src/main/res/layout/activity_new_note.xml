@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin8"
                 android:theme="@style/AppTheme.ButtonThemeWithRipple"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorDefault"
                 android:text="@string/save" />
         </LinearLayout>
 

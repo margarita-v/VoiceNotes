@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorDefault"
             android:textSize="@dimen/output_font_size" />
 
         <LinearLayout
@@ -42,7 +42,7 @@
                 android:contentDescription="@string/tap_on_mic"
                 android:cropToPadding="false"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_mic_white_24dp" />
+                app:srcCompat="@drawable/ic_mic_white_24dp" />
 
             <TextView
                 android:id="@+id/tvTitle"
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/tap_on_mic"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorDefault"
                 android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 

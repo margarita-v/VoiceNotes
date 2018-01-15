@@ -22,7 +22,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     /**
      * Flag which shows if the multi choice mode is on
      */
-    private var isMultiChoiceMode = false
+    var isMultiChoiceMode = false
 
     /**
      * Count of checked items
@@ -53,7 +53,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      */
     fun selectItem(position: Int) {
         checkItem(position)
-        notifyItemChanged(position)
+        notifyDataSetChanged()
     }
 
     /**
@@ -95,28 +95,35 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
                  noteClickListener: NotesAdapter.OnNoteClickListener) = with(itemView) {
 
             val noteItem = noteViewModel.noteItem
-            setOnClickListener { noteClickListener.onNoteClick(noteItem) }
+            setOnClickListener { noteClickListener.onNoteClick(noteItem, position) }
             setOnLongClickListener { noteClickListener.onNoteLongClick(position) }
             tvDescription.text = noteItem.description
             tvDate.text = noteItem.parseDate()
             checkBox.setOnCheckedChangeListener(null)
-            checkBox.isChecked = noteViewModel.checked
-            setupCheckedUI()
+
+            val checked = noteViewModel.checked
+            checkBox.isChecked = checked
+            setCardViewColor(checked)
+
             if (isMultiChoiceMode) {
+                checkBox.visibility = View.VISIBLE
                 checkBox.setOnCheckedChangeListener { _, _ ->
                     checkItem(position)
-                    setupCheckedUI()
+                    setCardViewColor(checkBox.isChecked)
+                    if (!isMultiChoiceMode)
+                        notifyDataSetChanged()
                 }
-            }
+            } else
+                checkBox.visibility = View.GONE
         }
 
         /**
-         * Function for UI setup for a current checked state
+         * Function for setting a background color for a cardview
+         * @param isChecked Flag which shows if the note item was checked
          */
-        private fun setupCheckedUI() {
-            with(itemView) {
-                checkBox.visibility = if (checkBox.isChecked) View.VISIBLE else View.GONE
-            }
+        private fun setCardViewColor(isChecked: Boolean) {
+            itemView.cardView.setBackgroundResource(
+                    if (isChecked) R.color.colorChosenNote else R.color.colorDefault)
         }
     }
 
@@ -128,8 +135,9 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
         /**
          * Function for performing a note click event
          * @param noteItem Note item which was clicked
+         * @param position Position of chosen note item
          */
-        fun onNoteClick(noteItem: NoteItem)
+        fun onNoteClick(noteItem: NoteItem, position: Int)
 
         /**
          * Function for performing a long click event

@@ -25,7 +25,7 @@
 
     <!-- Theme for a note item with ripple effect -->
     <style name="AppTheme.NoteItemThemeWithRipple">
-        <item name="colorButtonNormal">@android:color/white</item>
+        <item name="colorButtonNormal">@color/colorDefault</item>
         <item name="colorControlHighlight">@color/colorChosenNote</item>
     </style>
 
