@@ -105,7 +105,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
             setCardViewColor(checked)
 
             if (isMultiChoiceMode) {
-                checkBox.visibility = View.VISIBLE
+                checkBox.show()
                 checkBox.setOnCheckedChangeListener { _, _ ->
                     checkItem(position)
                     setCardViewColor(checkBox.isChecked)
@@ -113,7 +113,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
                         notifyDataSetChanged()
                 }
             } else
-                checkBox.visibility = View.GONE
+                checkBox.hide()
         }
 
         /**

@@ -132,3 +132,25 @@ fun createImageFile(storageDir: File): File {
     val imageFileName = IMAGE_PREFIX + timeStamp
     return File.createTempFile(imageFileName, IMAGE_EXTENSION, storageDir)
 }
+
+/**
+ * Function for showing the view
+ */
+fun View.show() {
+    visibility = View.VISIBLE
+}
+
+/**
+ * Function for hiding the view
+ */
+fun View.hide() {
+    visibility = View.GONE
+}
+
+/**
+ * Function for setup the view's visibility
+ * @param isVisible Flag which shows if the view should be visible
+ */
+fun View.setVisible(isVisible: Boolean) {
+    visibility = if (isVisible) View.VISIBLE else View.GONE
+}

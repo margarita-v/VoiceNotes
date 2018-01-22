@@ -7,10 +7,8 @@ import android.content.Intent
 import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.NotesAdapter
-import com.margarita.voicenotes.common.showToast
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.NoteItem
 import com.margarita.voicenotes.mvp.view.NotesView
 import kotlinx.android.synthetic.main.empty_view.*
@@ -120,17 +118,15 @@ class MainActivity : AppCompatActivity(), NotesView {
      * @param isLoading Flag which shows if the loading is performing
      */
     private fun setupWidgets(isLoading: Boolean) {
-        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        fab.visibility = if (isLoading) View.GONE else View.VISIBLE
+        progressBar.setVisible(isLoading)
+        fab.setVisible(!isLoading)
     }
 
     /**
      * Setup visibility for an empty view
      * @param isVisible Flag which shows if the empty view should be visible
      */
-    private fun setupEmptyView(isVisible: Boolean) {
-        rootLayout.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
+    private fun setupEmptyView(isVisible: Boolean): Unit = rootLayout.setVisible(isVisible)
 
     /**
      * Function for showing the note's info
