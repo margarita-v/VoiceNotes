@@ -29,13 +29,13 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      */
     private var checkedItemsCount = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            NoteViewHolder(parent.inflate(R.layout.item_note))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder
+            = NoteViewHolder(parent.inflate(R.layout.item_note))
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) =
-            holder.bind(notes[position], position, noteClickListener)
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int): Unit
+            = holder.bind(notes[position], position, noteClickListener)
 
-    override fun getItemCount() = notes.size
+    override fun getItemCount(): Int = notes.size
 
     /**
      * Function for setting a list of notes to the adapter
@@ -92,8 +92,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
          */
         fun bind(noteViewModel: NoteViewModel,
                  position: Int,
-                 noteClickListener: NotesAdapter.OnNoteClickListener) = with(itemView) {
-
+                 noteClickListener: NotesAdapter.OnNoteClickListener): Unit = with(itemView) {
             val noteItem = noteViewModel.noteItem
             setOnClickListener { noteClickListener.onNoteClick(noteItem, position) }
             setOnLongClickListener { noteClickListener.onNoteLongClick(position) }
@@ -121,10 +120,12 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
          * Function for setting a background color for a cardview
          * @param isChecked Flag which shows if the note item was checked
          */
-        private fun setCardViewColor(isChecked: Boolean) {
-            itemView.cardView.setBackgroundResource(
-                    if (isChecked) R.color.colorChosenNote else R.color.colorDefault)
-        }
+        private fun setCardViewColor(isChecked: Boolean): Unit
+                = itemView.cardView.setBackgroundResource(
+                if (isChecked)
+                    R.color.colorChosenNote
+                else
+                    R.color.colorDefault)
     }
 
     /**

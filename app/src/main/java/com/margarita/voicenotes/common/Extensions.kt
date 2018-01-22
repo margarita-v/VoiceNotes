@@ -27,18 +27,16 @@ import java.util.*
  * @param attachToRoot Flag which shows if we need to attach to the root this view
  * @return View with inflated layout
  */
-fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-    return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
-}
+fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View
+        = LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 /**
  * Function for loading image to ImageView using image Uri
  * @param context Context of function call
  * @param uri Uri of image
  */
-fun ImageView.loadImage(context: Context, uri: Uri) {
-    Picasso.with(context).load(uri).into(this)
-}
+fun ImageView.loadImage(context: Context, uri: Uri): Unit
+        = Picasso.with(context).load(uri).into(this)
 
 /**
  * Function for setting filter for an image button's background and its drawable resource
@@ -59,18 +57,16 @@ fun ImageView.setEnabledIconColor(enabled: Boolean) {
  * Function for setting a default image to image view
  * @param context Context of function call
  */
-fun ImageView.setDefaultImage(context: Context) {
-    setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
-}
+fun ImageView.setDefaultImage(context: Context): Unit
+        = setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
 
 /**
  * Function for showing a simple Toast message
  * @param messageRes String resource ID for a message text
  * @param duration Duration of the Toast message
  */
-fun Context.showToast(@StringRes messageRes: Int, duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(this, messageRes, duration).show()
-}
+fun Context.showToast(@StringRes messageRes: Int, duration: Int = Toast.LENGTH_SHORT): Unit
+        = Toast.makeText(this, messageRes, duration).show()
 
 // Requested size of image cropping area
 private const val IMAGE_REQUESTED_SIZE = 400
@@ -81,8 +77,8 @@ private const val MIN_IMAGE_SIZE = 200
  * Function for showing a crop activity
  * @param imageUri Uri of image which will be cropped
  */
-fun Activity.showCropActivity(imageUri: Uri) {
-    CropImage.activity(imageUri)
+fun Activity.showCropActivity(imageUri: Uri): Unit
+        = CropImage.activity(imageUri)
             .setGuidelines(CropImageView.Guidelines.ON)
             .setActivityTitle(getString(R.string.crop_image))
             .setCropShape(CropImageView.CropShape.RECTANGLE)
@@ -92,7 +88,6 @@ fun Activity.showCropActivity(imageUri: Uri) {
             .setFixAspectRatio(true)
             .setCropMenuCropButtonTitle(getString(R.string.done))
             .start(this)
-}
 
 //region Constants for date parsing
 private const val TIME_UNIT = 1000

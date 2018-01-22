@@ -9,7 +9,7 @@ data class NoteItem(val id: Int,
                     var date: Long,
                     var photoPath: String? = null): Parcelable {
 
-    fun parseDate() = date.parseDate()
+    fun parseDate(): String = date.parseDate()
 
     //region Parcelable implementation
     constructor(parcel: Parcel) : this(

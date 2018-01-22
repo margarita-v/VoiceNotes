@@ -22,9 +22,7 @@ class MainActivity : AppCompatActivity(), NotesView {
     /**
      * Translation Y value for a floating action button for its animation
      */
-    private val fabTranslationYForHide by lazy {
-        fab.width * 1.5f
-    }
+    private val fabTranslationYForHide by lazy { fab.width * 1.5f }
 
     /**
      * Listener for a note click event
@@ -47,17 +45,13 @@ class MainActivity : AppCompatActivity(), NotesView {
          * Function for a note item selection
          * @param position Position of selected note item
          */
-        private fun selectItem(position: Int) {
-            adapter.selectItem(position)
-        }
+        private fun selectItem(position: Int): Unit = adapter.selectItem(position)
     }
 
     /**
      * Adapter for RecyclerView
      */
-    private val adapter : NotesAdapter by lazy {
-        NotesAdapter(noteClickListener)
-    }
+    private val adapter : NotesAdapter by lazy { NotesAdapter(noteClickListener) }
 
     /**
      * Lazy initialization for RecyclerView which will be executed once
@@ -93,21 +87,13 @@ class MainActivity : AppCompatActivity(), NotesView {
         }
     }
 
-    override fun showLoading() {
-        setupWidgets(true)
-    }
+    override fun showLoading(): Unit = setupWidgets(true)
 
-    override fun hideLoading() {
-        setupWidgets(false)
-    }
+    override fun hideLoading(): Unit = setupWidgets(false)
 
-    override fun showEmptyView() {
-        setupEmptyView(true)
-    }
+    override fun showEmptyView(): Unit = setupEmptyView(true)
 
-    override fun showError(@StringRes messageRes: Int) {
-        showToast(messageRes)
-    }
+    override fun showError(@StringRes messageRes: Int): Unit = showToast(messageRes)
 
     override fun setNotes(notes: List<NoteItem>) {
         setupEmptyView(false)
@@ -150,8 +136,7 @@ class MainActivity : AppCompatActivity(), NotesView {
      * Function for showing the note's info
      * @param noteItem Note which info will be shown
      */
-    private fun showNoteInfo(noteItem: NoteItem) {
-        startActivity(Intent(this, ViewNoteActivity::class.java)
+    private fun showNoteInfo(noteItem: NoteItem): Unit
+            = startActivity(Intent(this, ViewNoteActivity::class.java)
                 .putExtra(getString(R.string.note_intent), noteItem))
-    }
 }

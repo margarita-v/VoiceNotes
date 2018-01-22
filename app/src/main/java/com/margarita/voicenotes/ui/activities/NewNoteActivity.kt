@@ -104,9 +104,7 @@ class NewNoteActivity : BaseActivity() {
     /**
      * Intent for taking photo
      */
-    private val takePhotoIntent by lazy {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    }
+    private val takePhotoIntent by lazy { Intent(MediaStore.ACTION_IMAGE_CAPTURE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -198,8 +196,8 @@ class NewNoteActivity : BaseActivity() {
      * @param intent Intent which should be handled
      * @return True if intent could be handled, False otherwise
      */
-    private fun checkIntentHandlers(intent: Intent) =
-            intent.resolveActivity(packageManager) != null
+    private fun checkIntentHandlers(intent: Intent): Boolean
+            = intent.resolveActivity(packageManager) != null
 
     /**
      * Function for receiving an activity's result
