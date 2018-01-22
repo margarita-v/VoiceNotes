@@ -50,17 +50,19 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     /**
      * Function for a note item selection
      * @param position Position of selected note item
+     * @return True if the multi choice mode is on, False otherwise
      */
-    fun selectItem(position: Int) {
+    fun selectItem(position: Int): Boolean {
         checkItem(position)
         notifyDataSetChanged()
+        return isMultiChoiceMode
     }
 
     /**
      * Function for a note item checking
      * @param position Position of checked note item
      */
-    fun checkItem(position: Int) {
+    private fun checkItem(position: Int) {
         // Change item's checked state
         val prevChecked = notes[position].checked
         notes[position].checked = !prevChecked

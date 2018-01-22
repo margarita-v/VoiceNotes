@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity(), NotesView {
          * Function for a note item selection
          * @param position Position of selected note item
          */
-        private fun selectItem(position: Int): Unit = adapter.selectItem(position)
+        private fun selectItem(position: Int): Unit
+                // If multi choice mode is on, fab should not be visible
+                = fab.setVisible(!adapter.selectItem(position))
     }
 
     /**
