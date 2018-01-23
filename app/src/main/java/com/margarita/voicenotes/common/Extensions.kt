@@ -5,16 +5,19 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.net.Uri
+import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
-import android.support.v7.view.ActionMode
+import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.ui.fragments.BaseFragment
 import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -154,6 +157,20 @@ fun View.hide() {
  */
 fun View.setVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
+}
+
+/**
+ * Function which implements a fragment replacement
+ * @param containerId ID of container view for a fragment
+ * @param fragment Fragment which will be shown
+ * @param tag Fragment's tag
+ */
+fun FragmentManager.replace(@IdRes containerId: Int,
+                            fragment: BaseFragment,
+                            tag: String) {
+    beginTransaction()
+            .replace(containerId, fragment, tag)
+            .commit()
 }
 
 /**
