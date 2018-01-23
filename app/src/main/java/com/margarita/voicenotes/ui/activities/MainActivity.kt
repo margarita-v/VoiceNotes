@@ -5,8 +5,11 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Intent
 import android.support.annotation.StringRes
+import android.support.v7.view.ActionMode
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.NoteItem
@@ -23,6 +26,11 @@ class MainActivity : AppCompatActivity(), NotesView {
     private val fabTranslationYForHide by lazy { fab.width * 1.5f }
 
     /**
+     * Listener for contextual toolbar
+     */
+    private val actionModeCallback: ActionModeCallback by lazy { ActionModeCallback() }
+
+    /**
      * Listener for a note click event
      */
     private val noteClickListener = object: NotesAdapter.OnNoteClickListener {
@@ -36,6 +44,7 @@ class MainActivity : AppCompatActivity(), NotesView {
 
         override fun onNoteLongClick(position: Int): Boolean {
             selectItem(position)
+            startSupportActionMode(actionModeCallback)
             return true
         }
 
@@ -137,4 +146,26 @@ class MainActivity : AppCompatActivity(), NotesView {
     private fun showNoteInfo(noteItem: NoteItem): Unit
             = startActivity(Intent(this, ViewNoteActivity::class.java)
                 .putExtra(getString(R.string.note_intent), noteItem))
+
+    /**
+     * Callbacks implementation for a contextual toolbar
+     */
+    inner class ActionModeCallback : ActionMode.Callback {
+
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            mode.menuInflater.inflate(R.menu.menu_context, menu)
+            mode.setTitle(R.string.selected_item)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
+
+        override fun onActionItemClicked(mode: ActionMode?, menuItem: MenuItem?): Boolean {
+            return true
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+
+        }
+    }
 }

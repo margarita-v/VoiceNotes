@@ -130,7 +130,7 @@
                     android:layout_toEndOf="@id/imgBtnCrop"
                     android:layout_below="@id/imgBtnChoosePhoto"
                     android:background="?android:attr/selectableItemBackground"
-                    app:srcCompat="@drawable/ic_delete_black_24dp"
+                    app:srcCompat="@drawable/ic_delete_white_24dp"
                     android:contentDescription="@string/delete_image" />
             </RelativeLayout>
 

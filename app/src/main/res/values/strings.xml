@@ -21,4 +21,7 @@
     <string name="take_a_photo">Take a photo</string>
     <string name="choose_photo">Choose photo from the file system</string>
     <string name="category_stub">A very very very very long name of category</string>
+    <string name="selected_item">Selected 1 item</string>
+    <string name="selected_items_plural">Selected %1$d items</string>
+    <string name="delete">Delete</string>
 </resources>
