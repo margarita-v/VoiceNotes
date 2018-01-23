@@ -55,7 +55,7 @@ class NotesFragment: BaseFragment(), NotesView {
 
         override fun onNoteLongClick(position: Int): Boolean {
             if (actionMode == null) {
-                actionMode = activity?.startActionMode(actionModeCallback)
+                startActionMode()
             }
             selectItem(position)
             return true
@@ -68,7 +68,7 @@ class NotesFragment: BaseFragment(), NotesView {
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
             fab.setVisible(!adapter.selectItem(position))
-            actionMode?.setSelectedItemsCount(context!!, adapter.checkedItemsCount)
+            setupActionMode()
             if (!adapter.isMultiChoiceMode) {
                 actionMode?.finish()
             } else {
@@ -77,13 +77,30 @@ class NotesFragment: BaseFragment(), NotesView {
         }
     }
 
+    /**
+     * Function for showing the contextual toolbar
+     */
+    private fun startActionMode() {
+        actionMode = activity?.startActionMode(actionModeCallback)
+    }
+
+    /**
+     * Function for setting a title to the contextual toolbar
+     */
+    private fun setupActionMode(): Unit?
+            = actionMode?.setSelectedItemsCount(context!!, adapter.checkedItemsCount)
+
     override fun getLayoutRes(): Int = R.layout.fragment_notes
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Setup adapter and contextual toolbar if it was shown before configuration change
         if (adapter.itemCount == 0) {
             setupAdapter()
+        } else if (adapter.isMultiChoiceMode) {
+            startActionMode()
+            setupActionMode()
         }
 
         // Setup RecyclerView
