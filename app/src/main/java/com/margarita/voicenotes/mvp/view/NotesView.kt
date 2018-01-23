@@ -1,7 +1,7 @@
 package com.margarita.voicenotes.mvp.view
 
 import android.support.annotation.StringRes
-import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.models.entities.NoteItem
 
 /**
  * Interface for a view which shows a list of notes

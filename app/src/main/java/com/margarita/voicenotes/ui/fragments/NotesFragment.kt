@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
-import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.view.NotesView
 import com.margarita.voicenotes.ui.activities.NewNoteActivity
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity

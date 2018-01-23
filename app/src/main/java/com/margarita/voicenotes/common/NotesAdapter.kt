@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.models.NoteViewModel
 import kotlinx.android.synthetic.main.item_note.view.*
 

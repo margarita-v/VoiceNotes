@@ -2,7 +2,7 @@ package com.margarita.voicenotes.ui.activities
 
 import android.os.Bundle
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.models.NoteItem
+import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.activity_view_note.*
 
 class ViewNoteActivity : BaseActivity() {
