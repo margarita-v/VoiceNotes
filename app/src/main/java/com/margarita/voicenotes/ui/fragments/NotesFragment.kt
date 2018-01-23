@@ -12,6 +12,7 @@ import com.margarita.voicenotes.models.NoteItem
 import com.margarita.voicenotes.mvp.view.NotesView
 import com.margarita.voicenotes.ui.activities.NewNoteActivity
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
+import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.fragment_notes.*
 import kotlinx.android.synthetic.main.progress_bar.*
@@ -104,7 +105,7 @@ class NotesFragment: BaseFragment(), NotesView {
         }
 
         // Setup RecyclerView
-        rvList.layoutManager = LinearLayoutManager(context)
+        rvList.layoutManager = LinearLayoutManager(activity)
         rvList.adapter = adapter
         rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -137,6 +138,15 @@ class NotesFragment: BaseFragment(), NotesView {
     override fun setNotes(notes: List<NoteItem>) {
         layoutEmpty.hide()
         adapter.setNotes(notes)
+    }
+
+    /**
+     * Function for removing the chosen notes
+     */
+    fun removeChosenNotes() {
+        adapter.removeCheckedItems()
+        actionMode?.finish()
+        context?.showToast(R.string.notes_deleted)
     }
 
     /**
@@ -188,9 +198,11 @@ class NotesFragment: BaseFragment(), NotesView {
 
         override fun onActionItemClicked(mode: ActionMode, menuItem: MenuItem): Boolean {
             when (menuItem.itemId) {
-                R.id.action_delete -> adapter.removeCheckedItems()
+                R.id.action_delete ->
+                    ConfirmDialogFragment
+                            .newInstance(R.string.confirm_delete)
+                            .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
             }
-            actionMode?.finish()
             return true
         }
 

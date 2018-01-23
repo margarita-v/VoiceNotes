@@ -25,4 +25,12 @@
     <string name="selected_notes_plural">Selected %1$d notes</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+
+    <!-- Dialogs -->
+    <string name="class_cast"> must implement ConfirmationListener</string>
+    <string name="confirm_title">Confirmation</string>
+    <string name="confirm_delete">Are you sure you want delete chosen notes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="notes_deleted">Chosen notes were deleted</string>
 </resources>
