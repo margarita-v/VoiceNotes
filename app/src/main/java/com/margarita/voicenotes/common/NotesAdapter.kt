@@ -104,6 +104,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      */
     private fun exitFromMultiChoice() {
         isMultiChoiceMode = false
+        checkedItemsCount = 0
         notifyDataSetChanged()
     }
 

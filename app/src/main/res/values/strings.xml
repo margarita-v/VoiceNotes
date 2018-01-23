@@ -23,5 +23,6 @@
     <string name="category_stub">A very very very very long name of category</string>
     <string name="selected_note">Selected 1 note</string>
     <string name="selected_notes_plural">Selected %1$d notes</string>
+    <string name="edit">Edit</string>
     <string name="delete">Delete</string>
 </resources>

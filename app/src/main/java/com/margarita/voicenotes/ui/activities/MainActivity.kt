@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity(), NotesView {
                     this@MainActivity, adapter.checkedItemsCount)
             if (!adapter.isMultiChoiceMode) {
                 actionMode?.finish()
+            } else {
+                actionMode?.invalidate()
             }
         }
     }
@@ -170,10 +172,16 @@ class MainActivity : AppCompatActivity(), NotesView {
             return true
         }
 
-        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = true
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            val menuItemEdit = menu.findItem(R.id.action_edit)
+            menuItemEdit.isVisible = adapter.checkedItemsCount == 1
+            return true
+        }
 
         override fun onActionItemClicked(mode: ActionMode, menuItem: MenuItem): Boolean {
-            adapter.removeCheckedItems()
+            when (menuItem.itemId) {
+                R.id.action_delete -> adapter.removeCheckedItems()
+            }
             actionMode?.finish()
             return true
         }
