@@ -17,7 +17,7 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     /**
      * List of notes
      */
-    private var notes = ArrayList<NoteViewModel>()
+    private var notes: MutableList<NoteViewModel> = ArrayList()
 
     /**
      * Flag which shows if the multi choice mode is on
@@ -81,6 +81,30 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
             // Check if the last item was deselected
             isMultiChoiceMode = checkedItemsCount > 0
         }
+    }
+
+    /**
+     * Function for clear item's selection
+     */
+    fun clearSelection() {
+        notes.forEach { it.checked = false }
+        exitFromMultiChoice()
+    }
+
+    /**
+     * Function for removing the checked items
+     */
+    fun removeCheckedItems() {
+        notes = notes.filter { !it.checked }.toMutableList()
+        exitFromMultiChoice()
+    }
+
+    /**
+     * Function for exit from the multi choice mode
+     */
+    private fun exitFromMultiChoice() {
+        isMultiChoiceMode = false
+        notifyDataSetChanged()
     }
 
     /**

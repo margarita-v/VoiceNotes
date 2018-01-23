@@ -173,10 +173,13 @@ class MainActivity : AppCompatActivity(), NotesView {
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = true
 
         override fun onActionItemClicked(mode: ActionMode, menuItem: MenuItem): Boolean {
+            adapter.removeCheckedItems()
+            actionMode?.finish()
             return true
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
+            adapter.clearSelection()
             actionMode = null
         }
     }
