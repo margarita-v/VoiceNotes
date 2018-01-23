@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity(), ConfirmDialogFragment.ConfirmationList
     /**
      * Fragment for showing a list of notes
      */
-    private var notesFragment: NotesFragment? = null
+    private lateinit var notesFragment: NotesFragment
 
     companion object {
         private const val FRAGMENT_TAG = "NOTE_FRAGMENT_TAG"
@@ -25,13 +25,15 @@ class MainActivity : AppCompatActivity(), ConfirmDialogFragment.ConfirmationList
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         // Try to restore fragment
-        notesFragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as NotesFragment?
+        notesFragment =
+                supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as NotesFragment?
+                ?: NotesFragment()
         // Show restored fragment or create a new fragment and show it
         supportFragmentManager.replace(
                 CONTAINER_ID,
-                notesFragment ?: NotesFragment(),
+                notesFragment,
                 FRAGMENT_TAG)
     }
 
-    override fun confirm(): Unit = notesFragment!!.removeChosenNotes()
+    override fun confirm(): Unit = notesFragment.removeChosenNotes()
 }
