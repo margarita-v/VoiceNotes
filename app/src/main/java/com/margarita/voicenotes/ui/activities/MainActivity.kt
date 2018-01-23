@@ -187,6 +187,7 @@ class MainActivity : AppCompatActivity(), NotesView {
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
+            fab.show()
             adapter.clearSelection()
             actionMode = null
         }
