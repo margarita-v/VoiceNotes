@@ -8,6 +8,7 @@ import android.net.Uri
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
+import android.support.v7.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -153,4 +154,22 @@ fun View.hide() {
  */
 fun View.setVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
+}
+
+/**
+ * Function for setting the default title to the contextual toolbar
+ */
+fun ActionMode.setDefaultTitle(): Unit = setTitle(R.string.selected_note)
+
+/**
+ * Function for setting the title with a selected items count to the contextual toolbar
+ * @param context Context of function call
+ * @param count Count of selected items
+ */
+fun ActionMode.setSelectedItemsCount(context: Context, count: Int) {
+    if (count > 1) {
+        title = context.getString(R.string.selected_notes_plural, count)
+    } else {
+        setDefaultTitle()
+    }
 }

@@ -23,11 +23,13 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      * Flag which shows if the multi choice mode is on
      */
     var isMultiChoiceMode = false
+        private set
 
     /**
      * Count of checked items
      */
-    private var checkedItemsCount = 0
+    var checkedItemsCount = 0
+        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder
             = NoteViewHolder(parent.inflate(R.layout.item_note))

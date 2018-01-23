@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity(), NotesView {
     private val actionModeCallback: ActionModeCallback by lazy { ActionModeCallback() }
 
     /**
+     * Action mode for a contextual toolbar
+     */
+    private var actionMode: ActionMode? = null
+
+    /**
      * Listener for a note click event
      */
     private val noteClickListener = object: NotesAdapter.OnNoteClickListener {
@@ -43,8 +48,10 @@ class MainActivity : AppCompatActivity(), NotesView {
         }
 
         override fun onNoteLongClick(position: Int): Boolean {
+            if (actionMode == null) {
+                actionMode = startSupportActionMode(actionModeCallback)
+            }
             selectItem(position)
-            startSupportActionMode(actionModeCallback)
             return true
         }
 
@@ -52,9 +59,15 @@ class MainActivity : AppCompatActivity(), NotesView {
          * Function for a note item selection
          * @param position Position of selected note item
          */
-        private fun selectItem(position: Int): Unit
-                // If multi choice mode is on, fab should not be visible
-                = fab.setVisible(!adapter.selectItem(position))
+        private fun selectItem(position: Int) {
+            // If multi choice mode is on, fab should not be visible
+            fab.setVisible(!adapter.selectItem(position))
+            actionMode?.setSelectedItemsCount(
+                    this@MainActivity, adapter.checkedItemsCount)
+            if (!adapter.isMultiChoiceMode) {
+                actionMode?.finish()
+            }
+        }
     }
 
     /**
@@ -154,18 +167,17 @@ class MainActivity : AppCompatActivity(), NotesView {
 
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
             mode.menuInflater.inflate(R.menu.menu_context, menu)
-            mode.setTitle(R.string.selected_item)
             return true
         }
 
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean = true
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean = true
 
-        override fun onActionItemClicked(mode: ActionMode?, menuItem: MenuItem?): Boolean {
+        override fun onActionItemClicked(mode: ActionMode, menuItem: MenuItem): Boolean {
             return true
         }
 
-        override fun onDestroyActionMode(mode: ActionMode?) {
-
+        override fun onDestroyActionMode(mode: ActionMode) {
+            actionMode = null
         }
     }
 }
