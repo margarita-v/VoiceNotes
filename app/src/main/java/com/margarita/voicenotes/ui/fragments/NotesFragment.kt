@@ -69,7 +69,7 @@ class NotesFragment: BaseFragment(), NotesView {
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
             fab.setVisible(!adapter.selectItem(position))
-            setupActionMode()
+            setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
                 actionMode?.finish()
             } else {
@@ -88,7 +88,7 @@ class NotesFragment: BaseFragment(), NotesView {
     /**
      * Function for setting a title to the contextual toolbar
      */
-    private fun setupActionMode(): Unit?
+    private fun setupActionModeTitle(): Unit?
             = actionMode?.setSelectedItemsCount(context!!, adapter.checkedItemsCount)
 
     override fun getLayoutRes(): Int = R.layout.fragment_notes
@@ -101,7 +101,7 @@ class NotesFragment: BaseFragment(), NotesView {
             setupAdapter()
         } else if (adapter.isMultiChoiceMode) {
             startActionMode()
-            setupActionMode()
+            setupActionModeTitle()
         }
 
         // Setup RecyclerView
@@ -202,6 +202,16 @@ class NotesFragment: BaseFragment(), NotesView {
                     ConfirmDialogFragment
                             .newInstance(R.string.confirm_delete)
                             .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
+
+                R.id.action_select_all ->
+                        if (adapter.isAllNotesSelected()) {
+                            adapter.clearSelection()
+                            mode.finish()
+                        } else {
+                            adapter.selectAll()
+                            mode.invalidate()
+                            setupActionModeTitle()
+                        }
             }
             return true
         }

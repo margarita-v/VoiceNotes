@@ -40,12 +40,27 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     override fun getItemCount(): Int = notes.size
 
     /**
+     * Function for checking if all notes are selected
+     */
+    fun isAllNotesSelected(): Boolean = checkedItemsCount == itemCount
+
+    /**
      * Function for setting a list of notes to the adapter
      * @param notes List of note items which will be stored in the adapter
      */
     fun setNotes(notes: List<NoteItem>) {
         this.notes.clear()
         notes.forEach { this.notes.add(NoteViewModel(it)) }
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Function for performing a selection of all notes
+     */
+    fun selectAll() {
+        notes.forEach { it.checked = true }
+        isMultiChoiceMode = true
+        checkedItemsCount = notes.size
         notifyDataSetChanged()
     }
 
@@ -95,7 +110,11 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      * Function for removing the checked items
      */
     fun removeCheckedItems() {
-        notes = notes.filter { !it.checked }.toMutableList()
+        if (isAllNotesSelected()) {
+            notes.clear()
+        } else {
+            notes = notes.filter { !it.checked }.toMutableList()
+        }
         exitFromMultiChoice()
     }
 
