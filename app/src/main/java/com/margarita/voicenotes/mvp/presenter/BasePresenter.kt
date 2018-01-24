@@ -27,7 +27,7 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      */
     fun loadItems() {
         view.showLoading()
-        val realmResults = performQuery()
+        val realmResults = performQuery(realm)
                 .sort(getSortField(), Sort.DESCENDING)
                 .findAll()
 
@@ -46,21 +46,27 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      * @param id ID of item which will be removed
      */
     fun remove(id: Int) {
-
+        realm.executeTransaction { realm1 ->
+            performQuery(realm1)
+                    .equalTo(ID_FIELD, id)
+                    .findAll()
+                    .deleteAllFromRealm()
+        }
     }
 
     /**
      * Function for saving an object to the local database
      * @param realmObject Object which will be saved to the local database
      */
-    fun update(realmObject: RealmObject): Unit
+    fun save(realmObject: RealmObject): Unit
             = realm.executeTransaction { realm1 -> realm1.copyToRealmOrUpdate(realmObject) }
 
     /**
      * Function for performing a query which depends on item's type
+     * @param realm Realm instance
      * @return Set of query result
      */
-    abstract fun performQuery(): RealmQuery<T>
+    abstract fun performQuery(realm: Realm): RealmQuery<T>
 
     /**
      * Function which returns a name of sort field
@@ -73,7 +79,7 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      * @return ID for a new object which will be saved to the local database
      */
     protected fun generateId(): Long
-            = performQuery()
+            = performQuery(realm)
             .max(ID_FIELD)
             ?.toLong()
             ?.plus(1)

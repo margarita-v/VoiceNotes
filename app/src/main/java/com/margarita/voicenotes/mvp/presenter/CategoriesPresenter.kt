@@ -2,6 +2,7 @@ package com.margarita.voicenotes.mvp.presenter
 
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.view.CategoriesView
+import io.realm.Realm
 import io.realm.RealmQuery
 
 class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) {
@@ -10,7 +11,8 @@ class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) 
         private const val SORT_FIELD = "name"
     }
 
-    override fun performQuery(): RealmQuery<Category> = realm.where(Category::class.java)
+    override fun performQuery(realm: Realm): RealmQuery<Category>
+            = realm.where(Category::class.java)
 
     override fun getSortField(): String = SORT_FIELD
 
@@ -18,7 +20,6 @@ class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) 
      * Function for creation a new category with the given name
      * @param name Name of category
      */
-    fun createCategory(name: String) {
-
-    }
+    fun createCategory(name: String): Unit
+            = save(Category(generateId(), name))
 }

@@ -3,11 +3,13 @@ package com.margarita.voicenotes.mvp.presenter
 import android.net.Uri
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.view.NotesView
+import io.realm.Realm
 import io.realm.RealmQuery
 
 class NotesPresenter(view: NotesView): BasePresenter<NoteItem>(view) {
 
-    override fun performQuery(): RealmQuery<NoteItem> = realm.where(NoteItem::class.java)
+    override fun performQuery(realm: Realm): RealmQuery<NoteItem>
+            = realm.where(NoteItem::class.java)
 
     /**
      * Function for creation a new note with the given fields
@@ -20,6 +22,12 @@ class NotesPresenter(view: NotesView): BasePresenter<NoteItem>(view) {
                      date: Long,
                      photoUri: Uri? = null,
                      croppedPhotoUri: Uri? = null) {
-
+        val noteItem = NoteItem(
+                generateId(),
+                description,
+                date,
+                photoUri.toString(),
+                croppedPhotoUri.toString())
+        save(noteItem)
     }
 }
