@@ -163,7 +163,7 @@ class NotesFragment: BaseFragment(), NotesView {
     private fun setupAdapter() {
         val notes = (1..10).map {
             NoteItem(
-                    it,
+                    it.toLong(),
                     "$it A very long text of note. What's up? How are you? I am writing a useful app for you! And what are you doing?",
                     1457207701L - it * 200
             )

@@ -9,31 +9,37 @@ import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
 import io.realm.annotations.PrimaryKey
 
-data class NoteItem(@PrimaryKey val id: Int,
-                    var description: String,
-                    var date: Long,
-                    var photoUri: Uri? = null,
-                    var croppedPhotoUri: Uri? = null,
+open class NoteItem(@PrimaryKey private var id: Long = 0,
+                    var description: String = "",
+                    var date: Long = 0,
+                    var photoUri: String? = null,
+                    var croppedPhotoUri: String? = null,
                     @LinkingObjects("notes")
-                    private val categories: RealmResults<Category>? = null)
+                    val categories: RealmResults<Category>? = null)
     : RealmObject(), Parcelable {
 
     fun parseDate(): String = date.parseDate()
 
+    fun getPhotoUri(): Uri = Uri.parse(photoUri)
+
+    fun getCroppedPhotoUri(): Uri = Uri.parse(croppedPhotoUri)
+
+    fun getCategoryName() : String? = categories?.first()?.name
+
     //region Parcelable implementation
     constructor(parcel: Parcel) : this(
-            parcel.readInt(),
+            parcel.readLong(),
             parcel.readString(),
             parcel.readLong(),
-            Uri.parse(parcel.readString()),
-            Uri.parse(parcel.readString()))
+            parcel.readString(),
+            parcel.readString())
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(id)
+        parcel.writeLong(id)
         parcel.writeString(description)
         parcel.writeLong(date)
-        parcel.writeString(photoUri.toString())
-        parcel.writeString(croppedPhotoUri.toString())
+        parcel.writeString(photoUri)
+        parcel.writeString(croppedPhotoUri)
     }
 
     override fun describeContents() = 0
