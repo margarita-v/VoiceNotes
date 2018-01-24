@@ -13,7 +13,7 @@ import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.activity_new_note.*
+import kotlinx.android.synthetic.main.fragment_new_note.*
 import java.util.*
 
 /**

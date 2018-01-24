@@ -26,6 +26,7 @@
     <string name="select_all">Select all</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="fragment_new_note">FRAGMENT_NEW_NOTE</string>
 
     <!-- Dialogs -->
     <string name="class_cast"> must implement ConfirmationListener</string>
