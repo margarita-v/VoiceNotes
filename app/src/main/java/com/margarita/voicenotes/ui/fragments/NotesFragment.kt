@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.*
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.NoteItem
+import com.margarita.voicenotes.mvp.presenter.NotesPresenter
 import com.margarita.voicenotes.mvp.view.NotesView
 import com.margarita.voicenotes.ui.activities.NewNoteActivity
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
@@ -41,6 +45,11 @@ class NotesFragment: BaseFragment(), NotesView {
      * Adapter for RecyclerView
      */
     private val adapter : NotesAdapter by lazy { NotesAdapter(noteClickListener) }
+
+    /**
+     * Presenter for showing a list of notes
+     */
+    private val presenter: NotesPresenter by lazy { NotesPresenter(this) }
 
     /**
      * Listener for a note click event
@@ -98,7 +107,7 @@ class NotesFragment: BaseFragment(), NotesView {
 
         // Setup adapter and contextual toolbar if it was shown before configuration change
         if (adapter.itemCount == 0) {
-            setupAdapter()
+            presenter.loadItems()
         } else if (adapter.isMultiChoiceMode) {
             startActionMode()
             setupActionModeTitle()
@@ -156,20 +165,6 @@ class NotesFragment: BaseFragment(), NotesView {
     private fun showNoteInfo(noteItem: NoteItem): Unit
             = startActivity(Intent(context, ViewNoteActivity::class.java)
             .putExtra(getString(R.string.note_intent), noteItem))
-
-    /**
-     * Function for initialization of the RecyclerView's adapter
-     */
-    private fun setupAdapter() {
-        val notes = (1..10).map {
-            NoteItem(
-                    it.toLong(),
-                    "$it A very long text of note. What's up? How are you? I am writing a useful app for you! And what are you doing?",
-                    1457207701L - it * 200
-            )
-        }
-        adapter.setNotes(notes)
-    }
 
     /**
      * Setup visibility for widgets

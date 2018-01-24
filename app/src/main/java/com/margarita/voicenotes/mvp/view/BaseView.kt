@@ -6,7 +6,7 @@ import io.realm.RealmObject
 /**
  * Base interface for all views
  */
-interface BaseView<in T: RealmObject> {
+interface BaseView<in ItemType: RealmObject> {
 
     /**
      * Show loading animation
@@ -33,5 +33,5 @@ interface BaseView<in T: RealmObject> {
      * Function for setting a new list of items
      * @param items List of items which will be set to the view
      */
-    fun setItems(items: List<T>)
+    fun setItems(items: List<ItemType>)
 }
