@@ -135,9 +135,9 @@ class NotesFragment: BaseFragment(), NotesView {
 
     override fun showError(@StringRes messageRes: Int): Unit = context!!.showToast(messageRes)
 
-    override fun setNotes(notes: List<NoteItem>) {
+    override fun setItems(items: List<NoteItem>) {
         layoutEmpty.hide()
-        adapter.setNotes(notes)
+        adapter.setNotes(items)
     }
 
     /**
