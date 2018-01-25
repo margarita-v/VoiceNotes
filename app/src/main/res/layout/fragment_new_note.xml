@@ -38,26 +38,47 @@
                     android:tint="@color/colorAccent"
                     app:srcCompat="@drawable/ic_mic_white_24dp" />
 
-                <Spinner
-                    android:id="@+id/spinnerCategory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textInputLayout"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/edit_text_height">
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/etNote"
-                        android:gravity="top"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin4"
+                        android:layout_marginRight="@dimen/margin4"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="italic"
+                        android:text="@string/category"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerCategory"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:minHeight="@dimen/edit_text_height"
-                        android:hint="@string/note_text" />
+                        android:layout_height="wrap_content"
+                        android:spinnerMode="dialog" />
 
-                </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <View style="@style/Divider" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin4"
+                    android:layout_marginRight="@dimen/margin4"
+                    android:layout_marginTop="@dimen/margin8"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="italic"
+                    android:text="@string/note_text" />
+
+                <EditText
+                    android:id="@+id/etNote"
+                    android:gravity="top"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="@dimen/edit_text_height"
+                    android:inputType="text" />
 
                 <RelativeLayout
                     android:id="@+id/layoutPhoto"
@@ -88,6 +109,7 @@
                         android:layout_marginLeft="@dimen/margin8"
                         android:ellipsize="end"
                         android:maxLines="1"
+                        android:textStyle="italic"
                         android:text="@string/set_photo"/>
 
                     <Space
