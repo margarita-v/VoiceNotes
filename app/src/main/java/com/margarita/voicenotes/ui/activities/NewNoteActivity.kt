@@ -9,17 +9,19 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
 import android.support.v4.content.FileProvider
-import android.widget.TextView
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.*
+import com.margarita.voicenotes.common.createImageFile
+import com.margarita.voicenotes.common.replace
+import com.margarita.voicenotes.common.showCropActivity
+import com.margarita.voicenotes.common.showToast
+import com.margarita.voicenotes.ui.fragments.NewNoteFragment
 import com.theartofdev.edmodo.cropper.CropImage
-import kotlinx.android.synthetic.main.fragment_new_note.*
 import java.util.*
 
 /**
  * Activity for a note creation, showing and editing
  */
-class NewNoteActivity : BaseActivity() {
+class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
 
     /**
      * Storage of static constants
@@ -54,6 +56,17 @@ class NewNoteActivity : BaseActivity() {
          * Request code for taking photo
          */
         const val TAKE_PHOTO_REQUEST_CODE = 3
+
+        /**
+         * Type for intent for image picking
+         */
+        const val IMAGE_INTENT_TYPE = "image/*"
+
+        /**
+         * Common constants for fragments
+         */
+        const val FRAGMENT_TAG = "NOTE_FRAGMENT_TAG"
+        const val CONTAINER_ID = R.id.container
     }
 
     /**
@@ -65,16 +78,6 @@ class NewNoteActivity : BaseActivity() {
      * Flag which shows if the screen orientation was changed
      */
     private var isScreenOrientationChanged = false
-
-    /**
-     * Uri for the photo of note
-     */
-    private var photoUri: Uri? = null
-
-    /**
-     * Uri for the cropped photo of note
-     */
-    private var croppedPhotoUri: Uri? = null
 
     /**
      * Intent for starting speech recognition service
@@ -96,9 +99,8 @@ class NewNoteActivity : BaseActivity() {
      * Intent for choosing photo from gallery
      */
     private val pickPhotoFromGalleryIntent by lazy {
-        val intentType = "image/*"
         Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                .setType(intentType)
+                .setType(IMAGE_INTENT_TYPE)
     }
 
     /**
@@ -106,24 +108,32 @@ class NewNoteActivity : BaseActivity() {
      */
     private val takePhotoIntent by lazy { Intent(MediaStore.ACTION_IMAGE_CAPTURE) }
 
+    private lateinit var newNoteFragment: NewNoteFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
+        // Try to restore fragment
+        newNoteFragment =
+                supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as NewNoteFragment?
+                ?: NewNoteFragment()
+        // Show restored fragment or create a new fragment and show it
+        supportFragmentManager.replace(
+                CONTAINER_ID,
+                newNoteFragment,
+                FRAGMENT_TAG)
+
+        // Restore flags for recognition service launching
         if (savedInstanceState != null) {
             isRecognitionServiceStarted =
                     savedInstanceState.getBoolean(RECOGNITION_SERVICE_FLAG)
             isScreenOrientationChanged =
                     savedInstanceState.getBoolean(SCREEN_ORIENTATION_CHANGED_FLAG)
         }
+
         startSpeechRecognition()
         // This flag used once on activity creation, so we should set it to false
         isScreenOrientationChanged = false
-        configureOptionalButtons(photoUri != null)
-        imgBtnSpeak.setOnClickListener { startSpeechRecognition() }
-        imgBtnPhoto.setOnClickListener { takePhoto() }
-        imgBtnChoosePhoto.setOnClickListener { pickImageFromGallery() }
-        imgBtnCrop.setOnClickListener { cropImage() }
-        imgBtnDelete.setOnClickListener { deleteImage() }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -133,56 +143,35 @@ class NewNoteActivity : BaseActivity() {
         outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
     }
 
-    /**
-     * Function for choosing a photo for note from gallery
-     */
-    private fun pickImageFromGallery() {
+    override fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
             startActivityForResult(pickPhotoFromGalleryIntent, PICK_PHOTO_REQUEST_CODE)
         }
     }
 
-    /**
-     * Function for taking photo for note
-     */
-    private fun takePhoto() {
+    override fun takePhoto() {
         if (checkIntentHandlers(takePhotoIntent)) {
             val photoFile = createImageFile(
                     getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-            photoUri = FileProvider.getUriForFile(
+            newNoteFragment.photoUri = FileProvider.getUriForFile(
                     this, FILE_PROVIDER_AUTHORITY, photoFile)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, newNoteFragment.photoUri)
             startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST_CODE)
         }
     }
 
-    /**
-     * Function for changing a photo's thumbnail
-     */
-    private fun cropImage() {
+    override fun cropImage(photoUri: Uri?) {
         if (photoUri != null) {
-            showCropActivity(photoUri!!)
+            showCropActivity(photoUri)
         } else {
             showToast(R.string.image_loading_error)
         }
     }
 
-    /**
-     * Function for deleting a chosen photo of the note
-     */
-    private fun deleteImage() {
-        ivPhoto.setDefaultImage(this)
-        photoUri = null
-        configureOptionalButtons(false)
-    }
-
-    /**
-     * Function for launching speech recognition service
-     */
-    private fun startSpeechRecognition() {
+    override fun startSpeechRecognition() {
         try {
-            if (!isRecognitionServiceStarted && !isScreenOrientationChanged &&
-                    checkIntentHandlers(recognitionIntent)) {
+            if (!isRecognitionServiceStarted && !isScreenOrientationChanged
+                    && checkIntentHandlers(recognitionIntent)) {
                 startActivityForResult(recognitionIntent, SPEECH_REQUEST_CODE)
                 isRecognitionServiceStarted = true
             }
@@ -190,6 +179,11 @@ class NewNoteActivity : BaseActivity() {
             showToast(R.string.speech_not_supported)
         }
     }
+
+    /**
+     * Function for cropping image of note which is using Uri from the NewNoteFragment
+     */
+    private fun cropFragmentImage(): Unit = cropImage(newNoteFragment.photoUri)
 
     /**
      * Function which checks if the user's device has apps which can handle intent
@@ -212,10 +206,7 @@ class NewNoteActivity : BaseActivity() {
                     if (data != null) {
                         val resultArray =
                                 data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                        val speechResult = resultArray[0].capitalize()
-                        // Capitalize the first letter of note
-                        etNote.setText(speechResult, TextView.BufferType.EDITABLE)
-                        etNote.setSelection(speechResult.length)
+                        newNoteFragment.setText(resultArray[0].capitalize())
                     }
                 }
 
@@ -223,30 +214,17 @@ class NewNoteActivity : BaseActivity() {
                 PICK_PHOTO_REQUEST_CODE -> {
                     // If request code is equal to request code for pick photo from gallery,
                     // we should set photoUri, otherwise photoUri had been already set
-                    photoUri = data?.data
-                    cropImage()
+                    newNoteFragment.photoUri = data?.data
+                    cropFragmentImage()
                 }
 
                 // Result of taking photo
-                TAKE_PHOTO_REQUEST_CODE -> cropImage()
+                TAKE_PHOTO_REQUEST_CODE -> cropFragmentImage()
 
                 // Result of image cropping
-                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                    val resultImage = CropImage.getActivityResult(data)
-                    croppedPhotoUri = resultImage.uri
-                    ivPhoto.loadImage(this, croppedPhotoUri!!)
-                    configureOptionalButtons(true)
-                }
-            } // when
+                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ->
+                    newNoteFragment.cropImage(CropImage.getActivityResult(data).uri)
+            }
         } // if
     } // fun
-
-    /**
-     * Function for configuration of states for optional buttons
-     * @param enabled Flag which shows the state of optional buttons
-     */
-    private fun configureOptionalButtons(enabled: Boolean) {
-        imgBtnCrop.setEnabledIconColor(enabled)
-        imgBtnDelete.setEnabledIconColor(enabled)
-    }
 }

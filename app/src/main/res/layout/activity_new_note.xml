@@ -4,11 +4,4 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.margarita.voicenotes.ui.activities.NewNoteActivity">
-
-    <fragment
-        android:name="com.margarita.voicenotes.ui.fragments.NewNoteFragment"
-        android:tag="@string/fragment_new_note"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</FrameLayout>
+    tools:context="com.margarita.voicenotes.ui.activities.NewNoteActivity" />
