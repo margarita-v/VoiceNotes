@@ -5,7 +5,10 @@ import com.margarita.voicenotes.mvp.view.CategoriesView
 import io.realm.Realm
 import io.realm.RealmQuery
 
-class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) {
+/**
+ * Presenter for getting a list of categories and creating new categories
+ */
+open class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) {
 
     companion object {
         private const val SORT_FIELD = "name"

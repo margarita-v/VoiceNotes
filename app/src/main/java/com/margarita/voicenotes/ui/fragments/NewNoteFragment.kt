@@ -8,14 +8,14 @@ import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.Category
-import com.margarita.voicenotes.mvp.view.CategoriesView
+import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import kotlinx.android.synthetic.main.progress_bar.*
 
 /**
  * Fragment for creation a new note
  */
-class NewNoteFragment: BaseFragment(), CategoriesView {
+class NewNoteFragment: BaseFragment(), NewNoteView {
 
     /**
      * Listener for user's selected action callback
