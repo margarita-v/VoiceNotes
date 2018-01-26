@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.Category
+import com.margarita.voicenotes.mvp.presenter.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import kotlinx.android.synthetic.main.progress_bar.*
@@ -16,6 +17,16 @@ import kotlinx.android.synthetic.main.progress_bar.*
  * Fragment for creation a new note
  */
 class NewNoteFragment: BaseFragment(), NewNoteView {
+
+    /**
+     * Presenter for creation of notes
+     */
+    private val presenter by lazy { NewNotePresenter(this) }
+
+    /**
+     * Adapter for a spinner with categories
+     */
+    private val adapter by lazy { CategorySpinnerAdapter(context!!) }
 
     /**
      * Listener for user's selected action callback
@@ -46,6 +57,14 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         if (croppedPhotoUri != null) {
             ivPhoto.loadImage(context!!, croppedPhotoUri!!)
         }
+
+        // Configure spinner and load its items
+        spinnerCategory.adapter = adapter
+        if (adapter.hasOnlyNoneCategory()) {
+            presenter.loadItems()
+        }
+
+        // Configure all buttons
         configureOptionalButtons(photoUri != null)
         imgBtnSpeak.setOnClickListener { selectedOptionCallback.startSpeechRecognition() }
         imgBtnPhoto.setOnClickListener { selectedOptionCallback.takePhoto() }
@@ -67,15 +86,11 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
 
     override fun hideLoading(): Unit = progressBar.hide()
 
-    override fun showEmptyView() {
-
-    }
+    override fun showEmptyView() { /* This method is not used here */ }
 
     override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
 
-    override fun setItems(items: List<Category>) {
-
-    }
+    override fun setItems(items: List<Category>): Unit = adapter.addAll(items)
 
     /**
      * Function for delete a chosen photo of the note

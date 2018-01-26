@@ -10,6 +10,8 @@
     <string name="note_info">Note info</string>
     <string name="note_text">Note text</string>
     <string name="category">Category</string>
+    <string name="choose_category">Choose category</string>
+    <string name="none_category">No category</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
     <string name="done">Done</string>
