@@ -104,6 +104,7 @@
                     android:textSize="@dimen/font_size_14"/>
 
                 <ImageView
+                    android:id="@+id/ivPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:minWidth="@dimen/photo_size_big"

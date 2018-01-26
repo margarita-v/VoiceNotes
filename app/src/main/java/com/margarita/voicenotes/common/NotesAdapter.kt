@@ -4,8 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.models.NoteViewModel
+import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.item_note.view.*
 
 /**
@@ -147,6 +147,8 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
             tvDescription.text = noteItem.description
             tvDate.text = noteItem.parseDate()
             checkBox.setOnCheckedChangeListener(null)
+
+            ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
 
             val checked = noteViewModel.checked
             checkBox.isChecked = checked

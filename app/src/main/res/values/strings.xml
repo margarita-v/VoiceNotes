@@ -9,6 +9,8 @@
     <string name="new_note">New note</string>
     <string name="note_info">Note info</string>
     <string name="note_text">Note text</string>
+    <string name="note_created">New note was created</string>
+    <string name="note_empty">Note can not be empty!</string>
     <string name="category">Category</string>
     <string name="choose_category">Choose category</string>
     <string name="none_category">No category</string>

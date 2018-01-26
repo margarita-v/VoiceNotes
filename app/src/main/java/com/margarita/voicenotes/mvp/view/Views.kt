@@ -16,4 +16,10 @@ interface CategoriesView: BaseView<Category>
 /**
  * Interface for a view which implements a creation of a new notes
  */
-interface NewNoteView: CategoriesView
+interface NewNoteView: CategoriesView {
+
+    /**
+     * Function which will be called if the note was created and saved successfully
+     */
+    fun onCreationSuccess()
+}

@@ -18,7 +18,7 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
     protected var realm: Realm = Realm.getDefaultInstance()
 
     companion object {
-        private const val ID_FIELD = "id"
+        const val ID_FIELD = "id"
         private const val SORT_FIELD = "date"
     }
 
@@ -78,7 +78,7 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      * Function for ID generation for a new object
      * @return ID for a new object which will be saved to the local database
      */
-    protected fun generateId(): Long
+    protected open fun generateId(): Long
             = performQuery(realm)
             .max(ID_FIELD)
             ?.toLong()

@@ -2,6 +2,8 @@ package com.margarita.voicenotes.ui.activities
 
 import android.os.Bundle
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.loadImage
+import com.margarita.voicenotes.common.parseStringToUri
 import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.activity_view_note.*
 
@@ -21,5 +23,6 @@ class ViewNoteActivity : BaseActivity() {
     private fun showNoteInfo(noteItem: NoteItem) {
         tvDescription.text = noteItem.description
         tvDate.text = noteItem.parseDate()
+        ivPhoto.loadImage(this, noteItem.croppedPhotoUri?.parseStringToUri())
     }
 }

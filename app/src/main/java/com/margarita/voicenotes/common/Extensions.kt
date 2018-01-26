@@ -39,8 +39,10 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
  * @param context Context of function call
  * @param uri Uri of image
  */
-fun ImageView.loadImage(context: Context, uri: Uri): Unit
-        = Picasso.with(context).load(uri).into(this)
+fun ImageView.loadImage(context: Context, uri: Uri?) {
+    if (uri != null)
+        Picasso.with(context).load(uri).into(this)
+}
 
 /**
  * Function for setting filter for an image button's background and its drawable resource
@@ -190,3 +192,13 @@ fun ActionMode.setSelectedItemsCount(context: Context, count: Int) {
         setDefaultTitle()
     }
 }
+
+/**
+ * Function for parsing a string to Uri
+ */
+fun String.parseStringToUri(): Uri = Uri.parse(this)
+
+/**
+ * Function for parsing a Uri to string
+ */
+fun Uri.parseToString(): String = this.toString()

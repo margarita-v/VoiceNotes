@@ -12,6 +12,7 @@ import com.margarita.voicenotes.mvp.presenter.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import kotlinx.android.synthetic.main.progress_bar.*
+import java.util.*
 
 /**
  * Fragment for creation a new note
@@ -71,6 +72,13 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         imgBtnChoosePhoto.setOnClickListener { selectedOptionCallback.pickImageFromGallery() }
         imgBtnCrop.setOnClickListener { selectedOptionCallback.cropImage(photoUri) }
         imgBtnDelete.setOnClickListener { deleteImage() }
+        btnSave.setOnClickListener {
+            presenter.createNote(
+                    etNote.text.toString(),
+                    Calendar.getInstance().timeInMillis,
+                    photoUri,
+                    croppedPhotoUri)
+        }
     }
 
     override fun onAttach(context: Context?) {
@@ -91,6 +99,8 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
     override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
 
     override fun setItems(items: List<Category>): Unit = adapter.addAll(items)
+
+    override fun onCreationSuccess(): Unit = selectedOptionCallback.onCreationSuccess()
 
     /**
      * Function for delete a chosen photo of the note
@@ -156,5 +166,10 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
          * Function for changing a photo's thumbnail
          */
         fun cropImage(photoUri: Uri?)
+
+        /**
+         * Function which will be called if the note was created and saved successfully
+         */
+        fun onCreationSuccess()
     }
 }

@@ -180,6 +180,11 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
         }
     }
 
+    override fun onCreationSuccess() {
+        showToast(R.string.note_created)
+        finish()
+    }
+
     /**
      * Function for cropping image of note which is using Uri from the NewNoteFragment
      */

@@ -1,6 +1,5 @@
 package com.margarita.voicenotes.models.entities
 
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.margarita.voicenotes.common.parseDate
@@ -19,10 +18,6 @@ open class NoteItem(@PrimaryKey private var id: Long = 0,
     : RealmObject(), Parcelable {
 
     fun parseDate(): String = date.parseDate()
-
-    fun getPhotoUri(): Uri = Uri.parse(photoUri)
-
-    fun getCroppedPhotoUri(): Uri = Uri.parse(croppedPhotoUri)
 
     fun getCategoryName() : String? = categories?.first()?.name
 
