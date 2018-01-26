@@ -40,8 +40,9 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
  * @param uri Uri of image
  */
 fun ImageView.loadImage(context: Context, uri: Uri?) {
-    if (uri != null)
+    if (uri != null) {
         Picasso.with(context).load(uri).into(this)
+    }
 }
 
 /**
@@ -96,7 +97,6 @@ fun Activity.showCropActivity(imageUri: Uri): Unit
             .start(this)
 
 //region Constants for date parsing
-private const val TIME_UNIT = 1000
 private const val DEFAULT_PATTERN = "dd.MM.yy в H:mm"
 private const val SAME_YEAR_PATTERN = "d MMM в H:mm"
 private const val TODAY_PATTERN = "сегодня в H:mm"
@@ -107,7 +107,7 @@ private const val TODAY_PATTERN = "сегодня в H:mm"
  * @return Date in a String format
  */
 fun Long.parseDate(): String {
-    val date = Date(this * TIME_UNIT)
+    val date = Date(this)
 
     val calendarDate = Calendar.getInstance()
     val now = Calendar.getInstance()

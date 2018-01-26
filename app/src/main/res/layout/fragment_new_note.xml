@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:minHeight="@dimen/edit_text_height"
-                    android:inputType="text" />
+                    android:inputType="textMultiLine" />
 
                 <RelativeLayout
                     android:id="@+id/layoutPhoto"

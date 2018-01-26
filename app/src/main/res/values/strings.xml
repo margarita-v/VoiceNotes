@@ -24,7 +24,6 @@
     <string name="set_photo">Set photo…</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="choose_photo">Choose photo from the file system</string>
-    <string name="category_stub">A very very very very long name of category</string>
     <string name="selected_note">1 selected</string>
     <string name="selected_notes_plural">Selected %1$d notes</string>
     <string name="select_all">Select all</string>

@@ -78,7 +78,7 @@
                     android:textStyle="italic"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="@string/category_stub" />
+                    android:text="@string/none_category" />
 
                 <Space
                     android:id="@+id/space"
