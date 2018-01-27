@@ -98,7 +98,7 @@ class NotesFragment: BaseFragment(), NotesView {
      * Function for setting a title to the contextual toolbar
      */
     private fun setupActionModeTitle(): Unit?
-            = actionMode?.setSelectedItemsCount(context!!, adapter.checkedItemsCount)
+            = actionMode?.setSelectedItemsCount(context!!, adapter.getCheckedItemCount())
 
     override fun getLayoutRes(): Int = R.layout.fragment_notes
 
@@ -149,11 +149,21 @@ class NotesFragment: BaseFragment(), NotesView {
         adapter.setNotes(items)
     }
 
+    override fun onDataSetChanged() {
+        adapter.clear()
+        presenter.loadItems()
+    }
+
     /**
      * Function for removing the chosen notes
      */
     fun removeChosenNotes() {
-        adapter.removeCheckedItems()
+        if (adapter.isAllNotesSelected()) {
+            presenter.clear()
+        } else {
+            presenter.removeAll(adapter.checkedIds)
+        }
+        //adapter.removeCheckedItems()
         actionMode?.finish()
         context?.showToast(R.string.notes_deleted)
     }
@@ -187,7 +197,7 @@ class NotesFragment: BaseFragment(), NotesView {
 
         override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
             val menuItemEdit = menu.findItem(R.id.action_edit)
-            menuItemEdit.isVisible = adapter.checkedItemsCount == 1
+            menuItemEdit.isVisible = adapter.getCheckedItemCount() == 1
             return true
         }
 

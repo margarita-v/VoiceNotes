@@ -34,4 +34,9 @@ interface BaseView<in ItemType: RealmObject> {
      * @param items List of items which will be set to the view
      */
     fun setItems(items: List<ItemType>)
+
+    /**
+     * Function which notifies a view if the data set was changed
+     */
+    fun onDataSetChanged()
 }

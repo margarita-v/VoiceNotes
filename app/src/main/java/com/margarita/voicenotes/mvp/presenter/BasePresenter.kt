@@ -45,13 +45,38 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      * Function for removing an item with the given ID
      * @param id ID of item which will be removed
      */
-    fun remove(id: Int) {
+    private fun remove(id: Long) {
         realm.executeTransaction { realm1 ->
             performQuery(realm1)
                     .equalTo(ID_FIELD, id)
                     .findAll()
                     .deleteAllFromRealm()
         }
+    }
+
+    /**
+     * Function for removing all items by the given list of IDs
+     * @param ids IDs of items which will be removed
+     */
+    fun removeAll(ids: Set<Long>) {
+        view.showLoading()
+        ids.forEach { remove(it) }
+        view.hideLoading()
+        view.onDataSetChanged()
+    }
+
+    /**
+     * Function for removing all items in the table
+     */
+    fun clear() {
+        view.showLoading()
+        realm.executeTransaction { realm1 ->
+            performQuery(realm1)
+                    .findAll()
+                    .deleteAllFromRealm()
+        }
+        view.hideLoading()
+        view.onDataSetChanged()
     }
 
     /**

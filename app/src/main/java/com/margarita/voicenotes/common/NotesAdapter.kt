@@ -20,15 +20,15 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     private var notes: MutableList<NoteViewModel> = ArrayList()
 
     /**
-     * Flag which shows if the multi choice mode is on
+     * List of IDs of checked notes
      */
-    var isMultiChoiceMode = false
+    var checkedIds = HashSet<Long>()
         private set
 
     /**
-     * Count of checked items
+     * Flag which shows if the multi choice mode is on
      */
-    var checkedItemsCount = 0
+    var isMultiChoiceMode = false
         private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder
@@ -40,9 +40,22 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     override fun getItemCount(): Int = notes.size
 
     /**
+     * Function for getting a count of checked items
+     */
+    fun getCheckedItemCount(): Int = checkedIds.size
+
+    /**
      * Function for checking if all notes are selected
      */
-    fun isAllNotesSelected(): Boolean = checkedItemsCount == itemCount
+    fun isAllNotesSelected(): Boolean = getCheckedItemCount() == itemCount
+
+    /**
+     * Function for clear a list of notes
+     */
+    fun clear() {
+        notes.clear()
+        exitFromMultiChoice()
+    }
 
     /**
      * Function for setting a list of notes to the adapter
@@ -58,9 +71,11 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      * Function for performing a selection of all notes
      */
     fun selectAll() {
-        notes.forEach { it.checked = true }
+        notes.forEach {
+            it.checked = true
+            checkedIds.add(it.noteItem.id)
+        }
         isMultiChoiceMode = true
-        checkedItemsCount = notes.size
         notifyDataSetChanged()
     }
 
@@ -81,21 +96,18 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
      */
     private fun checkItem(position: Int) {
         // Change item's checked state
-        val prevChecked = notes[position].checked
-        notes[position].checked = !prevChecked
+        val noteViewModel = notes[position]
+        val newState = !noteViewModel.checked
+        notes[position].checked = newState
 
-        // Multi choice mode was started
-        if (checkedItemsCount == 0) {
-            isMultiChoiceMode = true
-            checkedItemsCount++
+        val id = noteViewModel.noteItem.id
+        if (newState) {
+            checkedIds.add(id)
         } else {
-            // Check if the item was deselected
-            val offset = if (prevChecked) -1 else 1
-            checkedItemsCount += offset
-
-            // Check if the last item was deselected
-            isMultiChoiceMode = checkedItemsCount > 0
+            checkedIds.remove(id)
         }
+
+        isMultiChoiceMode = getCheckedItemCount() > 0
     }
 
     /**
@@ -107,23 +119,11 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
     }
 
     /**
-     * Function for removing the checked items
-     */
-    fun removeCheckedItems() {
-        if (isAllNotesSelected()) {
-            notes.clear()
-        } else {
-            notes = notes.filter { !it.checked }.toMutableList()
-        }
-        exitFromMultiChoice()
-    }
-
-    /**
      * Function for exit from the multi choice mode
      */
     private fun exitFromMultiChoice() {
         isMultiChoiceMode = false
-        checkedItemsCount = 0
+        checkedIds.clear()
         notifyDataSetChanged()
     }
 

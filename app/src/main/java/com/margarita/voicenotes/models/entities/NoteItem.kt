@@ -8,7 +8,7 @@ import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
 import io.realm.annotations.PrimaryKey
 
-open class NoteItem(@PrimaryKey private var id: Long = 0,
+open class NoteItem(@PrimaryKey var id: Long = 0,
                     var description: String = "",
                     var date: Long = 0,
                     var photoUri: String? = null,
