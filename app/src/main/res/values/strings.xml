@@ -21,8 +21,8 @@
     <!-- Tags for fragments -->
     <string name="fragment_new_note">FRAGMENT_NEW_NOTE</string>
 
-    <!-- Messages for a class cast exception -->
-    <string name="class_cast"> must implement ConfirmationListener</string>
+    <!-- Message for a class cast exception -->
+    <string name="class_cast"> must implement %1$s interface</string>
 
     <!-- Dialog for delete confirmation -->
     <string name="confirm_title">Confirmation</string>

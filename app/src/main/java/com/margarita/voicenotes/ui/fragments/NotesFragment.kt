@@ -27,13 +27,6 @@ import kotlinx.android.synthetic.main.progress_bar.*
  */
 class NotesFragment: BaseFragment(), NotesView {
 
-    companion object {
-        /**
-         * Message for the class cast exception
-         */
-        private const val CLASS_CAST_MESSAGE = " must implement OnFabClickListener interface"
-    }
-
     /**
      * Translation Y value for a floating action button for its animation
      */
@@ -152,7 +145,7 @@ class NotesFragment: BaseFragment(), NotesView {
         try {
             fabClickListener = context as OnFabClickListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString() + CLASS_CAST_MESSAGE)
+            throwClassCastException(context, "OnFabClickListener")
         }
     }
 

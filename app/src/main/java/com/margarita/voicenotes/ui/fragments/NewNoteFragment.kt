@@ -45,13 +45,6 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
      */
     private var croppedPhotoUri: Uri? = null
 
-    companion object {
-        /**
-         * Message for the class cast exception
-         */
-        private const val CLASS_CAST_MESSAGE = " must implement SelectedOption interface"
-    }
-
     override fun getLayoutRes(): Int = R.layout.fragment_new_note
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,7 +80,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         try {
             selectedOptionCallback = context as SelectedOption
         } catch (e: ClassCastException) {
-            throw ClassCastException(context?.toString() + CLASS_CAST_MESSAGE)
+            throwClassCastException(context, "SelectedOption")
         }
     }
 

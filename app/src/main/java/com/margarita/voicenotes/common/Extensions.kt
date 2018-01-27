@@ -93,6 +93,18 @@ fun Activity.showCropActivity(imageUri: Uri): Unit
             .setCropMenuCropButtonTitle(getString(R.string.done))
             .start(this)
 
+/**
+ * Function for throw a ClassCastException
+ * for fragments which should be attached to activities
+ * @param context Context of function call
+ * @param interfaceName Name of interface which attached activity must implement
+ */
+fun throwClassCastException(context: Context?,
+                            interfaceName: String?) {
+    throw ClassCastException(context?.toString() +
+            context?.getString(R.string.class_cast, interfaceName))
+}
+
 //region Constants for date parsing
 private const val DEFAULT_PATTERN = "dd.MM.yy в H:mm"
 private const val SAME_YEAR_PATTERN = "d MMM в H:mm"

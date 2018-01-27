@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v4.app.DialogFragment
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.throwClassCastException
 
 /**
  * Confirmation dialog fragment
@@ -59,7 +60,7 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
         try {
             confirmationListener = context as ConfirmationListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context?.toString() + R.string.class_cast)
+            throwClassCastException(context, "ConfirmationListener")
         }
     }
 
