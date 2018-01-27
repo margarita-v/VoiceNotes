@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.StringRes
@@ -14,7 +15,6 @@ import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.NotesPresenter
 import com.margarita.voicenotes.mvp.view.NotesView
-import com.margarita.voicenotes.ui.activities.NewNoteActivity
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import kotlinx.android.synthetic.main.empty_view.*
@@ -26,6 +26,13 @@ import kotlinx.android.synthetic.main.progress_bar.*
  */
 class NotesFragment: BaseFragment(), NotesView {
 
+    companion object {
+        /**
+         * Message for the class cast exception
+         */
+        private const val CLASS_CAST_MESSAGE = " must implement OnFabClickListener interface"
+    }
+
     /**
      * Translation Y value for a floating action button for its animation
      */
@@ -35,6 +42,11 @@ class NotesFragment: BaseFragment(), NotesView {
      * Listener for contextual toolbar
      */
     private val actionModeCallback: ActionModeCallback by lazy { ActionModeCallback() }
+
+    /**
+     * Listener for the FAB click event
+     */
+    private lateinit var fabClickListener: OnFabClickListener
 
     /**
      * Action mode for a contextual toolbar
@@ -131,8 +143,15 @@ class NotesFragment: BaseFragment(), NotesView {
                 fab.animate().translationY(translationY).start()
             }
         })
-        fab.setOnClickListener {
-            startActivity(Intent(context, NewNoteActivity::class.java))
+        fab.setOnClickListener { fabClickListener.onFabClick() }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        try {
+            fabClickListener = context as OnFabClickListener
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString() + CLASS_CAST_MESSAGE)
         }
     }
 
@@ -226,5 +245,13 @@ class NotesFragment: BaseFragment(), NotesView {
             adapter.clearSelection()
             actionMode = null
         }
+    }
+
+    /**
+     * Interface for performing callback to activity when the FAB is clicked
+     */
+    interface OnFabClickListener {
+
+        fun onFabClick()
     }
 }

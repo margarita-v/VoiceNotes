@@ -182,6 +182,7 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
 
     override fun onCreationSuccess() {
         showToast(R.string.note_created)
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
