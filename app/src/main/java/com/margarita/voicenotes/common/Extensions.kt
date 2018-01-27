@@ -16,9 +16,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.ui.fragments.BaseFragment
-import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File
@@ -41,7 +41,9 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
  */
 fun ImageView.loadImage(context: Context, uri: Uri?) {
     if (uri != null) {
-        Picasso.with(context).load(uri).into(this)
+        Glide.with(context)
+                .load(uri)
+                .into(this)
     }
 }
 

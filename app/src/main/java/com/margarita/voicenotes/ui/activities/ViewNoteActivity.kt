@@ -23,6 +23,6 @@ class ViewNoteActivity : BaseActivity() {
     private fun showNoteInfo(noteItem: NoteItem) {
         tvDescription.text = noteItem.description
         tvDate.text = noteItem.parseDate()
-        ivPhoto.loadImage(this, noteItem.croppedPhotoUri?.parseStringToUri())
+        ivPhoto.loadImage(this, noteItem.photoUri?.parseStringToUri())
     }
 }

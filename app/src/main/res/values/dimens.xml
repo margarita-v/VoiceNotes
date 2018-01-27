@@ -6,7 +6,7 @@
     <dimen name="icon_size">50dp</dimen>
     <dimen name="photo_size">70dp</dimen>
     <dimen name="photo_size_big">100dp</dimen>
-    <dimen name="photo_size_max">200dp</dimen>
+    <dimen name="photo_size_max">550dp</dimen>
     <dimen name="edit_text_height">200dp</dimen>
 
     <!-- Margin values -->

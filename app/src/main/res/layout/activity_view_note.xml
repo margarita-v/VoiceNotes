@@ -100,6 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin8"
                     android:text="@string/photo"
                     android:textSize="@dimen/font_size_14"/>
 
@@ -107,8 +108,8 @@
                     android:id="@+id/ivPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/photo_size_big"
-                    android:minHeight="@dimen/photo_size_big"
+                    android:maxHeight="@dimen/photo_size_max"
+                    android:adjustViewBounds="true"
                     android:contentDescription="@string/photo"
                     android:layout_gravity="center"
                     app:srcCompat="@mipmap/ic_launcher"/>
