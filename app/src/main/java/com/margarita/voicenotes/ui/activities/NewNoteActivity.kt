@@ -11,7 +11,6 @@ import android.speech.RecognizerIntent
 import android.support.v4.content.FileProvider
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
-import com.margarita.voicenotes.common.replace
 import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.fragments.NewNoteFragment
@@ -61,12 +60,6 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
          * Type for intent for image picking
          */
         const val IMAGE_INTENT_TYPE = "image/*"
-
-        /**
-         * Common constants for fragments
-         */
-        const val FRAGMENT_TAG = "NOTE_FRAGMENT_TAG"
-        const val CONTAINER_ID = R.id.container
     }
 
     /**
@@ -114,14 +107,8 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_note)
         // Try to restore fragment
-        newNoteFragment =
-                supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as NewNoteFragment?
-                ?: NewNoteFragment()
-        // Show restored fragment or create a new fragment and show it
-        supportFragmentManager.replace(
-                CONTAINER_ID,
-                newNoteFragment,
-                FRAGMENT_TAG)
+        newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
+        setFragment(newNoteFragment)
 
         // Restore flags for recognition service launching
         if (savedInstanceState != null) {
