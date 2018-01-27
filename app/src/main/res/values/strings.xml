@@ -16,6 +16,7 @@
     <string name="category">Category</string>
     <string name="choose_category">Choose category</string>
     <string name="none_category">No category</string>
+    <string name="none_photo">No photo</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
     <string name="done">Done</string>

@@ -36,6 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin4"
+                    android:text="@string/none_category"
                     android:textColor="@android:color/primary_text_light"
                     android:textSize="@dimen/font_size_16" />
             </LinearLayout>
@@ -104,6 +105,16 @@
                     android:text="@string/photo"
                     android:textSize="@dimen/font_size_14"/>
 
+                <TextView
+                    android:id="@+id/tvEmptyPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin4"
+                    android:visibility="gone"
+                    android:text="@string/none_photo"
+                    android:textColor="@android:color/primary_text_light"
+                    android:textSize="@dimen/font_size_16" />
+
                 <ImageView
                     android:id="@+id/ivPhoto"
                     android:layout_width="wrap_content"
@@ -111,8 +122,7 @@
                     android:maxHeight="@dimen/photo_size_max"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/photo"
-                    android:layout_gravity="center"
-                    app:srcCompat="@mipmap/ic_launcher"/>
+                    android:layout_gravity="center" />
             </LinearLayout>
         </LinearLayout>
 

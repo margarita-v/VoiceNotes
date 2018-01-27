@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.loadImage
 import com.margarita.voicenotes.common.parseStringToUri
+import com.margarita.voicenotes.common.show
 import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.activity_view_note.*
 
@@ -37,6 +38,8 @@ class ViewNoteActivity : BaseActivity() {
             ivPhoto.setOnClickListener {
                 startActivity(photoIntent.putExtra(getString(R.string.photo_intent), photoUri))
             }
+        } else {
+            tvEmptyPhoto.show()
         }
     }
 }
