@@ -39,7 +39,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
-        <activity android:name=".ui.activities.ViewNoteActivity"
+        <activity
+            android:name=".ui.activities.ViewNoteActivity"
             android:label="@string/note_info"
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
@@ -49,6 +50,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.activities.ViewPhotoActivity"
+            android:label="@string/photo_fullscreen"
+            android:parentActivityName=".ui.activities.ViewNoteActivity"
+            tools:targetApi="jelly_bean">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.ViewNoteActivity" />
+
+        </activity>
+
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
 
         <provider
