@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.TextView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
+import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
@@ -104,7 +105,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
      * Function for delete a chosen photo of the note
      */
     private fun deleteImage() {
-        ivPhoto.setDefaultImage(context!!)
+        ivPhoto.loadImage(context!!)
         photoUri = null
         croppedPhotoUri = null
         configureOptionalButtons(false)

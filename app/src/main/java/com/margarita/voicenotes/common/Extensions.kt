@@ -39,11 +39,13 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
  * @param context Context of function call
  * @param uri Uri of image
  */
-fun ImageView.loadImage(context: Context, uri: Uri?) {
+fun ImageView.loadImage(context: Context, uri: Uri? = null) {
     if (uri != null) {
         Glide.with(context)
                 .load(uri)
                 .into(this)
+    } else {
+        setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
     }
 }
 
@@ -61,13 +63,6 @@ fun ImageView.setEnabledIconColor(enabled: Boolean) {
         drawable?.setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_IN)
     }
 }
-
-/**
- * Function for setting a default image to image view
- * @param context Context of function call
- */
-fun ImageView.setDefaultImage(context: Context): Unit
-        = setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
 
 /**
  * Function for showing a simple Toast message

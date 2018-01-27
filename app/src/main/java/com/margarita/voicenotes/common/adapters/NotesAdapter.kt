@@ -1,9 +1,10 @@
-package com.margarita.voicenotes.common
+package com.margarita.voicenotes.common.adapters
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.NoteViewModel
 import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.item_note.view.*
@@ -140,20 +141,14 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
          */
         fun bind(noteViewModel: NoteViewModel,
                  position: Int,
-                 noteClickListener: NotesAdapter.OnNoteClickListener): Unit = with(itemView) {
+                 noteClickListener: OnNoteClickListener): Unit = with(itemView) {
             val noteItem = noteViewModel.noteItem
             setOnClickListener { noteClickListener.onNoteClick(noteItem, position) }
             setOnLongClickListener { noteClickListener.onNoteLongClick(position) }
             tvDescription.text = noteItem.description
             tvDate.text = noteItem.parseDate()
             checkBox.setOnCheckedChangeListener(null)
-
-            val croppedPhotoUri = noteItem.croppedPhotoUri?.parseStringToUri()
-            if (croppedPhotoUri != null) {
-                ivPhoto.loadImage(context, croppedPhotoUri)
-            } else {
-                ivPhoto.setImageResource(R.mipmap.ic_launcher)
-            }
+            ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
 
             val checked = noteViewModel.checked
             checkBox.isChecked = checked

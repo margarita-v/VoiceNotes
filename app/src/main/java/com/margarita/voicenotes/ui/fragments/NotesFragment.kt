@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
+import com.margarita.voicenotes.common.adapters.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.NotesPresenter
 import com.margarita.voicenotes.mvp.view.NotesView

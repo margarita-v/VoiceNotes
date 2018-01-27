@@ -1,13 +1,12 @@
 package com.margarita.voicenotes.ui.activities
 
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.loadImage
 import kotlinx.android.synthetic.main.activity_view_photo.*
 
-class ViewPhotoActivity : AppCompatActivity() {
+class ViewPhotoActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
