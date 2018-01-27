@@ -22,4 +22,10 @@ interface NewNoteView: CategoriesView {
      * Function which will be called if the note was created and saved successfully
      */
     fun onCreationSuccess()
+
+    //region Default implementations for unused methods
+    override fun showEmptyView() { }
+
+    override fun onDataSetChanged() { }
+    //endregion
 }

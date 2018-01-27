@@ -168,21 +168,18 @@ class NotesFragment: BaseFragment(), NotesView {
         adapter.setNotes(items)
     }
 
-    override fun onDataSetChanged() {
-        adapter.clear()
-        presenter.loadItems()
-    }
+    override fun onDataSetChanged(): Unit = presenter.loadItems()
 
     /**
      * Function for removing the chosen notes
      */
     fun removeChosenNotes() {
         if (adapter.isAllNotesSelected()) {
+            adapter.clear()
             presenter.clear()
         } else {
             presenter.removeAll(adapter.checkedIds)
         }
-        //adapter.removeCheckedItems()
         actionMode?.finish()
         context?.showToast(R.string.notes_deleted)
     }

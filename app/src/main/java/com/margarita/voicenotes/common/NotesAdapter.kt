@@ -148,7 +148,12 @@ class NotesAdapter(private val noteClickListener: OnNoteClickListener)
             tvDate.text = noteItem.parseDate()
             checkBox.setOnCheckedChangeListener(null)
 
-            ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
+            val croppedPhotoUri = noteItem.croppedPhotoUri?.parseStringToUri()
+            if (croppedPhotoUri != null) {
+                ivPhoto.loadImage(context, croppedPhotoUri)
+            } else {
+                ivPhoto.setImageResource(R.mipmap.ic_launcher)
+            }
 
             val checked = noteViewModel.checked
             checkBox.isChecked = checked

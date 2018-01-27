@@ -94,10 +94,6 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
 
     override fun hideLoading(): Unit = progressBar.hide()
 
-    override fun showEmptyView() { /* This method is not used here */ }
-
-    override fun onDataSetChanged() { /* This method is not used here */ }
-
     override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
 
     override fun setItems(items: List<Category>): Unit = adapter.addAll(items)

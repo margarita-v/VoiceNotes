@@ -1,26 +1,48 @@
 <resources>
+    <!-- Labels for activities -->
     <string name="app_name">VoiceNotes</string>
-    <string name="photo_fullscreen">Full photo</string>
-    <string name="tap_on_mic">Tap on mic to speak</string>
-    <string name="start_speech">Say something interesting!</string>
-    <string name="speech_not_supported">Your device doesn\'t support speech input</string>
-    <string name="speak">Speak</string>
-    <string name="empty_list">The note list is empty</string>
-    <string name="note_intent">Note</string>
-    <string name="photo_intent">Photo full screen</string>
     <string name="new_note">New note</string>
     <string name="note_info">Note info</string>
-    <string name="note_text">Note text</string>
-    <string name="note_created">New note was created</string>
+    <string name="photo_fullscreen">Full photo</string>
+
+    <!-- Errors -->
+    <string name="speech_not_supported">Your device does not support speech input</string>
     <string name="note_empty">Note can not be empty!</string>
-    <string name="category">Category</string>
-    <string name="choose_category">Choose category</string>
+    <string name="image_loading_error">Image loading error!</string>
+
+    <!-- Intents -->
+    <string name="note_intent">Note</string>
+    <string name="photo_intent">Photo full screen</string>
+
+    <!-- None items -->
     <string name="none_category">No category</string>
     <string name="none_photo">No photo</string>
+
+    <!-- Tags for fragments -->
+    <string name="fragment_new_note">FRAGMENT_NEW_NOTE</string>
+
+    <!-- Messages for a class cast exception -->
+    <string name="class_cast"> must implement ConfirmationListener</string>
+
+    <!-- Dialog for delete confirmation -->
+    <string name="confirm_title">Confirmation</string>
+    <string name="confirm_delete">Are you sure you want delete chosen notes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="notes_deleted">Chosen notes were deleted</string>
+
+    <!-- Messages -->
+    <string name="tap_on_mic">Tap on mic to speak</string>
+    <string name="start_speech">Say something interesting!</string>
+    <string name="speak">Speak</string>
+    <string name="empty_list">The note list is empty</string>
+    <string name="note_text">Note text</string>
+    <string name="note_created">New note was created</string>
+    <string name="category">Category</string>
+    <string name="choose_category">Choose category</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
     <string name="done">Done</string>
-    <string name="image_loading_error">Image loading error!</string>
     <string name="crop_image">Crop image</string>
     <string name="delete_image">Delete image</string>
     <string name="photo">Photo</string>
@@ -32,13 +54,4 @@
     <string name="select_all">Select all</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="fragment_new_note">FRAGMENT_NEW_NOTE</string>
-
-    <!-- Dialogs -->
-    <string name="class_cast"> must implement ConfirmationListener</string>
-    <string name="confirm_title">Confirmation</string>
-    <string name="confirm_delete">Are you sure you want delete chosen notes?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="notes_deleted">Chosen notes were deleted</string>
 </resources>
