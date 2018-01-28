@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
+import com.margarita.voicenotes.ui.fragments.BaseListFragment
 import com.margarita.voicenotes.ui.fragments.NotesFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity :
         BaseActivity(),
         ConfirmDialogFragment.ConfirmationListener,
-        NotesFragment.OnFabClickListener{
+        BaseListFragment.OnFabClickListener {
 
     /**
      * Fragment for showing a list of notes
