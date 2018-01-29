@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.hide
 import com.margarita.voicenotes.common.show
-import com.margarita.voicenotes.models.view.BaseViewModel
+import com.margarita.voicenotes.models.BaseViewModel
 import io.realm.RealmObject
 
 /**
@@ -40,10 +40,22 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
 
     override fun getItemCount(): Int = items.size
 
+    /**
+     * Function for adding a list of items of a concrete type
+     * @param items List of items which will be added
+     */
     protected abstract fun addAll(items: List<ItemType>)
 
-    protected abstract fun addAllIds()
+    /**
+     * Function for adding all IDs to the list of checked IDs
+     */
+    protected abstract fun checkAllIds()
 
+    /**
+     * Function for an item selection.
+     * Need for getting access to the item's ID
+     * @param item Item which was selected
+     */
     protected abstract fun selectItem(item: BaseViewModel<ItemType>)
 
     /**
@@ -78,13 +90,13 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
      * Function for performing a selection of all notes
      */
     fun selectAll() {
-        addAllIds()
+        checkAllIds()
         isMultiChoiceMode = true
         notifyDataSetChanged()
     }
 
     /**
-     * Function for a note item selection
+     * Function for an item selection
      * @param position Position of selected note item
      * @return True if the multi choice mode is on, False otherwise
      */
@@ -124,10 +136,22 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         notifyDataSetChanged()
     }
 
+    /**
+     * Base view holder for all view holders
+     */
     abstract inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        /**
+         * Function for binding a special fields for a concrete item
+         */
         abstract fun bind(itemViewModel: BaseViewModel<ItemType>)
 
+        /**
+         * Common function for binding an item and showing its info in view
+         * @param itemViewModel Item which info will be shown
+         * @param position Position of chosen item
+         * @param itemClickListener Listener of item click events
+         */
         fun bind(itemViewModel: BaseViewModel<ItemType>,
                  position: Int,
                  itemClickListener: OnItemClickListener<ItemType>): Unit = with(itemView) {
@@ -141,24 +165,23 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
                 checkBox.setOnCheckedChangeListener { _, _ ->
                     checkItem(position)
                     setCardViewColor(checkBox.isChecked)
-                    if (!isMultiChoiceMode)
+                    if (!isMultiChoiceMode) {
                         notifyDataSetChanged()
+                    }
                 }
-            } else
+            } else {
                 checkBox.hide()
+            }
         }
 
         /**
-         * Function for setting a background color for a cardview
-         * @param isChecked Flag which shows if the note item was checked
+         * Function for setting a background color for a card view
+         * @param isChecked Flag which shows if the item was checked
          */
         protected fun setCardViewColor(isChecked: Boolean) {
             val cardView = itemView.findViewById<CardView>(R.id.cardView)
             cardView.setBackgroundResource(
-                    if (isChecked)
-                        R.color.colorChosenNote
-                    else
-                        R.color.colorDefault)
+                    if (isChecked) R.color.colorChosenNote else R.color.colorDefault)
         }
     }
 

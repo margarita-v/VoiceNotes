@@ -3,7 +3,7 @@ package com.margarita.voicenotes.common.adapters
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.margarita.voicenotes.ui.fragments.NotesFragment
+import com.margarita.voicenotes.ui.fragments.list.NotesFragment
 
 /**
  * Adapter for a ViewPager

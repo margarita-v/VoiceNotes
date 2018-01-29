@@ -1,4 +1,4 @@
-package com.margarita.voicenotes.ui.fragments
+package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Intent
 import android.support.annotation.StringRes

@@ -6,19 +6,16 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.inflate
 import com.margarita.voicenotes.common.loadImage
 import com.margarita.voicenotes.common.parseStringToUri
+import com.margarita.voicenotes.models.BaseViewModel
+import com.margarita.voicenotes.models.NoteViewModel
 import com.margarita.voicenotes.models.entities.NoteItem
-import com.margarita.voicenotes.models.view.BaseViewModel
-import com.margarita.voicenotes.models.view.NoteViewModel
 import kotlinx.android.synthetic.main.item_note.view.*
 
 /**
  * Adapter for a note items list
  */
-class NotesAdapter(private val noteClickListener: OnItemClickListener<NoteItem>)
+class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
     : BaseListAdapter<NoteItem>(noteClickListener) {
-
-    override fun onBindViewHolder(holder: BaseViewHolder, position: Int): Unit
-            = holder.bind(items[position], position, noteClickListener)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder
             = NoteViewHolder(parent.inflate(R.layout.item_note))
@@ -26,7 +23,7 @@ class NotesAdapter(private val noteClickListener: OnItemClickListener<NoteItem>)
     override fun addAll(items: List<NoteItem>): Unit
             = items.forEach { this.items.add(NoteViewModel(it)) }
 
-    override fun addAllIds() {
+    override fun checkAllIds() {
         items.forEach {
             it.checked = true
             checkedIds.add(it.item.id)

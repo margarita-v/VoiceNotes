@@ -1,4 +1,4 @@
-package com.margarita.voicenotes.ui.fragments
+package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Context
 import android.os.Bundle
@@ -15,6 +15,7 @@ import com.margarita.voicenotes.common.setVisible
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.mvp.presenter.BasePresenter
+import com.margarita.voicenotes.ui.fragments.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import io.realm.RealmObject
 import kotlinx.android.synthetic.main.fragment_list.*
