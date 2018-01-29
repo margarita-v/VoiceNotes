@@ -63,13 +63,11 @@ class NewNoteActivity : BaseNewItemActivity(), NewNoteFragment.SelectedOption {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_note)
+        setContentView(R.layout.activity_container)
         // Try to restore fragment
         newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
         setFragment(newNoteFragment)
     }
-
-    override fun speak(): Unit = startSpeechRecognition()
 
     override fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
@@ -94,12 +92,6 @@ class NewNoteActivity : BaseNewItemActivity(), NewNoteFragment.SelectedOption {
         } else {
             showToast(R.string.image_loading_error)
         }
-    }
-
-    override fun onCreationSuccess() {
-        showToast(R.string.note_created)
-        setResult(Activity.RESULT_OK)
-        finish()
     }
 
     /**

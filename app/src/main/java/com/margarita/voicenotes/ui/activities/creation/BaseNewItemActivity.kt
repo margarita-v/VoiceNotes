@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.ui.activities.creation
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +8,13 @@ import android.speech.RecognizerIntent
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.BaseActivity
+import com.margarita.voicenotes.ui.fragments.creation.BaseNewItemFragment
 import java.util.*
 
 /**
  * Base activity for creation of items
  */
-abstract class BaseNewItemActivity: BaseActivity() {
+abstract class BaseNewItemActivity: BaseActivity(), BaseNewItemFragment.BaseSelectedOption {
 
     companion object {
 
@@ -82,10 +84,18 @@ abstract class BaseNewItemActivity: BaseActivity() {
         outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
     }
 
+    override fun speak(): Unit = startSpeechRecognition()
+
+    override fun onCreationSuccess(messageRes: Int) {
+        showToast(messageRes)
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
     /**
      * Function for launching speech recognition service
      */
-    protected fun startSpeechRecognition() {
+    private fun startSpeechRecognition() {
         try {
             if (!isRecognitionServiceStarted && !isScreenOrientationChanged
                     && checkIntentHandlers(recognitionIntent)) {

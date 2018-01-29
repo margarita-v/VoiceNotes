@@ -87,7 +87,8 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
 
     override fun setCategories(categories: List<Category>): Unit = adapter.addAll(categories)
 
-    override fun onCreationSuccess(): Unit = selectedOptionCallback.onCreationSuccess()
+    override fun onCreationSuccess(): Unit
+            = selectedOptionCallback.onCreationSuccess(R.string.note_created)
 
     /**
      * Function for delete a chosen photo of the note

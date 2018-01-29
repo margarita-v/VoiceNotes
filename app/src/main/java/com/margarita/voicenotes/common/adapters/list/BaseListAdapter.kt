@@ -24,7 +24,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     protected val items: MutableList<BaseViewModel<ItemType>> = ArrayList()
 
     /**
-     * List of IDs of checked notes
+     * List of IDs of checked items
      */
     var checkedIds = HashSet<Long>()
         protected set
@@ -64,12 +64,12 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     fun getCheckedItemCount(): Int = checkedIds.size
 
     /**
-     * Function for checking if all notes are selected
+     * Function for checking if all items are selected
      */
-    fun isAllNotesSelected(): Boolean = getCheckedItemCount() == itemCount
+    fun isAllItemsSelected(): Boolean = getCheckedItemCount() == itemCount
 
     /**
-     * Function for clear a list of notes
+     * Function for clear a list of items
      */
     fun clear() {
         items.clear()
@@ -87,7 +87,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     }
 
     /**
-     * Function for performing a selection of all notes
+     * Function for performing a selection of all items
      */
     fun selectAll() {
         checkAllIds()
@@ -97,7 +97,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
 
     /**
      * Function for an item selection
-     * @param position Position of selected note item
+     * @param position Position of selected item
      * @return True if the multi choice mode is on, False otherwise
      */
     fun selectItem(position: Int): Boolean {
@@ -107,8 +107,8 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     }
 
     /**
-     * Function for a note item checking
-     * @param position Position of checked note item
+     * Function for an item checking
+     * @param position Position of checked item
      */
     protected fun checkItem(position: Int) {
         // Change item's checked state
@@ -186,7 +186,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         private fun setCardViewColor(isChecked: Boolean) {
             val cardView = itemView.findViewById<CardView>(R.id.cardView)
             cardView.setBackgroundResource(
-                    if (isChecked) R.color.colorChosenNote else R.color.colorDefault)
+                    if (isChecked) R.color.colorChosenItem else R.color.colorDefault)
         }
     }
 
@@ -198,7 +198,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         /**
          * Function for performing an item click event
          * @param item Item which was clicked
-         * @param position Position of chosen note item
+         * @param position Position of chosen item
          */
         fun onItemClick(item: ItemType, position: Int)
 

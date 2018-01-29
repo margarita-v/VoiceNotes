@@ -2,6 +2,7 @@
     <!-- Labels for activities -->
     <string name="app_name">VoiceNotes</string>
     <string name="new_note">New note</string>
+    <string name="new_category">New category</string>
     <string name="note_info">Note info</string>
     <string name="photo_fullscreen">Full photo</string>
 
@@ -31,7 +32,7 @@
     <string name="confirm_delete">Are you sure you want delete chosen notes?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="notes_deleted">Chosen notes were deleted</string>
+    <string name="items_deleted">Chosen items were deleted</string>
 
     <!-- Messages for empty lists -->
     <string name="empty_note_list">The note list is empty</string>
@@ -44,6 +45,7 @@
     <string name="note_text">Note text</string>
     <string name="category_name">Name of category</string>
     <string name="note_created">New note was created</string>
+    <string name="category_created">New category was created</string>
     <string name="category">Category</string>
     <string name="choose_category">Choose category</string>
     <string name="date">Date</string>

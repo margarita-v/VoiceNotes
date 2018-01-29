@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.ui.fragments.creation
 
+import android.support.annotation.StringRes
 import com.margarita.voicenotes.common.hide
 import com.margarita.voicenotes.common.show
 import com.margarita.voicenotes.common.showToast
@@ -29,8 +30,9 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
         fun speak()
 
         /**
-         * Function which will be called if the note was created and saved successfully
+         * Function which will be called if the item was created and saved successfully
+         * @param messageRes String resource ID for a toast message
          */
-        fun onCreationSuccess()
+        fun onCreationSuccess(@StringRes messageRes: Int)
     }
 }

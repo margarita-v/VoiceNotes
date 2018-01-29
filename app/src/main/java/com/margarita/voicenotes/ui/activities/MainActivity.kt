@@ -5,10 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
+import com.margarita.voicenotes.ui.activities.creation.NewCategoryActivity
 import com.margarita.voicenotes.ui.activities.creation.NewNoteActivity
-import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
-import com.margarita.voicenotes.ui.fragments.list.NotesFragment
+import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
+import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
+import com.margarita.voicenotes.ui.fragments.list.CategoriesFragment
+import com.margarita.voicenotes.ui.fragments.list.NotesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity :
@@ -32,11 +35,12 @@ class MainActivity :
      * Intent for creation a new category
      */
     private val createCategoryIntent by lazy {
-
+        Intent(this, NewCategoryActivity::class.java)
     }
 
     companion object {
         private const val NEW_NOTE_REQUEST_CODE = 6
+        private const val NEW_CATEGORY_REQUEST_CODE = 7
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,16 +50,18 @@ class MainActivity :
 
         viewPager.adapter = MainFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
-
-        // Try to restore fragment
-        //notesFragment = restoreFragment() as NotesFragment? ?: NotesFragment()
-        //setFragment(notesFragment)
     }
 
-    override fun onFabClick(): Unit
-            = startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
+    override fun onFabClick() {
+        when (getCurrentFragment()) {
+            is NotesFragment ->
+                startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
+            is CategoriesFragment ->
+                startActivityForResult(createCategoryIntent, NEW_CATEGORY_REQUEST_CODE)
+        }
+    }
 
-    override fun confirm(): Unit = notesFragment.removeChosenNotes()
+    override fun confirm(): Unit = notesFragment.removeChosenItems()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -63,4 +69,12 @@ class MainActivity :
             notesFragment.onDataSetChanged()
         }
     }
+
+    /**
+     * Function for getting a current visible fragment from the view pager
+     */
+    private fun getCurrentFragment(): BaseFragment?
+            = supportFragmentManager.findFragmentByTag(
+                "android:switcher:" +
+                R.id.viewPager + ":" + viewPager.currentItem) as BaseFragment?
 }

@@ -25,5 +25,6 @@ class NewCategoryFragment: BaseNewItemFragment() {
         }
     }
 
-    override fun onCreationSuccess(): Unit = actionCallback.onCreationSuccess()
+    override fun onCreationSuccess(): Unit
+            = actionCallback.onCreationSuccess(R.string.category_created)
 }

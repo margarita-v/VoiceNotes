@@ -23,11 +23,17 @@ class MainFragmentPagerAdapter(fragmentManager: FragmentManager)
          * Set of titles for tabs
          */
         private val TITLES = arrayOf("Notes", "Categories")
+
+        /**
+         * Indexes of all fragments
+         */
+        const val NOTE_FRAGMENT_INDEX = 0
+        const val CATEGORY_FRAGMENT_INDEX = 1
     }
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> NotesFragment()
+            NOTE_FRAGMENT_INDEX -> NotesFragment()
             else -> CategoriesFragment()
         }
     }

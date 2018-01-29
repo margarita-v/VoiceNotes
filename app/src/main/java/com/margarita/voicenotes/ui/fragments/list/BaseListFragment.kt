@@ -69,8 +69,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
         }
 
         /**
-         * Function for a note item selection
-         * @param position Position of selected note item
+         * Function for an item selection
+         * @param position Position of selected item
          */
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
@@ -183,17 +183,17 @@ abstract class BaseListFragment<ItemType: RealmObject>
     protected abstract fun showItemInfo(item: ItemType)
 
     /**
-     * Function for removing the chosen notes
+     * Function for removing the chosen items
      */
-    fun removeChosenNotes() {
-        if (adapter.isAllNotesSelected()) {
+    fun removeChosenItems() {
+        if (adapter.isAllItemsSelected()) {
             adapter.clear()
             presenter.clear()
         } else {
             presenter.removeAll(adapter.checkedIds)
         }
         actionMode?.finish()
-        context?.showToast(R.string.notes_deleted)
+        context?.showToast(R.string.items_deleted)
     }
 
     /**
@@ -229,7 +229,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
                             .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
 
                 R.id.action_select_all ->
-                    if (adapter.isAllNotesSelected()) {
+                    if (adapter.isAllItemsSelected()) {
                         adapter.clearSelection()
                         mode.finish()
                     } else {
