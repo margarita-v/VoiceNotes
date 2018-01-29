@@ -56,10 +56,9 @@ class NewNotePresenter(private val view: NewNoteView)
                        date: Long,
                        photoUri: Uri? = null,
                        croppedPhotoUri: Uri? = null) {
-        val id = generateId()
         if (!description.isEmpty()) {
             val noteItem = NoteItem(
-                    id,
+                    generateId(),
                     description,
                     date,
                     photoUri?.parseToString(),
