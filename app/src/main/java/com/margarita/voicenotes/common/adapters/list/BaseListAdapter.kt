@@ -160,6 +160,11 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
             setOnLongClickListener { itemClickListener.onItemLongClick(position) }
 
             val checkBox = findViewById<CheckBox>(R.id.checkBox)
+            checkBox.setOnCheckedChangeListener(null)
+            val checked = itemViewModel.checked
+            checkBox.isChecked = checked
+            setCardViewColor(checked)
+
             if (isMultiChoiceMode) {
                 checkBox.show()
                 checkBox.setOnCheckedChangeListener { _, _ ->
@@ -178,7 +183,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
          * Function for setting a background color for a card view
          * @param isChecked Flag which shows if the item was checked
          */
-        protected fun setCardViewColor(isChecked: Boolean) {
+        private fun setCardViewColor(isChecked: Boolean) {
             val cardView = itemView.findViewById<CardView>(R.id.cardView)
             cardView.setBackgroundResource(
                     if (isChecked) R.color.colorChosenNote else R.color.colorDefault)

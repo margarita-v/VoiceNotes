@@ -48,12 +48,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
             val noteItem = itemViewModel.item
             tvDescription.text = noteItem.description
             tvDate.text = noteItem.parseDate()
-            checkBox.setOnCheckedChangeListener(null)
             ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
-
-            val checked = itemViewModel.checked
-            checkBox.isChecked = checked
-            setCardViewColor(checked)
         }
     }
 }

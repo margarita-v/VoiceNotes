@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.models
 
+import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.models.entities.NoteItem
 import io.realm.RealmObject
 
@@ -14,3 +15,9 @@ abstract class BaseViewModel<ItemType: RealmObject>(var item: ItemType,
  */
 class NoteViewModel(noteItem: NoteItem,
                     checked: Boolean = false) : BaseViewModel<NoteItem>(noteItem, checked)
+
+/**
+ * View model for category items
+ */
+class CategoryViewModel(category: Category,
+                        checked: Boolean = false) : BaseViewModel<Category>(category, checked)
