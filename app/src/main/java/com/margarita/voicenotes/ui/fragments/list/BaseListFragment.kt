@@ -2,6 +2,8 @@ package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.ActionMode
@@ -18,6 +20,7 @@ import com.margarita.voicenotes.mvp.presenter.BasePresenter
 import com.margarita.voicenotes.ui.fragments.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import io.realm.RealmObject
+import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.progress_bar.*
 
@@ -105,10 +108,23 @@ abstract class BaseListFragment<ItemType: RealmObject>: BaseFragment() {
     private fun setupActionModeTitle(): Unit?
             = actionMode?.setSelectedItemsCount(context!!, adapter.getCheckedItemCount())
 
+    /**
+     * Function for getting a string resource ID for setting a message of empty view
+     */
+    @StringRes protected abstract fun getMessageRes(): Int
+
+    /**
+     * Function for getting a drawable resource ID for setting an icon of empty view
+     */
+    @DrawableRes protected abstract fun getPictureRes(): Int
+
     override fun getLayoutRes(): Int = R.layout.fragment_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        ivEmptyPhoto.setImageResource(getPictureRes())
+        tvEmpty.setText(getMessageRes())
 
         // Setup adapter and contextual toolbar if it was shown before configuration change
         if (adapter.itemCount == 0) {

@@ -31,11 +31,14 @@
     <string name="no">No</string>
     <string name="notes_deleted">Chosen notes were deleted</string>
 
+    <!-- Messages for empty lists -->
+    <string name="empty_note_list">The note list is empty</string>
+    <string name="empty_category_list">The category list is empty</string>
+
     <!-- Messages -->
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="start_speech">Say something interesting!</string>
     <string name="speak">Speak</string>
-    <string name="empty_list">The note list is empty</string>
     <string name="note_text">Note text</string>
     <string name="note_created">New note was created</string>
     <string name="category">Category</string>

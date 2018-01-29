@@ -27,6 +27,10 @@ class NotesFragment: BaseListFragment<NoteItem>(), NotesView {
             = startActivity(Intent(context, ViewNoteActivity::class.java)
                 .putExtra(getString(R.string.note_intent), item))
 
+    override fun getMessageRes(): Int = R.string.empty_note_list
+
+    override fun getPictureRes(): Int = R.drawable.ic_note_gray_24dp
+
     //region NotesView implementation
     override fun showLoading(): Unit = setupWidgets(true)
 

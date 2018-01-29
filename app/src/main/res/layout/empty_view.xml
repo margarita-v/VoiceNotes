@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutEmpty"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="gone">
 
     <ImageView
-        android:id="@+id/ivPhoto"
+        android:id="@+id/ivEmptyPhoto"
         android:layout_width="@dimen/photo_size"
         android:layout_height="@dimen/photo_size"
         android:contentDescription="@string/photo"
-        android:layout_centerInParent="true"
-        app:srcCompat="@drawable/ic_note_gray_24dp" />
+        android:layout_centerInParent="true" />
 
     <TextView
+        android:id="@+id/tvEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivPhoto"
-        android:layout_centerHorizontal="true"
-        android:text="@string/empty_list" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
