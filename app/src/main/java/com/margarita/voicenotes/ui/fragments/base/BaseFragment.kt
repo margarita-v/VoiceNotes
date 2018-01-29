@@ -1,4 +1,4 @@
-package com.margarita.voicenotes.ui.fragments
+package com.margarita.voicenotes.ui.fragments.base
 
 import android.os.Bundle
 import android.support.annotation.LayoutRes

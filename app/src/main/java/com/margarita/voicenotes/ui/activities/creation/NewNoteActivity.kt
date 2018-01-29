@@ -12,7 +12,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
-import com.margarita.voicenotes.ui.fragments.NewNoteFragment
+import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
 import com.theartofdev.edmodo.cropper.CropImage
 
 /**

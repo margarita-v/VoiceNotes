@@ -40,8 +40,3 @@ interface NewNoteView: BaseNewItemView {
      */
     fun setCategories(categories: List<Category>)
 }
-
-/**
- * Interface for a view which implements creation of a new category
- */
-interface NewCategoryView: BaseNewItemView

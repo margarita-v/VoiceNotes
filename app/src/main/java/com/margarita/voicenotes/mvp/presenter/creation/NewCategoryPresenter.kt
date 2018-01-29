@@ -3,14 +3,14 @@ package com.margarita.voicenotes.mvp.presenter.creation
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
-import com.margarita.voicenotes.mvp.view.NewCategoryView
+import com.margarita.voicenotes.mvp.view.BaseNewItemView
 import io.realm.Realm
 import io.realm.RealmQuery
 
 /**
  * Presenter for creating a new categories
  */
-class NewCategoryPresenter(private val view: NewCategoryView)
+class NewCategoryPresenter(private val view: BaseNewItemView)
     : BaseDatabasePresenter<Category>() {
 
     companion object {

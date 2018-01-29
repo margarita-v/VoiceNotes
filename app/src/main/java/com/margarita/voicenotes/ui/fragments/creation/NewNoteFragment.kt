@@ -1,4 +1,4 @@
-package com.margarita.voicenotes.ui.fragments
+package com.margarita.voicenotes.ui.fragments.creation
 
 import android.content.Context
 import android.net.Uri
@@ -6,19 +6,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
+import com.margarita.voicenotes.common.loadImage
+import com.margarita.voicenotes.common.setEnabledIconColor
+import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
-import kotlinx.android.synthetic.main.progress_bar.*
 import java.util.*
 
 /**
  * Fragment for creation a new note
  */
-class NewNoteFragment: BaseFragment(), NewNoteView {
+class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
 
     /**
      * Presenter for creation of notes
@@ -84,12 +85,6 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         }
     }
 
-    override fun showLoading(): Unit = progressBar.show()
-
-    override fun hideLoading(): Unit = progressBar.hide()
-
-    override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
-
     override fun setCategories(categories: List<Category>): Unit = adapter.addAll(categories)
 
     override fun onCreationSuccess(): Unit = selectedOptionCallback.onCreationSuccess()
@@ -137,12 +132,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
      * Interface for performing callbacks to the activity
      * when the user choose some action
      */
-    interface SelectedOption {
-
-        /**
-         * Function for launching speech recognition service
-         */
-        fun speak()
+    interface SelectedOption: BaseSelectedOption {
 
         /**
          * Function for taking photo for note
@@ -158,10 +148,5 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
          * Function for changing a photo's thumbnail
          */
         fun cropImage(photoUri: Uri?)
-
-        /**
-         * Function which will be called if the note was created and saved successfully
-         */
-        fun onCreationSuccess()
     }
 }

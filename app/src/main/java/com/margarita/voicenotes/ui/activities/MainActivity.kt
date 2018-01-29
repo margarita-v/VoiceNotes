@@ -28,6 +28,13 @@ class MainActivity :
         Intent(this, NewNoteActivity::class.java)
     }
 
+    /**
+     * Intent for creation a new category
+     */
+    private val createCategoryIntent by lazy {
+
+    }
+
     companion object {
         private const val NEW_NOTE_REQUEST_CODE = 6
     }

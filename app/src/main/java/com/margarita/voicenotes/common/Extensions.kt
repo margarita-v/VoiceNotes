@@ -18,7 +18,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.ui.fragments.BaseFragment
+import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import java.io.File

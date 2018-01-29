@@ -42,6 +42,7 @@
     <string name="start_speech">Say something interesting!</string>
     <string name="speak">Speak</string>
     <string name="note_text">Note text</string>
+    <string name="category_name">Name of category</string>
     <string name="note_created">New note was created</string>
     <string name="category">Category</string>
     <string name="choose_category">Choose category</string>

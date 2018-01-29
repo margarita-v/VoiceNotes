@@ -3,7 +3,7 @@ package com.margarita.voicenotes.ui.activities
 import android.support.v7.app.AppCompatActivity
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.replace
-import com.margarita.voicenotes.ui.fragments.BaseFragment
+import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 
 /**
  * Base class for all activities
