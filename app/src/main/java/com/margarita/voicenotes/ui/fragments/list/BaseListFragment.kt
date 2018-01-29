@@ -11,12 +11,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
-import com.margarita.voicenotes.common.setSelectedItemsCount
-import com.margarita.voicenotes.common.setVisible
-import com.margarita.voicenotes.common.showToast
-import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.mvp.presenter.BasePresenter
+import com.margarita.voicenotes.mvp.view.BaseView
 import com.margarita.voicenotes.ui.fragments.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import io.realm.RealmObject
@@ -27,7 +25,8 @@ import kotlinx.android.synthetic.main.progress_bar.*
 /**
  * Base fragment for showing a list of items
  */
-abstract class BaseListFragment<ItemType: RealmObject>: BaseFragment() {
+abstract class BaseListFragment<ItemType: RealmObject>
+    : BaseFragment(), BaseView<ItemType> {
 
     /**
      * Translation Y value for a floating action button for its animation
@@ -164,6 +163,23 @@ abstract class BaseListFragment<ItemType: RealmObject>: BaseFragment() {
         }
     }
 
+    //region BaseView implementation
+    override fun showLoading(): Unit = setupWidgets(true)
+
+    override fun hideLoading(): Unit = setupWidgets(false)
+
+    override fun showEmptyView(): Unit = layoutEmpty.show()
+
+    override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
+
+    override fun setItems(items: List<ItemType>) {
+        layoutEmpty.hide()
+        adapter.setItems(items)
+    }
+
+    override fun onDataSetChanged(): Unit = presenter.loadItems()
+    //endregion
+
     protected abstract fun showItemInfo(item: ItemType)
 
     /**
@@ -184,7 +200,7 @@ abstract class BaseListFragment<ItemType: RealmObject>: BaseFragment() {
      * Setup visibility for widgets
      * @param isLoading Flag which shows if the loading is performing
      */
-    protected fun setupWidgets(isLoading: Boolean) {
+    private fun setupWidgets(isLoading: Boolean) {
         progressBar.setVisible(isLoading)
         fab.setVisible(!isLoading)
     }
