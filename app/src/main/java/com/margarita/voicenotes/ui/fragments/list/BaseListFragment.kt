@@ -13,7 +13,7 @@ import android.view.View
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
-import com.margarita.voicenotes.mvp.presenter.BasePresenter
+import com.margarita.voicenotes.mvp.presenter.list.BaseListPresenter
 import com.margarita.voicenotes.mvp.view.BaseView
 import com.margarita.voicenotes.ui.fragments.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
@@ -92,7 +92,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
     /**
      * Presenter for showing a list of items
      */
-    protected lateinit var presenter: BasePresenter<ItemType>
+    protected lateinit var presenter: BaseListPresenter<ItemType>
 
     /**
      * Function for showing the contextual toolbar

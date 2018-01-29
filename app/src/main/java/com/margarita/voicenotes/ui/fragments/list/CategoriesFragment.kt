@@ -3,7 +3,7 @@ package com.margarita.voicenotes.ui.fragments.list
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.CategoriesAdapter
 import com.margarita.voicenotes.models.entities.Category
-import com.margarita.voicenotes.mvp.presenter.CategoriesPresenter
+import com.margarita.voicenotes.mvp.presenter.list.CategoriesPresenter
 
 /**
  * Fragment for showing a list of categories

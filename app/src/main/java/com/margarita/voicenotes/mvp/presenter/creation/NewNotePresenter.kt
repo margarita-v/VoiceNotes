@@ -1,9 +1,10 @@
-package com.margarita.voicenotes.mvp.presenter
+package com.margarita.voicenotes.mvp.presenter.creation
 
 import android.net.Uri
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.parseToString
 import com.margarita.voicenotes.models.entities.NoteItem
+import com.margarita.voicenotes.mvp.presenter.list.CategoriesPresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 
 /**

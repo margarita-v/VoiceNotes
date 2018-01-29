@@ -4,7 +4,7 @@ import android.content.Intent
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
-import com.margarita.voicenotes.mvp.presenter.NotesPresenter
+import com.margarita.voicenotes.mvp.presenter.list.NotesPresenter
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
 
 /**

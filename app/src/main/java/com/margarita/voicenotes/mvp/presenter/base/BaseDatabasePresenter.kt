@@ -1,16 +1,15 @@
-package com.margarita.voicenotes.mvp.presenter
+package com.margarita.voicenotes.mvp.presenter.base
 
-import com.margarita.voicenotes.mvp.view.BaseView
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.RealmQuery
 import io.realm.Sort
 
 /**
- * Base class for all presenters
+ * Base class for all presenters which contain methods for working with the local database
  * @param T A type of items which will be shown by presenter
  */
-abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
+abstract class BaseDatabasePresenter<T: RealmObject> {
 
     /**
      * Realm instance for working with the local database
@@ -25,20 +24,11 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
     /**
      * Function for loading all items of the concrete type from the local database
      */
-    fun loadItems() {
-        view.showLoading()
+    protected fun getData(): List<T> {
         val realmResults = performQuery(realm)
                 .sort(getSortField(), Sort.DESCENDING)
                 .findAll()
-
-        val items = realm.copyFromRealm(realmResults)
-        view.hideLoading()
-
-        if (items.isEmpty()) {
-            view.showEmptyView()
-        } else {
-            view.setItems(items)
-        }
+        return realm.copyFromRealm(realmResults)
     }
 
     /**
@@ -58,26 +48,18 @@ abstract class BasePresenter<T: RealmObject>(private val view: BaseView<T>) {
      * Function for removing all items by the given list of IDs
      * @param ids IDs of items which will be removed
      */
-    fun removeAll(ids: Set<Long>) {
-        view.showLoading()
-        ids.forEach { remove(it) }
-        view.hideLoading()
-        view.onDataSetChanged()
-    }
+    protected fun removeByIds(ids: Set<Long>): Unit = ids.forEach { remove(it) }
 
     /**
      * Function for removing all items in the table
      */
-    fun clear() {
-        view.showLoading()
-        realm.executeTransaction { realm1 ->
-            performQuery(realm1)
-                    .findAll()
-                    .deleteAllFromRealm()
-        }
-        view.hideLoading()
-        view.onDataSetChanged()
+    protected fun removeAll(): Unit
+            = realm.executeTransaction { realm1 ->
+                performQuery(realm1)
+                .findAll()
+                .deleteAllFromRealm()
     }
+
 
     /**
      * Function for saving an object to the local database

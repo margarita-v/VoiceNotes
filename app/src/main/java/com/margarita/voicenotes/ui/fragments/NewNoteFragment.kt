@@ -9,7 +9,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
 import com.margarita.voicenotes.models.entities.Category
-import com.margarita.voicenotes.mvp.presenter.NewNotePresenter
+import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import kotlinx.android.synthetic.main.progress_bar.*
