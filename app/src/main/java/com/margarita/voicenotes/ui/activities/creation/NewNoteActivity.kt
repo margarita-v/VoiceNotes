@@ -1,7 +1,6 @@
-package com.margarita.voicenotes.ui.activities
+package com.margarita.voicenotes.ui.activities.creation
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,36 +14,21 @@ import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.fragments.NewNoteFragment
 import com.theartofdev.edmodo.cropper.CropImage
-import java.util.*
 
 /**
  * Activity for a note creation, showing and editing
  */
-class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
+class NewNoteActivity : BaseNewItemActivity(), NewNoteFragment.SelectedOption {
 
     /**
      * Storage of static constants
      */
     private companion object {
+
         /**
          * Authority for the application's file provider
          */
         const val FILE_PROVIDER_AUTHORITY = "com.margarita.voicenotes.android.fileprovider"
-
-        /**
-         * Key for Bundle for saving a flag for started recognition service
-         */
-        const val RECOGNITION_SERVICE_FLAG = "START_RECOGNITION"
-
-        /**
-         * Key for Bundle for saving a flag for screen orientation changing
-         */
-        const val SCREEN_ORIENTATION_CHANGED_FLAG = "ROTATED"
-
-        /**
-         * Request code for recognition service
-         */
-        const val SPEECH_REQUEST_CODE = 1
 
         /**
          * Request code for a photo selection
@@ -60,32 +44,6 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
          * Type for intent for image picking
          */
         const val IMAGE_INTENT_TYPE = "image/*"
-    }
-
-    /**
-     * Flag which shows if the recognition service was started
-     */
-    private var isRecognitionServiceStarted = false
-
-    /**
-     * Flag which shows if the screen orientation was changed
-     */
-    private var isScreenOrientationChanged = false
-
-    /**
-     * Intent for starting speech recognition service
-     */
-    private val recognitionIntent by lazy {
-        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                .putExtra(
-                        RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                .putExtra(
-                        RecognizerIntent.EXTRA_LANGUAGE,
-                        Locale.getDefault())
-                .putExtra(
-                        RecognizerIntent.EXTRA_PROMPT,
-                        getString(R.string.start_speech))
     }
 
     /**
@@ -109,26 +67,9 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
         // Try to restore fragment
         newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
         setFragment(newNoteFragment)
-
-        // Restore flags for recognition service launching
-        if (savedInstanceState != null) {
-            isRecognitionServiceStarted =
-                    savedInstanceState.getBoolean(RECOGNITION_SERVICE_FLAG)
-            isScreenOrientationChanged =
-                    savedInstanceState.getBoolean(SCREEN_ORIENTATION_CHANGED_FLAG)
-        }
-
-        startSpeechRecognition()
-        // This flag used once on activity creation, so we should set it to false
-        isScreenOrientationChanged = false
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState?.putBoolean(RECOGNITION_SERVICE_FLAG, isRecognitionServiceStarted)
-        // This method is always called when screen orientation is changing
-        outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
-    }
+    override fun speak(): Unit = startSpeechRecognition()
 
     override fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
@@ -155,18 +96,6 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
         }
     }
 
-    override fun startSpeechRecognition() {
-        try {
-            if (!isRecognitionServiceStarted && !isScreenOrientationChanged
-                    && checkIntentHandlers(recognitionIntent)) {
-                startActivityForResult(recognitionIntent, SPEECH_REQUEST_CODE)
-                isRecognitionServiceStarted = true
-            }
-        } catch (a: ActivityNotFoundException) {
-            showToast(R.string.speech_not_supported)
-        }
-    }
-
     override fun onCreationSuccess() {
         showToast(R.string.note_created)
         setResult(Activity.RESULT_OK)
@@ -177,14 +106,6 @@ class NewNoteActivity : BaseActivity(), NewNoteFragment.SelectedOption {
      * Function for cropping image of note which is using Uri from the NewNoteFragment
      */
     private fun cropFragmentImage(): Unit = cropImage(newNoteFragment.photoUri)
-
-    /**
-     * Function which checks if the user's device has apps which can handle intent
-     * @param intent Intent which should be handled
-     * @return True if intent could be handled, False otherwise
-     */
-    private fun checkIntentHandlers(intent: Intent): Boolean
-            = intent.resolveActivity(packageManager) != null
 
     /**
      * Function for receiving an activity's result

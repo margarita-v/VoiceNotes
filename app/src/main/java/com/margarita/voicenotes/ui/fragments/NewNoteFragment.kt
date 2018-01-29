@@ -61,7 +61,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
 
         // Configure all buttons
         configureOptionalButtons(photoUri != null)
-        imgBtnSpeak.setOnClickListener { selectedOptionCallback.startSpeechRecognition() }
+        imgBtnSpeak.setOnClickListener { selectedOptionCallback.speak() }
         imgBtnPhoto.setOnClickListener { selectedOptionCallback.takePhoto() }
         imgBtnChoosePhoto.setOnClickListener { selectedOptionCallback.pickImageFromGallery() }
         imgBtnCrop.setOnClickListener { selectedOptionCallback.cropImage(photoUri) }
@@ -142,7 +142,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         /**
          * Function for launching speech recognition service
          */
-        fun startSpeechRecognition()
+        fun speak()
 
         /**
          * Function for taking photo for note

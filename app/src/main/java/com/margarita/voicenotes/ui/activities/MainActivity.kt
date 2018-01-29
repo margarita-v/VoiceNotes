@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
+import com.margarita.voicenotes.ui.activities.creation.NewNoteActivity
 import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
 import com.margarita.voicenotes.ui.fragments.list.NotesFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment

@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.NewNoteActivity"
+            android:name=".ui.activities.creation.NewNoteActivity"
             android:label="@string/new_note"
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
