@@ -56,7 +56,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
         // Configure spinner and load its items
         spinnerCategory.adapter = adapter
         if (adapter.hasOnlyNoneCategory()) {
-            presenter.loadItems()
+            presenter.loadCategories()
         }
 
         // Configure all buttons
@@ -90,7 +90,7 @@ class NewNoteFragment: BaseFragment(), NewNoteView {
 
     override fun showError(messageRes: Int): Unit = context!!.showToast(messageRes)
 
-    override fun setItems(items: List<Category>): Unit = adapter.addAll(items)
+    override fun setCategories(categories: List<Category>): Unit = adapter.addAll(categories)
 
     override fun onCreationSuccess(): Unit = selectedOptionCallback.onCreationSuccess()
 

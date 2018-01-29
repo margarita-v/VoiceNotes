@@ -4,7 +4,7 @@ import android.support.annotation.StringRes
 import io.realm.RealmObject
 
 /**
- * Base interface for all views
+ * Base interface for all views which show a lists of items
  */
 interface BaseView<in ItemType: RealmObject> {
 

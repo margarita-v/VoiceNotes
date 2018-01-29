@@ -3,14 +3,27 @@ package com.margarita.voicenotes.mvp.presenter.creation
 import android.net.Uri
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.parseToString
+import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.models.entities.NoteItem
-import com.margarita.voicenotes.mvp.presenter.list.CategoriesPresenter
+import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
+import io.realm.Realm
+import io.realm.RealmQuery
 
 /**
  * Presenter for creating a new notes
  */
-class NewNotePresenter(private val view: NewNoteView): CategoriesPresenter(view) {
+class NewNotePresenter(private val view: NewNoteView)
+    : BaseDatabasePresenter<Category>() {
+
+    companion object {
+        private const val SORT_FIELD = "name"
+    }
+
+    override fun performQuery(realm: Realm): RealmQuery<Category>
+            = realm.where(Category::class.java)
+
+    override fun getSortField(): String = SORT_FIELD
 
     /**
      * Generate ID for a new note
@@ -21,6 +34,16 @@ class NewNotePresenter(private val view: NewNoteView): CategoriesPresenter(view)
             .max(ID_FIELD)
             ?.toLong()
             ?.plus(1) ?: 1
+
+    /**
+     * Function for loading a list of categories
+     */
+    fun loadCategories() {
+        view.showLoading()
+        val items = getData()
+        view.hideLoading()
+        view.setCategories(items)
+    }
 
     /**
      * Function for creation a new note with the given fields
