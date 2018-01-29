@@ -110,20 +110,20 @@ abstract class BaseListFragment<ItemType: RealmObject>
     /**
      * Function for getting a string resource ID for setting a message of empty view
      */
-    @StringRes protected abstract fun getMessageRes(): Int
+    @StringRes protected abstract fun getEmptyMessageRes(): Int
 
     /**
      * Function for getting a drawable resource ID for setting an icon of empty view
      */
-    @DrawableRes protected abstract fun getPictureRes(): Int
+    @DrawableRes protected abstract fun getEmptyPictureRes(): Int
 
     override fun getLayoutRes(): Int = R.layout.fragment_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ivEmptyPhoto.setImageResource(getPictureRes())
-        tvEmpty.setText(getMessageRes())
+        ivEmptyPhoto.setImageResource(getEmptyPictureRes())
+        tvEmpty.setText(getEmptyMessageRes())
 
         // Setup adapter and contextual toolbar if it was shown before configuration change
         if (adapter.itemCount == 0) {

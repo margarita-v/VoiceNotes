@@ -1,14 +1,14 @@
 package com.margarita.voicenotes.mvp.presenter
 
 import com.margarita.voicenotes.models.entities.Category
-import com.margarita.voicenotes.mvp.view.CategoriesView
+import com.margarita.voicenotes.mvp.view.BaseView
 import io.realm.Realm
 import io.realm.RealmQuery
 
 /**
  * Presenter for getting a list of categories and creating new categories
  */
-open class CategoriesPresenter(view: CategoriesView) : BasePresenter<Category>(view) {
+open class CategoriesPresenter(view: BaseView<Category>) : BasePresenter<Category>(view) {
 
     companion object {
         private const val SORT_FIELD = "name"
