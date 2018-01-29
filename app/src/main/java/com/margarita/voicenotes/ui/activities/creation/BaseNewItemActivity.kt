@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
+import android.support.annotation.StringRes
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.BaseActivity
@@ -14,7 +15,9 @@ import java.util.*
 /**
  * Base activity for creation of items
  */
-abstract class BaseNewItemActivity: BaseActivity(), BaseNewItemFragment.BaseSelectedOption {
+abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int) :
+        BaseActivity(),
+        BaseNewItemFragment.BaseSelectedOption {
 
     companion object {
 
@@ -58,7 +61,7 @@ abstract class BaseNewItemActivity: BaseActivity(), BaseNewItemFragment.BaseSele
                         Locale.getDefault())
                 .putExtra(
                         RecognizerIntent.EXTRA_PROMPT,
-                        getString(R.string.start_speech))
+                        getString(speechMessageRes))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

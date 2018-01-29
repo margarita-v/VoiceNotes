@@ -7,7 +7,7 @@ import com.margarita.voicenotes.ui.fragments.creation.NewCategoryFragment
 /**
  * Activity for a category creation, showing and editing
  */
-class NewCategoryActivity: BaseNewItemActivity() {
+class NewCategoryActivity : BaseNewItemActivity(R.string.create_category) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

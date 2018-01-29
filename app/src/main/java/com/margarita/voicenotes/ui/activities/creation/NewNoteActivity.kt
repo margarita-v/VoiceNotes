@@ -18,7 +18,9 @@ import com.theartofdev.edmodo.cropper.CropImage
 /**
  * Activity for a note creation, showing and editing
  */
-class NewNoteActivity : BaseNewItemActivity(), NewNoteFragment.SelectedOption {
+class NewNoteActivity :
+        BaseNewItemActivity(R.string.create_note),
+        NewNoteFragment.SelectedOption {
 
     /**
      * Storage of static constants

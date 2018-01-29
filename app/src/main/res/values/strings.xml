@@ -40,7 +40,8 @@
 
     <!-- Messages -->
     <string name="tap_on_mic">Tap on mic to speak</string>
-    <string name="start_speech">Say something interesting!</string>
+    <string name="create_note">Say something interesting!</string>
+    <string name="create_category">Say the name of category</string>
     <string name="speak">Speak</string>
     <string name="note_text">Note text</string>
     <string name="category_name">Name of category</string>
