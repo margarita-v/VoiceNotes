@@ -28,6 +28,14 @@ import kotlinx.android.synthetic.main.progress_bar.*
 abstract class BaseListFragment<ItemType: RealmObject>
     : BaseFragment(), BaseView<ItemType> {
 
+    companion object {
+
+        /**
+         * Action mode for a contextual toolbar
+         */
+        private var actionMode: ActionMode? = null
+    }
+
     /**
      * Translation Y value for a floating action button for its animation
      */
@@ -42,11 +50,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
      * Listener for the FAB click event
      */
     private lateinit var fabClickListener: OnFabClickListener
-
-    /**
-     * Action mode for a contextual toolbar
-     */
-    private var actionMode: ActionMode? = null
 
     /**
      * Listener for an item click event
@@ -77,7 +80,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
             fab.setVisible(!adapter.selectItem(position))
             setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
-                actionMode?.finish()
+                finishActionMode()
             } else {
                 actionMode?.invalidate()
             }
@@ -100,6 +103,11 @@ abstract class BaseListFragment<ItemType: RealmObject>
     private fun startActionMode() {
         actionMode = activity?.startActionMode(actionModeCallback)
     }
+
+    /**
+     * Function for finishing an ActionMode
+     */
+    fun finishActionMode(): Unit? = actionMode?.finish()
 
     /**
      * Function for setting a title to the contextual toolbar
@@ -209,7 +217,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         } else {
             presenter.removeAll(adapter.checkedIds)
         }
-        actionMode?.finish()
+        finishActionMode()
         context?.showToast(getDeletedItemsMessageRes())
     }
 
@@ -247,7 +255,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
 
                 R.id.action_select_all ->
                     if (adapter.isAllItemsSelected()) {
-                        adapter.clearSelection()
                         mode.finish()
                     } else {
                         adapter.selectAll()

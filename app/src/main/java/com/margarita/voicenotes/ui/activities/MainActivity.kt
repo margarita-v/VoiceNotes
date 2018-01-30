@@ -3,6 +3,7 @@ package com.margarita.voicenotes.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
 import com.margarita.voicenotes.ui.activities.creation.NewCategoryActivity
@@ -43,6 +44,11 @@ class MainActivity :
          * Tag for getting a current fragment from the view pager
          */
         private const val TAG = "android:switcher:" + R.id.viewPager + ":"
+
+        /**
+         * Bundle key for saving index of the current visible fragment
+         */
+        private const val CURRENT_FRAGMENT_INDEX_KEY = "CURRENT_FRAGMENT"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +56,28 @@ class MainActivity :
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val currentFragmentIndex = savedInstanceState?.getInt(CURRENT_FRAGMENT_INDEX_KEY) ?: 0
         viewPager.adapter = MainFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
+
+        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) { }
+
+            override fun onPageScrolled(position: Int,
+                                        positionOffset: Float,
+                                        positionOffsetPixels: Int) { }
+
+            override fun onPageSelected(position: Int) {
+                if (position != currentFragmentIndex) {
+                    getCurrentFragment().finishActionMode()
+                }
+            }
+        })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(CURRENT_FRAGMENT_INDEX_KEY, viewPager.currentItem)
     }
 
     override fun onFabClick() {

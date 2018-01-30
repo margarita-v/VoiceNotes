@@ -10,6 +10,8 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/item_margin"
+        android:layout_marginEnd="@dimen/item_margin"
         android:layout_marginTop="@dimen/margin3"
         android:layout_marginBottom="@dimen/margin3">
 
