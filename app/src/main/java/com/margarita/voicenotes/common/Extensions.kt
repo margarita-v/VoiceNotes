@@ -50,6 +50,17 @@ fun EditText.setSpeechText(text: String) {
 }
 
 /**
+ * Function for setting a category name to the text view
+ */
+fun TextView.setCategoryName(name: String?) {
+    if (name != null) {
+        text = name
+    } else {
+        setText(R.string.none_category)
+    }
+}
+
+/**
  * Function for loading image to ImageView using image Uri
  * @param context Context of function call
  * @param uri Uri of image

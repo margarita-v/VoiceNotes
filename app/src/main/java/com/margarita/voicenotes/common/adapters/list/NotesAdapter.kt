@@ -6,6 +6,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.inflate
 import com.margarita.voicenotes.common.loadImage
 import com.margarita.voicenotes.common.parseStringToUri
+import com.margarita.voicenotes.common.setCategoryName
 import com.margarita.voicenotes.models.BaseViewModel
 import com.margarita.voicenotes.models.NoteViewModel
 import com.margarita.voicenotes.models.entities.NoteItem
@@ -47,6 +48,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
         override fun bind(itemViewModel: BaseViewModel<NoteItem>): Unit = with(itemView) {
             val noteItem = itemViewModel.item
             tvDescription.text = noteItem.description
+            tvCategory.setCategoryName(noteItem.getCategoryName())
             tvDate.text = noteItem.parseDate()
             ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
         }

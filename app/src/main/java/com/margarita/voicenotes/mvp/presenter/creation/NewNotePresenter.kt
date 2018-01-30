@@ -53,9 +53,10 @@ class NewNotePresenter(private val view: NewNoteView)
      * @param croppedPhotoUri Cropped photo for a note's thumbnail
      */
     fun createNote(description: String,
-                       date: Long,
-                       photoUri: Uri? = null,
-                       croppedPhotoUri: Uri? = null) {
+                   date: Long,
+                   photoUri: Uri? = null,
+                   croppedPhotoUri: Uri? = null,
+                   categoryId: Long? = null) {
         if (!description.isEmpty()) {
             val noteItem = NoteItem(
                     generateId(),
@@ -64,6 +65,18 @@ class NewNotePresenter(private val view: NewNoteView)
                     photoUri?.parseToString(),
                     croppedPhotoUri?.parseToString())
             save(noteItem)
+            if (categoryId != null) {
+                realm.executeTransaction { realm1 ->
+                    val realmResult = performQuery(realm1)
+                            .equalTo(ID_FIELD, categoryId)
+                            .findFirst()
+                    if (realmResult != null) {
+                        val category = realm1.copyFromRealm(realmResult)
+                        category.notes.add(noteItem)
+                        realm1.copyToRealmOrUpdate(category)
+                    }
+                }
+            }
             view.onCreationSuccess()
         } else {
             view.showError(R.string.note_empty)

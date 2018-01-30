@@ -69,7 +69,8 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
                     etNote.getTextAsString(),
                     Calendar.getInstance().timeInMillis,
                     photoUri,
-                    croppedPhotoUri)
+                    croppedPhotoUri,
+                    adapter.getChosenItemId(spinnerCategory.selectedItemPosition))
         }
     }
 

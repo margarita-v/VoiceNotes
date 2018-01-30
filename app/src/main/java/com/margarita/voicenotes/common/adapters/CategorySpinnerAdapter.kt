@@ -19,11 +19,27 @@ class CategorySpinnerAdapter(context: Context)
     companion object {
 
         /**
+         * Position for the "none" category
+         */
+        private const val NONE_CATEGORY_POSITION = 0
+
+        /**
          * Layout for a spinner's dropdown item
          */
         private const val SPINNER_DROPDOWN_LAYOUT =
                 android.R.layout.simple_spinner_dropdown_item
     }
 
+    /**
+     * Function for checking if the adapter only "none" category
+     */
     fun hasOnlyNoneCategory() : Boolean = count == 1
+
+    /**
+     * Function for getting ID of chosen category
+     * @param position Position of chosen category
+     * @return ID of chosen category or null if no category was chosen
+     */
+    fun getChosenItemId(position: Int): Long?
+            = if (position != NONE_CATEGORY_POSITION) getItem(position).id else null
 }
