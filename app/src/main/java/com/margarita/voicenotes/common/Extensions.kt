@@ -14,7 +14,9 @@ import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.margarita.voicenotes.R
@@ -33,6 +35,19 @@ import java.util.*
  */
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View
         = LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+
+/**
+ * Function for getting a text of EditText widget
+ */
+fun EditText.getTextAsString(): String = text.toString()
+
+/**
+ * Function for showing a speech result in the EditText
+ */
+fun EditText.setSpeechText(text: String) {
+    setText(text, TextView.BufferType.EDITABLE)
+    setSelection(text.length)
+}
 
 /**
  * Function for loading image to ImageView using image Uri

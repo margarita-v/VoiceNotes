@@ -11,9 +11,9 @@ class NewCategoryActivity : BaseNewItemActivity(R.string.create_category) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+
         // Try to restore fragment
-        val fragment = restoreFragment() as NewCategoryFragment? ?: NewCategoryFragment()
+        fragment = restoreFragment() as NewCategoryFragment? ?: NewCategoryFragment()
         setFragment(fragment)
     }
 }

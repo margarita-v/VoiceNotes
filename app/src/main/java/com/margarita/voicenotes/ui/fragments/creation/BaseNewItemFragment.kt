@@ -20,6 +20,11 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
     override fun showError(messageRes: Int): Unit= context!!.showToast(messageRes)
 
     /**
+     * Function for setting a speech result to the EditText
+     */
+    abstract fun setText(text: String)
+
+    /**
      * Base interface for performing callbacks to the activity
      */
     interface BaseSelectedOption {

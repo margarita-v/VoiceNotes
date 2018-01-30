@@ -28,13 +28,14 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
         if (!name.isEmpty()) {
             // Check if a category with the same name exists
             view.showLoading()
+            val nameTrimmed = name.trim()
             val realmResults = performQuery(realm)
-                    .equalTo(NAME_FIELD, name)
+                    .equalTo(NAME_FIELD, nameTrimmed)
                     .findAll()
             view.hideLoading()
 
             if (realmResults.isEmpty()) {
-                save(Category(generateId(), name))
+                save(Category(generateId(), nameTrimmed))
                 view.onCreationSuccess()
             } else {
                 view.showError(R.string.category_exists)

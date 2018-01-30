@@ -4,12 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
-import com.margarita.voicenotes.common.loadImage
-import com.margarita.voicenotes.common.setEnabledIconColor
-import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
@@ -69,7 +66,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         imgBtnDelete.setOnClickListener { deleteImage() }
         btnSave.setOnClickListener {
             presenter.createNote(
-                    etNote.text.toString(),
+                    etNote.getTextAsString(),
                     Calendar.getInstance().timeInMillis,
                     photoUri,
                     croppedPhotoUri)
@@ -90,6 +87,8 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     override fun onCreationSuccess(): Unit
             = selectedOptionCallback.onCreationSuccess(R.string.note_created)
 
+    override fun setText(text: String): Unit = etNote.setSpeechText(text)
+
     /**
      * Function for delete a chosen photo of the note
      */
@@ -107,16 +106,6 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     private fun configureOptionalButtons(enabled: Boolean) {
         imgBtnCrop.setEnabledIconColor(enabled)
         imgBtnDelete.setEnabledIconColor(enabled)
-    }
-
-    /**
-     * Function for setting a text of note
-     * @param text A text of note
-     */
-    fun setText(text: String) {
-        // Capitalize the first letter of note
-        etNote.setText(text, TextView.BufferType.EDITABLE)
-        etNote.setSelection(text.length)
     }
 
     /**

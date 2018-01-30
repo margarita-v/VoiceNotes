@@ -37,11 +37,10 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
         const val SPEECH_REQUEST_CODE = 1
     }
 
-
     /**
      * Flag which shows if the recognition service was started
      */
-    protected var isRecognitionServiceStarted = false
+    private var isRecognitionServiceStarted = false
 
     /**
      * Flag which shows if the screen orientation was changed
@@ -64,8 +63,14 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
                         getString(speechMessageRes))
     }
 
+    /**
+     * Current visible fragment
+     */
+    protected lateinit var fragment: BaseNewItemFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_container)
 
         // Restore flags for recognition service launching
         if (savedInstanceState != null) {
@@ -117,4 +122,15 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
      */
     protected fun checkIntentHandlers(intent: Intent): Boolean
             = intent.resolveActivity(packageManager) != null
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        isRecognitionServiceStarted = false
+        if (resultCode == Activity.RESULT_OK &&
+                requestCode == SPEECH_REQUEST_CODE && data != null) {
+            // Result of speech recognition
+            val resultArray = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            fragment.setText(resultArray[0].capitalize())
+        }
+    }
 }

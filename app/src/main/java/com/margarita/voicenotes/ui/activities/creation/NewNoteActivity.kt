@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.speech.RecognizerIntent
 import android.support.v4.content.FileProvider
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
@@ -65,10 +64,11 @@ class NewNoteActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+
         // Try to restore fragment
         newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
-        setFragment(newNoteFragment)
+        fragment = newNoteFragment
+        setFragment(fragment)
     }
 
     override fun pickImageFromGallery() {
@@ -106,18 +106,8 @@ class NewNoteActivity :
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        isRecognitionServiceStarted = false
-        if (resultCode == Activity.RESULT_OK) {
+        if (requestCode != SPEECH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             when (requestCode) {
-                // Result of a speech recognition
-                SPEECH_REQUEST_CODE -> {
-                    if (data != null) {
-                        val resultArray =
-                                data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                        newNoteFragment.setText(resultArray[0].capitalize())
-                    }
-                }
-
                 // Result of a choosing photo from gallery
                 PICK_PHOTO_REQUEST_CODE -> {
                     // If request code is equal to request code for pick photo from gallery,
