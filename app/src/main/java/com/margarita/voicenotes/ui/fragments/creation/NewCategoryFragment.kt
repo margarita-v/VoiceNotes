@@ -29,6 +29,7 @@ class NewCategoryFragment: BaseNewItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        imgBtnSpeak.setOnClickListener { actionCallback.speak() }
         btnSave.setOnClickListener { presenter.createCategory(etCategory.getTextAsString()) }
     }
 

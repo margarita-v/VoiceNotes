@@ -45,5 +45,14 @@ class CategoriesAdapter(categoryClickListener: BaseListAdapter.OnItemClickListen
         override fun bind(itemViewModel: BaseViewModel<Category>): Unit = with(itemView) {
             tvCategory.text = itemViewModel.item.name
         }
+
+        override fun setItemBackground(isChecked: Boolean) {
+            super.setItemBackground(isChecked)
+            itemView.ivPhoto.setImageResource(
+                    if (isChecked)
+                        R.drawable.ic_collections_bookmark_primary_24dp
+                    else
+                        R.drawable.ic_collections_bookmark_gray_24dp)
+        }
     }
 }
