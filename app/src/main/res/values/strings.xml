@@ -29,10 +29,27 @@
 
     <!-- Dialog for delete confirmation -->
     <string name="confirm_title">Confirmation</string>
-    <string name="confirm_delete">Are you sure you want delete chosen notes?</string>
+    <string name="confirm_delete_notes">Are you sure you want delete chosen notes?</string>
+    <string name="confirm_delete_categories">Are you sure you want delete chosen categories?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="items_deleted">Chosen items were deleted</string>
+    <string name="categories_deleted">Chosen categories were deleted</string>
+    <string name="notes_deleted">Chosen notes were deleted</string>
+
+    <!-- Titles for action mode -->
+    <string name="selected_item">1 selected</string>
+    <string name="selected_notes">Selected %1$d notes</string>
+    <string name="selected_categories">Selected %1$d categories</string>
+
+    <!-- Titles for notes and categories -->
+    <string name="create_note">Say something interesting!</string>
+    <string name="create_category">Say the name of category</string>
+
+    <string name="note_text">Note text</string>
+    <string name="category_name">Name of category</string>
+
+    <string name="note_created">New note was created</string>
+    <string name="category_created">New category was created</string>
 
     <!-- Messages for empty lists -->
     <string name="empty_note_list">The note list is empty</string>
@@ -40,13 +57,7 @@
 
     <!-- Messages -->
     <string name="tap_on_mic">Tap on mic to speak</string>
-    <string name="create_note">Say something interesting!</string>
-    <string name="create_category">Say the name of category</string>
     <string name="speak">Speak</string>
-    <string name="note_text">Note text</string>
-    <string name="category_name">Name of category</string>
-    <string name="note_created">New note was created</string>
-    <string name="category_created">New category was created</string>
     <string name="category">Category</string>
     <string name="choose_category">Choose category</string>
     <string name="date">Date</string>
@@ -58,8 +69,6 @@
     <string name="set_photo">Set photo…</string>
     <string name="take_a_photo">Take a photo</string>
     <string name="choose_photo">Choose photo from the file system</string>
-    <string name="selected_note">1 selected</string>
-    <string name="selected_notes_plural">Selected %1$d notes</string>
     <string name="select_all">Select all</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>

@@ -36,7 +36,7 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
          * String resources IDs for default title and message
          */
         private const val DEFAULT_TITLE_RES = R.string.confirm_title
-        private const val DEFAULT_MESSAGE_RES = R.string.confirm_delete
+        private const val DEFAULT_MESSAGE_RES = R.string.confirm_delete_notes
 
         /**
          * Function for creation an instance of confirmation dialog

@@ -26,7 +26,7 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
      */
     protected fun getData(): List<T> {
         val realmResults = performQuery(realm)
-                .sort(getSortField(), Sort.DESCENDING)
+                .sort(getSortField(), getSortOrder())
                 .findAll()
         return realm.copyFromRealm(realmResults)
     }
@@ -80,6 +80,11 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
      * @return Sort field's name
      */
     protected open fun getSortField(): String = SORT_FIELD
+
+    /**
+     * Function which returns a sort order
+     */
+    protected open fun getSortOrder(): Sort = Sort.DESCENDING
 
     /**
      * Function for ID generation for a new object

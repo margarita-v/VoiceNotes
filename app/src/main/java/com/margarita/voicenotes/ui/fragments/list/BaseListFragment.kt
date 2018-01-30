@@ -105,7 +105,24 @@ abstract class BaseListFragment<ItemType: RealmObject>
      * Function for setting a title to the contextual toolbar
      */
     private fun setupActionModeTitle(): Unit?
-            = actionMode?.setSelectedItemsCount(context!!, adapter.getCheckedItemCount())
+            = actionMode?.setSelectedItemsCount(
+                context!!, getActionModeTitleRes(), adapter.getCheckedItemCount())
+
+    /**
+     * Function for getting a string resource ID for setting a title to the ActionMode
+     */
+    @StringRes protected abstract fun getActionModeTitleRes(): Int
+
+    /**
+     * Function for getting a string resource ID for setting a title
+     * to the dialog for delete confirmation
+     */
+    @StringRes protected abstract fun getConfirmDialogTitleRes(): Int
+
+    /**
+     * Function for getting a string resource ID for showing a message for deleted items
+     */
+    @StringRes protected abstract fun getDeletedItemsMessageRes(): Int
 
     /**
      * Function for getting a string resource ID for setting a message of empty view
@@ -193,7 +210,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
             presenter.removeAll(adapter.checkedIds)
         }
         actionMode?.finish()
-        context?.showToast(R.string.items_deleted)
+        context?.showToast(getDeletedItemsMessageRes())
     }
 
     /**
@@ -225,7 +242,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
             when (menuItem.itemId) {
                 R.id.action_delete ->
                     ConfirmDialogFragment
-                            .newInstance(R.string.confirm_delete)
+                            .newInstance(getConfirmDialogTitleRes())
                             .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
 
                 R.id.action_select_all ->

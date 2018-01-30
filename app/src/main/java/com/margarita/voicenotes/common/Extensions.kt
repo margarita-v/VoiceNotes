@@ -202,16 +202,19 @@ fun FragmentManager.replace(@IdRes containerId: Int,
 /**
  * Function for setting the default title to the contextual toolbar
  */
-fun ActionMode.setDefaultTitle(): Unit = setTitle(R.string.selected_note)
+fun ActionMode.setDefaultTitle(): Unit = setTitle(R.string.selected_item)
 
 /**
  * Function for setting the title with a selected items count to the contextual toolbar
  * @param context Context of function call
+ * @param titleRes String resource ID for title
  * @param count Count of selected items
  */
-fun ActionMode.setSelectedItemsCount(context: Context, count: Int) {
+fun ActionMode.setSelectedItemsCount(context: Context,
+                                     @StringRes titleRes: Int,
+                                     count: Int) {
     if (count > 1) {
-        title = context.getString(R.string.selected_notes_plural, count)
+        title = context.getString(titleRes, count)
     } else {
         setDefaultTitle()
     }

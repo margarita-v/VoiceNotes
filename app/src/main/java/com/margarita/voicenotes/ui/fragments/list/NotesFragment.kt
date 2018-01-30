@@ -17,11 +17,17 @@ class NotesFragment: BaseListFragment<NoteItem>() {
         presenter = NotesPresenter(this)
     }
 
-    override fun showItemInfo(item: NoteItem): Unit
-            = startActivity(Intent(context, ViewNoteActivity::class.java)
-                .putExtra(getString(R.string.note_intent), item))
+    override fun getActionModeTitleRes(): Int = R.string.selected_notes
+
+    override fun getConfirmDialogTitleRes(): Int = R.string.confirm_delete_notes
+
+    override fun getDeletedItemsMessageRes(): Int = R.string.notes_deleted
 
     override fun getEmptyMessageRes(): Int = R.string.empty_note_list
 
     override fun getEmptyPictureRes(): Int = R.drawable.ic_note_gray_24dp
+
+    override fun showItemInfo(item: NoteItem): Unit
+            = startActivity(Intent(context, ViewNoteActivity::class.java)
+            .putExtra(getString(R.string.note_intent), item))
 }
