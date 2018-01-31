@@ -29,6 +29,7 @@ class NewCategoryFragment: BaseNewItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        configureEditWidgets(etCategory, imgBtnClear)
         imgBtnSpeak.setOnClickListener { actionCallback.speak() }
         btnSave.setOnClickListener { presenter.createCategory(etCategory.getTextAsString()) }
     }

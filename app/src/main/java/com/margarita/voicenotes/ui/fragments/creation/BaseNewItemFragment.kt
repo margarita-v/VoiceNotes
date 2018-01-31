@@ -1,7 +1,12 @@
 package com.margarita.voicenotes.ui.fragments.creation
 
 import android.support.annotation.StringRes
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
+import android.widget.ImageButton
 import com.margarita.voicenotes.common.hide
+import com.margarita.voicenotes.common.setEnabledIconColor
 import com.margarita.voicenotes.common.show
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.mvp.view.BaseNewItemView
@@ -18,6 +23,28 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
     override fun hideLoading(): Unit = progressBar.hide()
 
     override fun showError(messageRes: Int): Unit= context!!.showToast(messageRes)
+
+    /**
+     * Function for configuration of the edit text and its clearing button
+     */
+    protected fun configureEditWidgets(editText: EditText, imageButton: ImageButton) {
+
+        // Configure image button for performing the EditText clearing
+        imageButton.setEnabledIconColor(false)
+        imageButton.setOnClickListener { editText.setText("") }
+
+        // Configure EditText
+        editText.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) { }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) { }
+
+            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
+                imageButton.setEnabledIconColor(p0.isNotEmpty())
+            }
+        })
+
+    }
 
     /**
      * Function for setting a speech result to the EditText

@@ -58,6 +58,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         }
 
         // Configure all buttons
+        configureEditWidgets(etNote, imgBtnClear)
         configureOptionalButtons(photoUri != null)
         imgBtnSpeak.setOnClickListener { selectedOptionCallback.speak() }
         imgBtnPhoto.setOnClickListener { selectedOptionCallback.takePhoto() }
