@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey
 
 open class NoteItem(@PrimaryKey var id: Long = 0,
                     var description: String = "",
-                    var date: Long = 0,
+                    private var date: Long = 0,
                     var photoUri: String? = null,
                     var croppedPhotoUri: String? = null,
                     @LinkingObjects("notes")
@@ -18,8 +18,6 @@ open class NoteItem(@PrimaryKey var id: Long = 0,
     : RealmObject(), Parcelable {
 
     fun parseDate(): String = date.parseDate()
-
-    fun getCategoryName() : String? = categories?.first()?.name
 
     //region Parcelable implementation
     constructor(parcel: Parcel) : this(

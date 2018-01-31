@@ -58,20 +58,19 @@ class NewNotePresenter(private val view: NewNoteView)
                    croppedPhotoUri: Uri? = null,
                    categoryId: Long? = null) {
         if (!description.isEmpty()) {
-            val noteItem = NoteItem(
-                    generateId(),
-                    description,
-                    date,
-                    photoUri?.parseToString(),
-                    croppedPhotoUri?.parseToString())
-            save(noteItem)
-            if (categoryId != null) {
-                realm.executeTransaction { realm1 ->
-                    val realmResult = performQuery(realm1)
+            realm.executeTransaction { realm1 ->
+                val noteItem = NoteItem(
+                        generateId(),
+                        description,
+                        date,
+                        photoUri?.parseToString(),
+                        croppedPhotoUri?.parseToString())
+                realm1.copyToRealm(noteItem)
+                if (categoryId != null) {
+                    val category = performQuery(realm1)
                             .equalTo(ID_FIELD, categoryId)
                             .findFirst()
-                    if (realmResult != null) {
-                        val category = realm1.copyFromRealm(realmResult)
+                    if (category != null) {
                         category.notes.add(noteItem)
                         realm1.copyToRealmOrUpdate(category)
                     }

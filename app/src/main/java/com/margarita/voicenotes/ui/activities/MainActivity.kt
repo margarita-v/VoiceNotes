@@ -3,6 +3,7 @@ package com.margarita.voicenotes.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
@@ -33,6 +34,11 @@ class MainActivity :
         Intent(this, NewCategoryActivity::class.java)
     }
 
+    /**
+     * Index of the current visible fragment
+     */
+    private var currentFragmentIndex: Int = 0
+
     companion object {
         /**
          * Request codes
@@ -56,9 +62,18 @@ class MainActivity :
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val currentFragmentIndex = savedInstanceState?.getInt(CURRENT_FRAGMENT_INDEX_KEY) ?: 0
+        currentFragmentIndex = savedInstanceState?.getInt(CURRENT_FRAGMENT_INDEX_KEY) ?: 0
         viewPager.adapter = MainFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
+
+        tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) { }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) { }
+
+            override fun onTabSelected(tab: TabLayout.Tab): Unit
+                    = finishActionMode(tab.position)
+        })
 
         viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) { }
@@ -67,11 +82,7 @@ class MainActivity :
                                         positionOffset: Float,
                                         positionOffsetPixels: Int) { }
 
-            override fun onPageSelected(position: Int) {
-                if (position != currentFragmentIndex) {
-                    getCurrentFragment().finishActionMode()
-                }
-            }
+            override fun onPageSelected(position: Int): Unit = finishActionMode(position)
         })
     }
 
@@ -95,6 +106,17 @@ class MainActivity :
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             getCurrentFragment().onDataSetChanged()
+        }
+    }
+
+    /**
+     * Function for finishing an ActionMode for the current fragment
+     * @param index New index of selected fragment
+     */
+    private fun finishActionMode(index: Int) {
+        if (index != currentFragmentIndex) {
+            getCurrentFragment().finishActionMode()
+            currentFragmentIndex = index
         }
     }
 
