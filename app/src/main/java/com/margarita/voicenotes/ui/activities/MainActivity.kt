@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity :
         BaseActivity(),
         ConfirmDialogFragment.ConfirmationListener,
-        BaseListFragment.OnFabClickListener {
+        BaseListFragment.MainActivityCallback {
 
     /**
      * Intent for creation a new note
@@ -39,7 +39,13 @@ class MainActivity :
      */
     private var currentFragmentIndex: Int = 0
 
+    /**
+     * Flag which shows if we should reload a list of notes
+     */
+    private var needReloadNotes = false
+
     companion object {
+
         /**
          * Request codes
          */
@@ -55,6 +61,11 @@ class MainActivity :
          * Bundle key for saving index of the current visible fragment
          */
         private const val CURRENT_FRAGMENT_INDEX_KEY = "CURRENT_FRAGMENT"
+
+        /**
+         * Index of the NotesFragment in the view pager
+         */
+        private const val NOTE_FRAGMENT_INDEX = MainFragmentPagerAdapter.NOTE_FRAGMENT_INDEX
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +74,7 @@ class MainActivity :
         setSupportActionBar(toolbar)
 
         currentFragmentIndex = savedInstanceState?.getInt(CURRENT_FRAGMENT_INDEX_KEY) ?: 0
+
         viewPager.adapter = MainFragmentPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
 
@@ -100,6 +112,10 @@ class MainActivity :
         }
     }
 
+    override fun notesDataSetChanged() {
+        needReloadNotes = true
+    }
+
     override fun confirm(): Unit = getCurrentFragment().removeChosenItems()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -114,6 +130,13 @@ class MainActivity :
      * @param index New index of selected fragment
      */
     private fun finishActionMode(index: Int) {
+        // If the data set was changed and notes fragment is visible,
+        // then we should reload a list of notes
+        if (needReloadNotes && index == NOTE_FRAGMENT_INDEX) {
+            findFragmentByTag(index).onDataSetChanged()
+            needReloadNotes = false
+        }
+        // Finish action mode, if the fragment was changed
         if (index != currentFragmentIndex) {
             getCurrentFragment().finishActionMode()
             currentFragmentIndex = index
@@ -121,9 +144,16 @@ class MainActivity :
     }
 
     /**
+     * Function for getting a fragment by tag and its index in the view pager
+     * @param fragmentIndex Index of fragment in the view pager
+     */
+    private fun findFragmentByTag(fragmentIndex: Int): BaseListFragment<*>
+            = supportFragmentManager
+                .findFragmentByTag(TAG + fragmentIndex) as BaseListFragment<*>
+
+    /**
      * Function for getting a current visible fragment from the view pager
      */
     private fun getCurrentFragment(): BaseListFragment<*>
-            = supportFragmentManager
-                .findFragmentByTag(TAG + viewPager.currentItem) as BaseListFragment<*>
+            = findFragmentByTag(viewPager.currentItem)
 }

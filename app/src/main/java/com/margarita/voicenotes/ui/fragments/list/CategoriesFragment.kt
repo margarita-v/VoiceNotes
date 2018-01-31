@@ -28,4 +28,6 @@ class CategoriesFragment: BaseListFragment<Category>() {
     override fun showItemInfo(item: Category) {
 
     }
+
+    override fun needReload(): Boolean = true
 }

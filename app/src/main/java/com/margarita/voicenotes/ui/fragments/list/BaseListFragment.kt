@@ -47,9 +47,9 @@ abstract class BaseListFragment<ItemType: RealmObject>
     private val actionModeCallback: ActionModeCallback by lazy { ActionModeCallback() }
 
     /**
-     * Listener for the FAB click event
+     * Listener for performing callbacks to the activity
      */
-    private lateinit var fabClickListener: OnFabClickListener
+    private lateinit var activityCallback: MainActivityCallback
 
     /**
      * Listener for an item click event
@@ -142,6 +142,11 @@ abstract class BaseListFragment<ItemType: RealmObject>
      */
     @DrawableRes protected abstract fun getEmptyPictureRes(): Int
 
+    /**
+     * Function for checking if activity should reload data from the local database
+     */
+    open fun needReload(): Boolean = false
+
     override fun getLayoutRes(): Int = R.layout.fragment_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -176,15 +181,15 @@ abstract class BaseListFragment<ItemType: RealmObject>
                 fab.animate().translationY(translationY).start()
             }
         })
-        fab.setOnClickListener { fabClickListener.onFabClick() }
+        fab.setOnClickListener { activityCallback.onFabClick() }
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
-            fabClickListener = context as OnFabClickListener
+            activityCallback = context as MainActivityCallback
         } catch (e: ClassCastException) {
-            throwClassCastException(context, "OnFabClickListener")
+            throwClassCastException(context, "MainActivityCallback")
         }
     }
 
@@ -216,6 +221,10 @@ abstract class BaseListFragment<ItemType: RealmObject>
             presenter.clear()
         } else {
             presenter.removeAll(adapter.checkedIds)
+        }
+        // Notify activity about the data set changes
+        if (needReload()) {
+            activityCallback.notesDataSetChanged()
         }
         finishActionMode()
         context?.showToast(getDeletedItemsMessageRes())
@@ -273,10 +282,18 @@ abstract class BaseListFragment<ItemType: RealmObject>
     }
 
     /**
-     * Interface for performing callback to activity when the FAB is clicked
+     * Interface for performing callbacks to the activity
      */
-    interface OnFabClickListener {
+    interface MainActivityCallback {
 
+        /**
+         * Function which will be called when the FAB is clicked
+         */
         fun onFabClick()
+
+        /**
+         * Function which notify activity if the data set was changed
+         */
+        fun notesDataSetChanged()
     }
 }

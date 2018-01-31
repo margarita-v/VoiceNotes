@@ -1,8 +1,8 @@
 package com.margarita.voicenotes.common.adapters
 
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
 import com.margarita.voicenotes.ui.fragments.list.CategoriesFragment
 import com.margarita.voicenotes.ui.fragments.list.NotesFragment
 
@@ -31,7 +31,7 @@ class MainFragmentPagerAdapter(fragmentManager: FragmentManager)
         const val CATEGORY_FRAGMENT_INDEX = 1
     }
 
-    override fun getItem(position: Int): Fragment {
+    override fun getItem(position: Int): BaseListFragment<*> {
         return when (position) {
             NOTE_FRAGMENT_INDEX -> NotesFragment()
             else -> CategoriesFragment()
