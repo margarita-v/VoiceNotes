@@ -6,11 +6,11 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.inflate
 import com.margarita.voicenotes.common.loadImage
 import com.margarita.voicenotes.common.parseStringToUri
+import com.margarita.voicenotes.common.setCategoryName
 import com.margarita.voicenotes.models.BaseViewModel
 import com.margarita.voicenotes.models.NoteViewModel
-import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.models.entities.NoteItem
-import io.realm.Realm
+import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import kotlinx.android.synthetic.main.item_note.view.*
 
 /**
@@ -49,19 +49,9 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
         override fun bind(itemViewModel: BaseViewModel<NoteItem>): Unit = with(itemView) {
             val noteItem = itemViewModel.item
             tvDescription.text = noteItem.description
+            tvCategory.setCategoryName(BaseDatabasePresenter.getCategoryName(noteItem.id))
             tvDate.text = noteItem.parseDate()
             ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
-            //TODO Add method to the BaseDatabasePresenter!!!
-            val realmResults = Realm.getDefaultInstance()
-                    .where(Category::class.java)
-                    .equalTo("notes.id", noteItem.id)
-                    .findFirst()
-            if (realmResults != null) {
-                val category = Realm.getDefaultInstance().copyFromRealm(realmResults)
-                tvCategory.text = category.name
-            } else {
-                tvCategory.setText(R.string.none_category)
-            }
         }
     }
 }

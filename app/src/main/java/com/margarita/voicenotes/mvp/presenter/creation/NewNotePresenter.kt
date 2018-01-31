@@ -66,6 +66,7 @@ class NewNotePresenter(private val view: NewNoteView)
                         photoUri?.parseToString(),
                         croppedPhotoUri?.parseToString())
                 realm1.copyToRealm(noteItem)
+                // Set category to the new note
                 if (categoryId != null) {
                     val category = performQuery(realm1)
                             .equalTo(ID_FIELD, categoryId)

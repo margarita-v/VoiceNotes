@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.mvp.presenter.base
 
+import com.margarita.voicenotes.models.entities.Category
 import io.realm.Realm
 import io.realm.RealmObject
 import io.realm.RealmQuery
@@ -19,6 +20,22 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
     companion object {
         const val ID_FIELD = "id"
         private const val SORT_FIELD = "date"
+
+        /**
+         * Field name of query for getting category by note ID
+         */
+        private const val NOTES_ID_FIELD = "notes.id"
+
+        /**
+         * Function for getting a name of note's category
+         * @param noteId Note's ID
+         */
+        fun getCategoryName(noteId: Long): String?
+                = Realm.getDefaultInstance()
+                    .where(Category::class.java)
+                    .equalTo(NOTES_ID_FIELD, noteId)
+                    .findFirst()
+                    ?.name
     }
 
     /**
