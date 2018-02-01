@@ -80,7 +80,10 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
                     savedInstanceState.getBoolean(SCREEN_ORIENTATION_CHANGED_FLAG)
         }
 
-        startSpeechRecognition()
+        if (usedForCreation()) {
+            startSpeechRecognition()
+        }
+
         // This flag used once on activity creation, so we should set it to false
         isScreenOrientationChanged = false
     }
@@ -133,4 +136,10 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
             fragment.setText(resultArray[0].capitalize())
         }
     }
+
+    /**
+     * Function which returns true if the activity is used for creation of items,
+     * false otherwise
+     */
+    protected abstract fun usedForCreation(): Boolean
 }

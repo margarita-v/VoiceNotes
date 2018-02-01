@@ -7,8 +7,8 @@ import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.MainFragmentPagerAdapter
-import com.margarita.voicenotes.ui.activities.creation.NewCategoryActivity
-import com.margarita.voicenotes.ui.activities.creation.NewNoteActivity
+import com.margarita.voicenotes.ui.activities.creation.category.NewCategoryActivity
+import com.margarita.voicenotes.ui.activities.creation.note.NewNoteActivity
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
 import com.margarita.voicenotes.ui.fragments.list.CategoriesFragment

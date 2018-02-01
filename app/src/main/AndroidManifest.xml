@@ -29,7 +29,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activities.creation.NewNoteActivity"
+            android:name=".ui.activities.creation.category.NewCategoryActivity"
+            android:label="@string/new_category"
+            android:parentActivityName=".ui.activities.MainActivity"
+            tools:targetApi="jelly_bean">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.creation.category.EditCategoryActivity"
+
+            android:parentActivityName=".ui.activities.MainActivity"
+            tools:targetApi="jelly_bean">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.creation.note.NewNoteActivity"
             android:label="@string/new_note"
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
@@ -40,8 +62,8 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.creation.NewCategoryActivity"
-            android:label="@string/new_category"
+            android:name=".ui.activities.creation.note.EditNoteActivity"
+
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
 
@@ -50,7 +72,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.activities.ViewNoteActivity"
             android:label="@string/note_info"

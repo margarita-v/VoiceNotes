@@ -1,4 +1,4 @@
-package com.margarita.voicenotes.ui.activities.creation
+package com.margarita.voicenotes.ui.activities.creation.note
 
 import android.app.Activity
 import android.content.Intent
@@ -11,13 +11,14 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
+import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
 import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
 import com.theartofdev.edmodo.cropper.CropImage
 
 /**
- * Activity for a note creation, showing and editing
+ * Activity for creation of notes
  */
-class NewNoteActivity :
+open class NewNoteActivity :
         BaseNewItemActivity(R.string.create_note),
         NewNoteFragment.SelectedOption {
 
@@ -60,7 +61,7 @@ class NewNoteActivity :
      */
     private val takePhotoIntent by lazy { Intent(MediaStore.ACTION_IMAGE_CAPTURE) }
 
-    private lateinit var newNoteFragment: NewNoteFragment
+    protected lateinit var newNoteFragment: NewNoteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +71,8 @@ class NewNoteActivity :
         fragment = newNoteFragment
         setFragment(fragment)
     }
+
+    override fun usedForCreation(): Boolean = true
 
     override fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {
