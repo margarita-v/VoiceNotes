@@ -7,6 +7,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.getTextAsString
 import com.margarita.voicenotes.common.setSpeechText
 import com.margarita.voicenotes.common.throwClassCastException
+import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.creation.NewCategoryPresenter
 import kotlinx.android.synthetic.main.fragment_new_category.*
 
@@ -47,4 +48,9 @@ class NewCategoryFragment: BaseNewItemFragment() {
             = actionCallback.onCreationSuccess(R.string.category_created)
 
     override fun setText(text: String): Unit = etCategory.setSpeechText(text)
+
+    /**
+     * Function for showing a category's info
+     */
+    fun showCategoryInfo(category: Category): Unit = etCategory.setText(category.name)
 }

@@ -21,7 +21,7 @@ class ViewNoteActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_note)
-        val noteItem = intent.getParcelableExtra(getString(R.string.note_intent)) as NoteItem
+        val noteItem = getParcelableExtra(R.string.note_intent) as NoteItem
         showNoteInfo(noteItem)
     }
 

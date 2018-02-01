@@ -1,5 +1,7 @@
 package com.margarita.voicenotes.ui.activities
 
+import android.os.Parcelable
+import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.replace
@@ -34,4 +36,11 @@ abstract class BaseActivity: AppCompatActivity() {
      */
     protected fun setFragment(fragment: BaseFragment): Unit
             = supportFragmentManager.replace(CONTAINER_ID, fragment, FRAGMENT_TAG)
+
+    /**
+     * Function for getting a parcelable extra from intent
+     * @param intentRes String resource ID for intent's name
+     */
+    protected fun getParcelableExtra(@StringRes intentRes: Int)
+            = intent.getParcelableExtra(getString(intentRes)) as Parcelable
 }

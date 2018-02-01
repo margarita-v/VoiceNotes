@@ -15,6 +15,7 @@
 
     <!-- Intents -->
     <string name="note_intent">Note</string>
+    <string name="category_intent">Category</string>
     <string name="photo_intent">Photo full screen</string>
 
     <!-- None items -->

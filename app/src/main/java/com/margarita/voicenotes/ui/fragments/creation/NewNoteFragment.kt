@@ -8,6 +8,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
 import com.margarita.voicenotes.models.entities.Category
+import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
@@ -90,6 +91,24 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
             = selectedOptionCallback.onCreationSuccess(R.string.note_created)
 
     override fun setText(text: String): Unit = etNote.setSpeechText(text)
+
+    /**
+     * Function for showing a note's info
+     */
+    fun showNoteInfo(noteItem: NoteItem) {
+        etNote.setText(noteItem.description)
+
+        val hasPhoto = noteItem.photoUri != null
+        configureOptionalButtons(hasPhoto)
+
+        photoUri = noteItem.photoUri?.parseStringToUri()
+        croppedPhotoUri = noteItem.croppedPhotoUri?.parseStringToUri()
+
+        if (hasPhoto) {
+            ivPhoto.loadImage(context!!, croppedPhotoUri)
+        }
+        //TODO Show note's category
+    }
 
     /**
      * Function for delete a chosen photo of the note
