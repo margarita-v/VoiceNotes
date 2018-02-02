@@ -3,12 +3,10 @@ package com.margarita.voicenotes.ui.fragments.creation
 import android.support.annotation.StringRes
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageButton
-import com.margarita.voicenotes.common.hide
-import com.margarita.voicenotes.common.setEnabledIconColor
-import com.margarita.voicenotes.common.show
-import com.margarita.voicenotes.common.showToast
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.mvp.view.BaseNewItemView
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 import kotlinx.android.synthetic.main.progress_bar.*
@@ -44,6 +42,17 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
             }
         })
 
+    }
+
+    /**
+     * Function for configuration of the EditText
+     */
+    protected fun configureEditText(editText: EditText, text: String) {
+        // Disable the Soft Keyboard from appearing by default
+        activity!!.window
+                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+        editText.setSpeechText(text)
+        editText.isCursorVisible = true
     }
 
     /**

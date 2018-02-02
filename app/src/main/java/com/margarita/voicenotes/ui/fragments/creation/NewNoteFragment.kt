@@ -58,10 +58,6 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
             ivPhoto.loadImage(context!!, croppedPhotoUri!!)
         }
 
-        if (noteForEdit != null) {
-            showNoteInfo(noteForEdit!!)
-        }
-
         // Configure spinner and load its items
         spinnerCategory.adapter = adapter
         if (adapter.hasOnlyNoneCategory()) {
@@ -95,7 +91,12 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         }
     }
 
-    override fun setCategories(categories: List<Category>): Unit = adapter.addAll(categories)
+    override fun setCategories(categories: List<Category>) {
+        adapter.addAll(categories)
+        if (noteForEdit != null) {
+            showNoteInfo(noteForEdit!!)
+        }
+    }
 
     override fun onCreationSuccess(): Unit
             = selectedOptionCallback.onCreationSuccess(R.string.note_created)
@@ -106,7 +107,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
      * Function for showing a note's info
      */
     private fun showNoteInfo(noteItem: NoteItem) {
-        etNote.setText(noteItem.description)
+        configureEditText(etNote, noteItem.description)
 
         val hasPhoto = noteItem.photoUri != null
         configureOptionalButtons(hasPhoto)

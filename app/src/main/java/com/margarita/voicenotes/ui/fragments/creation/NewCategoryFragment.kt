@@ -62,5 +62,5 @@ class NewCategoryFragment: BaseNewItemFragment() {
      * Function for showing a category's info
      */
     private fun showCategoryInfo(category: Category): Unit
-            = etCategory.setSpeechText(category.name)
+            = configureEditText(etCategory, category.name)
 }
