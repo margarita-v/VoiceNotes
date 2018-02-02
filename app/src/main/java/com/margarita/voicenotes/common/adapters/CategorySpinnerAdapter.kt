@@ -11,6 +11,11 @@ import com.margarita.voicenotes.models.entities.Category
 class CategorySpinnerAdapter(context: Context)
     : ArrayAdapter<Category>(context, SPINNER_DROPDOWN_LAYOUT) {
 
+    /**
+     * List of categories which is shown in the spinner
+     */
+    private val categories: MutableList<Category> = ArrayList()
+
     init {
         // Add the "None" category
         add(Category(name = context.getString(R.string.none_category)))
@@ -30,6 +35,21 @@ class CategorySpinnerAdapter(context: Context)
                 android.R.layout.simple_spinner_dropdown_item
     }
 
+    override fun add(category: Category) {
+        super.add(category)
+        categories.add(category)
+    }
+
+    override fun addAll(vararg items: Category) {
+        super.addAll(*items)
+        categories += items
+    }
+
+    override fun addAll(collection: Collection<Category>) {
+        super.addAll(collection)
+        categories.addAll(collection)
+    }
+
     /**
      * Function for checking if the adapter only "none" category
      */
@@ -44,8 +64,17 @@ class CategorySpinnerAdapter(context: Context)
             = if (position != NONE_CATEGORY_POSITION) getItem(position).id else null
 
     /**
-     * Function for getting position of the note's category
-     * if the category was found in adapter
+     * Function for getting position of the note's category.
+     * If the category not found, return position of none category
      */
-    fun getCategoryPosition(category: Category?): Int = getPosition(category)
+    fun getCategoryPosition(category: Category?): Int {
+
+        // If the category is null, return position of none category
+        if (category == null)
+            return NONE_CATEGORY_POSITION
+
+        // Try to find position of given category
+        return (0 until categories.size).firstOrNull { categories[it].id == category.id }
+                ?: NONE_CATEGORY_POSITION
+    }
 }

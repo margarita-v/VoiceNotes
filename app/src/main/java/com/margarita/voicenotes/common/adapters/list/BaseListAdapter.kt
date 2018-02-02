@@ -49,7 +49,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
      * Function for getting the last checked item for its editing
      */
     fun getCheckedItem(): ItemType?
-            = if (lastCheckedItemPosition > 0) items[lastCheckedItemPosition].item
+            = if (lastCheckedItemPosition > -1) items[lastCheckedItemPosition].item
             else null
 
     /**

@@ -6,11 +6,17 @@ import com.margarita.voicenotes.common.adapters.list.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.list.NotesPresenter
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
+import com.margarita.voicenotes.ui.activities.creation.note.EditNoteActivity
 
 /**
  * Fragment for showing a list of notes
  */
 class NotesFragment: BaseListFragment<NoteItem>() {
+
+    /**
+     * Intent for the note editing
+     */
+    private val editNoteIntent by lazy { Intent(context!!, EditNoteActivity::class.java) }
 
     init {
         adapter = NotesAdapter(itemClickListener)
@@ -32,6 +38,7 @@ class NotesFragment: BaseListFragment<NoteItem>() {
             .putExtra(getString(R.string.note_intent), item))
 
     override fun edit(item: NoteItem?) {
-
+        editNoteIntent.putExtra(getString(R.string.note_intent), item)
+        startActivityForResult(editNoteIntent, EDIT_REQUEST_CODE)
     }
 }
