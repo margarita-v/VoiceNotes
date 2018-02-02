@@ -30,4 +30,8 @@ class NotesFragment: BaseListFragment<NoteItem>() {
     override fun showItemInfo(item: NoteItem): Unit
             = startActivity(Intent(context, ViewNoteActivity::class.java)
             .putExtra(getString(R.string.note_intent), item))
+
+    override fun edit(item: NoteItem?) {
+
+    }
 }

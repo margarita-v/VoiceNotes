@@ -44,7 +44,7 @@ class CategorySpinnerAdapter(context: Context)
             = if (position != NONE_CATEGORY_POSITION) getItem(position).id else null
 
     /**
-     * Function for getting a category position of note's category
+     * Function for getting position of the note's category
      * if the category was found in adapter
      */
     fun getCategoryPosition(category: Category?): Int = getPosition(category)

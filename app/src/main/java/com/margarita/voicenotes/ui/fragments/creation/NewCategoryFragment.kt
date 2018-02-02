@@ -22,6 +22,11 @@ class NewCategoryFragment: BaseNewItemFragment() {
     private val presenter by lazy { NewCategoryPresenter(this) }
 
     /**
+     * Category for edit if the fragment is used for editing
+     */
+    var categoryForEdit: Category? = null
+
+    /**
      * Listener for user's action callback
      */
     private lateinit var actionCallback: BaseSelectedOption
@@ -30,6 +35,10 @@ class NewCategoryFragment: BaseNewItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (categoryForEdit != null) {
+            showCategoryInfo(categoryForEdit!!)
+        }
         configureEditWidgets(etCategory, imgBtnClear)
         imgBtnSpeak.setOnClickListener { actionCallback.speak() }
         btnSave.setOnClickListener { presenter.createCategory(etCategory.getTextAsString()) }
@@ -52,5 +61,6 @@ class NewCategoryFragment: BaseNewItemFragment() {
     /**
      * Function for showing a category's info
      */
-    fun showCategoryInfo(category: Category): Unit = etCategory.setText(category.name)
+    private fun showCategoryInfo(category: Category): Unit
+            = etCategory.setSpeechText(category.name)
 }

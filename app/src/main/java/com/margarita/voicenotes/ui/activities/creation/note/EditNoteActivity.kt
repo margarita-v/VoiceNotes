@@ -12,8 +12,7 @@ class EditNoteActivity : NewNoteActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Show note's info
-        val noteItem = getParcelableExtra(R.string.note_intent) as NoteItem
-        newNoteFragment.showNoteInfo(noteItem)
+        newNoteFragment.noteForEdit = getParcelableExtra(R.string.note_intent) as NoteItem
     }
 
     override fun usedForCreation(): Boolean = false

@@ -35,10 +35,22 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     var isMultiChoiceMode = false
         private set
 
+    /**
+     * Position of last checked item (need for item's editing)
+     */
+    private var lastCheckedItemPosition = -1
+
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int): Unit
             = holder.bind(items[position], position, itemClickListener)
 
     override fun getItemCount(): Int = items.size
+
+    /**
+     * Function for getting the last checked item for its editing
+     */
+    fun getCheckedItem(): ItemType?
+            = if (lastCheckedItemPosition > 0) items[lastCheckedItemPosition].item
+            else null
 
     /**
      * Function for adding a list of items of a concrete type
@@ -116,6 +128,9 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         val newState = !itemViewModel.checked
         items[position].checked = newState
         selectItem(itemViewModel)
+        if (newState) {
+            lastCheckedItemPosition = position
+        }
         isMultiChoiceMode = getCheckedItemCount() > 0
     }
 

@@ -12,8 +12,8 @@ class EditCategoryActivity : NewCategoryActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Show category's info
-        val category = getParcelableExtra(R.string.category_intent) as Category
-        newCategoryFragment.showCategoryInfo(category)
+        newCategoryFragment.categoryForEdit =
+                getParcelableExtra(R.string.category_intent) as Category
     }
 
     override fun usedForCreation(): Boolean = false

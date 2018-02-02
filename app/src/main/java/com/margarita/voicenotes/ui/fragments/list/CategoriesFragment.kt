@@ -1,14 +1,23 @@
 package com.margarita.voicenotes.ui.fragments.list
 
+import android.content.Intent
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.CategoriesAdapter
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.list.CategoriesPresenter
+import com.margarita.voicenotes.ui.activities.creation.category.EditCategoryActivity
 
 /**
  * Fragment for showing a list of categories
  */
 class CategoriesFragment: BaseListFragment<Category>() {
+
+    /**
+     * Intent for category editing
+     */
+    private val editCategoryIntent by lazy {
+        Intent(context!!, EditCategoryActivity::class.java)
+    }
 
     init {
         adapter = CategoriesAdapter(itemClickListener)
@@ -27,6 +36,11 @@ class CategoriesFragment: BaseListFragment<Category>() {
 
     override fun showItemInfo(item: Category) {
 
+    }
+
+    override fun edit(item: Category?) {
+        editCategoryIntent.putExtra(context?.getString(R.string.category_intent), item)
+        startActivityForResult(editCategoryIntent, EDIT_REQUEST_CODE)
     }
 
     override fun needReload(): Boolean = true

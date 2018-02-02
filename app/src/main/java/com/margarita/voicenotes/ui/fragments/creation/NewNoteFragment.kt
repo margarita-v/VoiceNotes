@@ -26,6 +26,11 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     private val presenter by lazy { NewNotePresenter(this) }
 
     /**
+     * Note for edit if the fragment is used for editing
+     */
+    var noteForEdit: NoteItem? = null
+
+    /**
      * Adapter for a spinner with categories
      */
     private val adapter by lazy { CategorySpinnerAdapter(context!!) }
@@ -51,6 +56,10 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         super.onViewCreated(view, savedInstanceState)
         if (croppedPhotoUri != null) {
             ivPhoto.loadImage(context!!, croppedPhotoUri!!)
+        }
+
+        if (noteForEdit != null) {
+            showNoteInfo(noteForEdit!!)
         }
 
         // Configure spinner and load its items
@@ -96,7 +105,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     /**
      * Function for showing a note's info
      */
-    fun showNoteInfo(noteItem: NoteItem) {
+    private fun showNoteInfo(noteItem: NoteItem) {
         etNote.setText(noteItem.description)
 
         val hasPhoto = noteItem.photoUri != null

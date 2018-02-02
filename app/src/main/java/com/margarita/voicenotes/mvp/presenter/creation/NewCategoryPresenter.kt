@@ -26,7 +26,7 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
      */
     fun createCategory(name: String) {
         if (!name.isEmpty()) {
-            // Check if a category with the same name exists
+            // Check if the category with the same name exists
             view.showLoading()
             val nameTrimmed = name.trim()
             val realmResults = performQuery(realm)

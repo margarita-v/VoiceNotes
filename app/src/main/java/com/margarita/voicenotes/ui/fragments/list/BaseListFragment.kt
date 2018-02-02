@@ -1,6 +1,8 @@
 package com.margarita.voicenotes.ui.fragments.list
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
@@ -34,6 +36,11 @@ abstract class BaseListFragment<ItemType: RealmObject>
          * Action mode for a contextual toolbar
          */
         private var actionMode: ActionMode? = null
+
+        /**
+         * Request code for item editing
+         */
+        const val EDIT_REQUEST_CODE = 5
     }
 
     /**
@@ -212,6 +219,15 @@ abstract class BaseListFragment<ItemType: RealmObject>
 
     protected abstract fun showItemInfo(item: ItemType)
 
+    protected abstract fun edit(item: ItemType?)
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == EDIT_REQUEST_CODE) {
+            onDataSetChanged()
+        }
+    }
+
     /**
      * Function for removing the chosen items
      */
@@ -261,6 +277,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
                     ConfirmDialogFragment
                             .newInstance(getConfirmDialogTitleRes())
                             .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
+
+                R.id.action_edit -> edit(adapter.getCheckedItem())
 
                 R.id.action_select_all ->
                     if (adapter.isAllItemsSelected()) {
