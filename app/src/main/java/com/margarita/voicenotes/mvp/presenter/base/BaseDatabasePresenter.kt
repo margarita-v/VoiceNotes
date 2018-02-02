@@ -27,15 +27,17 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
         private const val NOTES_ID_FIELD = "notes.id"
 
         /**
-         * Function for getting a name of note's category
+         * Function for getting a note's category
          * @param noteId Note's ID
          */
-        fun getCategoryName(noteId: Long): String?
-                = Realm.getDefaultInstance()
+        fun getCategory(noteId: Long): Category? {
+            val realm = Realm.getDefaultInstance()
+            val realmResults = realm
                     .where(Category::class.java)
                     .equalTo(NOTES_ID_FIELD, noteId)
                     .findFirst()
-                    ?.name
+            return if (realmResults != null) realm.copyFromRealm(realmResults) else null
+        }
     }
 
     /**

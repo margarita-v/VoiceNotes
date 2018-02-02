@@ -42,4 +42,10 @@ class CategorySpinnerAdapter(context: Context)
      */
     fun getChosenItemId(position: Int): Long?
             = if (position != NONE_CATEGORY_POSITION) getItem(position).id else null
+
+    /**
+     * Function for getting a category position of note's category
+     * if the category was found in adapter
+     */
+    fun getCategoryPosition(category: Category?): Int = getPosition(category)
 }

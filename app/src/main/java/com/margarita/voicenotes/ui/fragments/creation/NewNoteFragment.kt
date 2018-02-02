@@ -9,6 +9,7 @@ import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.models.entities.NoteItem
+import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
@@ -107,7 +108,10 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         if (hasPhoto) {
             ivPhoto.loadImage(context!!, croppedPhotoUri)
         }
-        //TODO Show note's category
+        // Show a note's category name
+        spinnerCategory.setSelection(
+                adapter.getCategoryPosition(
+                        BaseDatabasePresenter.getCategory(noteItem.id)))
     }
 
     /**

@@ -3,9 +3,7 @@ package com.margarita.voicenotes.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.loadImage
-import com.margarita.voicenotes.common.parseStringToUri
-import com.margarita.voicenotes.common.show
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.activity_view_note.*
 
@@ -31,6 +29,7 @@ class ViewNoteActivity : BaseActivity() {
      */
     private fun showNoteInfo(noteItem: NoteItem) {
         tvDescription.text = noteItem.description
+        tvCategory.setCategoryName(getCategoryName(noteItem))
         tvDate.text = noteItem.parseDate()
         val photoUri = noteItem.photoUri?.parseStringToUri()
         if (photoUri != null) {

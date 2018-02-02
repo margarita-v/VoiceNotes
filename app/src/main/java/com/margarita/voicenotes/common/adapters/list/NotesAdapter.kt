@@ -3,14 +3,10 @@ package com.margarita.voicenotes.common.adapters.list
 import android.view.View
 import android.view.ViewGroup
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.inflate
-import com.margarita.voicenotes.common.loadImage
-import com.margarita.voicenotes.common.parseStringToUri
-import com.margarita.voicenotes.common.setCategoryName
+import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.BaseViewModel
 import com.margarita.voicenotes.models.NoteViewModel
 import com.margarita.voicenotes.models.entities.NoteItem
-import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import kotlinx.android.synthetic.main.item_note.view.*
 
 /**
@@ -49,7 +45,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
         override fun bind(itemViewModel: BaseViewModel<NoteItem>): Unit = with(itemView) {
             val noteItem = itemViewModel.item
             tvDescription.text = noteItem.description
-            tvCategory.setCategoryName(BaseDatabasePresenter.getCategoryName(noteItem.id))
+            tvCategory.setCategoryName(getCategoryName(noteItem))
             tvDate.text = noteItem.parseDate()
             ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
         }
