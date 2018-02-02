@@ -82,10 +82,12 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
 
     /**
      * Function for saving an object to the local database
+     * @param realm Realm instance
      * @param realmObject Object which will be saved to the local database
      */
-    protected fun save(realmObject: RealmObject): Unit
-            = realm.executeTransaction { realm1 -> realm1.copyToRealmOrUpdate(realmObject) }
+    protected fun save(realm: Realm, realmObject: RealmObject) {
+        realm.copyToRealmOrUpdate(realmObject)
+    }
 
     /**
      * Function for performing a query which depends on item's type

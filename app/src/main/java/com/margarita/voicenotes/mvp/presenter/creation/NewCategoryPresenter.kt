@@ -27,18 +27,20 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
     fun createCategory(name: String) {
         val nameTrimmed = name.trim()
         if (nameTrimmed.isNotEmpty()) {
-            // Check if the category with the same name exists
-            view.showLoading()
-            val realmResults = performQuery(realm)
-                    .equalTo(NAME_FIELD, nameTrimmed)
-                    .findAll()
-            view.hideLoading()
+            realm.executeTransaction { realm1 ->
+                // Check if the category with the same name exists
+                view.showLoading()
+                val realmResults = performQuery(realm1)
+                        .equalTo(NAME_FIELD, nameTrimmed)
+                        .findAll()
+                view.hideLoading()
 
-            if (realmResults.isEmpty()) {
-                save(Category(generateId(), nameTrimmed))
-                view.onCreationSuccess()
-            } else {
-                view.showError(R.string.category_exists)
+                if (realmResults.isEmpty()) {
+                    save(realm1, Category(generateId(), nameTrimmed))
+                    view.onCreationSuccess()
+                } else {
+                    view.showError(R.string.category_exists)
+                }
             }
         } else {
             view.showError(R.string.category_empty)
@@ -66,7 +68,7 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
                     view.hideLoading()
                     if (realmResults.isEmpty()) {
                         category.name = nameTrimmed
-                        realm1.copyToRealmOrUpdate(category)
+                        save(realm1, category)
                         view.onCreationSuccess()
                     } else {
                         view.showError(R.string.category_exists)

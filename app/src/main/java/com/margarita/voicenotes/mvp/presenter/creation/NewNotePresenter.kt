@@ -67,7 +67,7 @@ class NewNotePresenter(private val view: NewNoteView)
                         date,
                         photoUri?.parseToString(),
                         croppedPhotoUri?.parseToString())
-                realm1.copyToRealm(noteItem)
+                save(realm1, noteItem)
                 // Set category to the new note
                 setCategoryOfNote(realm1, noteItem, categoryId)
             }
@@ -101,7 +101,7 @@ class NewNotePresenter(private val view: NewNoteView)
                     noteItem.description = descriptionTrimmed
                     noteItem.photoUri = photoUri?.parseToString()
                     noteItem.croppedPhotoUri = croppedPhotoUri?.parseToString()
-                    realm1.copyToRealmOrUpdate(noteItem)
+                    save(realm1, noteItem)
                     setCategoryOfNote(realm1, noteItem, categoryId)
                 }
             }
@@ -124,7 +124,7 @@ class NewNotePresenter(private val view: NewNoteView)
                     .findFirst()
             if (category != null && !category.containNote(noteItem)) {
                 category.notes.add(noteItem)
-                realm.copyToRealmOrUpdate(category)
+                save(realm, category)
             }
         }
     }
