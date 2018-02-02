@@ -226,6 +226,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         if (resultCode == Activity.RESULT_OK && requestCode == EDIT_REQUEST_CODE) {
             onDataSetChanged()
         }
+        finishActionMode()
     }
 
     /**

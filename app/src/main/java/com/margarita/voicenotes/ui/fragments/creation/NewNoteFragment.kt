@@ -73,12 +73,23 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         imgBtnCrop.setOnClickListener { selectedOptionCallback.cropImage(photoUri) }
         imgBtnDelete.setOnClickListener { deleteImage() }
         btnSave.setOnClickListener {
-            presenter.createNote(
-                    etNote.getTextAsString(),
-                    Calendar.getInstance().timeInMillis,
-                    photoUri,
-                    croppedPhotoUri,
-                    adapter.getChosenItemId(spinnerCategory.selectedItemPosition))
+            val description = etNote.getTextAsString()
+            val categoryId = adapter.getChosenItemId(spinnerCategory.selectedItemPosition)
+            if (noteForEdit == null) {
+                presenter.createNote(
+                        description,
+                        Calendar.getInstance().timeInMillis,
+                        photoUri,
+                        croppedPhotoUri,
+                        categoryId)
+            } else {
+                presenter.editNote(
+                        noteForEdit!!.id,
+                        description,
+                        photoUri,
+                        croppedPhotoUri,
+                        categoryId)
+            }
         }
     }
 

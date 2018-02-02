@@ -11,6 +11,14 @@ open class Category(@PrimaryKey var id: Long = 0,
                     var notes: RealmList<NoteItem> = RealmList())
     : RealmObject(), Parcelable {
 
+    /**
+     * Function which checks if the category's list of notes contain the given note
+     * @param noteItem Note item which will be searched in the category's list of notes
+     * @return True if the list of notes contain the given note, false otherwise
+     */
+    fun containNote(noteItem: NoteItem): Boolean
+            = notes.find { it.id == noteItem.id } != null
+
     override fun toString(): String = name
 
     //region Parcelable implementation

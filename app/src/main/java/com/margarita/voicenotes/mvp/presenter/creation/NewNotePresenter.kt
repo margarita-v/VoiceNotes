@@ -51,13 +51,14 @@ class NewNotePresenter(private val view: NewNoteView)
      * @param date Note's date
      * @param photoUri Photo of note
      * @param croppedPhotoUri Cropped photo for a note's thumbnail
+     * @param categoryId ID of category for the note
      */
     fun createNote(description: String,
                    date: Long,
                    photoUri: Uri? = null,
                    croppedPhotoUri: Uri? = null,
                    categoryId: Long? = null) {
-        if (!description.isEmpty()) {
+        if (description.isNotEmpty()) {
             realm.executeTransaction { realm1 ->
                 val noteItem = NoteItem(
                         generateId(),
@@ -67,19 +68,62 @@ class NewNotePresenter(private val view: NewNoteView)
                         croppedPhotoUri?.parseToString())
                 realm1.copyToRealm(noteItem)
                 // Set category to the new note
-                if (categoryId != null) {
-                    val category = performQuery(realm1)
-                            .equalTo(ID_FIELD, categoryId)
-                            .findFirst()
-                    if (category != null) {
-                        category.notes.add(noteItem)
-                        realm1.copyToRealmOrUpdate(category)
-                    }
+                setCategoryOfNote(realm1, noteItem, categoryId)
+            }
+            view.onCreationSuccess()
+        } else {
+            view.showError(R.string.note_empty)
+        }
+    }
+
+    /**
+     * Function for the note editing
+     * @param id ID of note which will be edited
+     * @param description A text of note
+     * @param photoUri Photo of note
+     * @param croppedPhotoUri Cropped photo for a note's thumbnail
+     * @param categoryId ID of category of the note
+     */
+    fun editNote(id: Long,
+                 description: String,
+                 photoUri: Uri? = null,
+                 croppedPhotoUri: Uri? = null,
+                 categoryId: Long? = null) {
+        if (description.isNotEmpty()) {
+            realm.executeTransaction { realm1 ->
+                // Find existing note item
+                val noteItem = realm1.where(NoteItem::class.java)
+                        .equalTo(ID_FIELD, id)
+                        .findFirst()
+                if (noteItem != null) {
+                    noteItem.description = description
+                    noteItem.photoUri = photoUri?.parseToString()
+                    noteItem.croppedPhotoUri = croppedPhotoUri?.parseToString()
+                    realm1.copyToRealmOrUpdate(noteItem)
+                    setCategoryOfNote(realm1, noteItem, categoryId)
                 }
             }
             view.onCreationSuccess()
         } else {
             view.showError(R.string.note_empty)
+        }
+    }
+
+    /**
+     * Function for setting category for the note
+     * @param realm Realm instance for database access
+     * @param noteItem Note which category will be set
+     * @param categoryId ID of category for the note
+     */
+    private fun setCategoryOfNote(realm: Realm, noteItem: NoteItem, categoryId: Long?) {
+        if (categoryId != null) {
+            val category = performQuery(realm)
+                    .equalTo(ID_FIELD, categoryId)
+                    .findFirst()
+            if (category != null && !category.containNote(noteItem)) {
+                category.notes.add(noteItem)
+                realm.copyToRealmOrUpdate(category)
+            }
         }
     }
 }
