@@ -58,11 +58,12 @@ class NewNotePresenter(private val view: NewNoteView)
                    photoUri: Uri? = null,
                    croppedPhotoUri: Uri? = null,
                    categoryId: Long? = null) {
-        if (description.isNotEmpty()) {
+        val descriptionTrimmed = description.trim()
+        if (descriptionTrimmed.isNotEmpty()) {
             realm.executeTransaction { realm1 ->
                 val noteItem = NoteItem(
                         generateId(),
-                        description,
+                        descriptionTrimmed,
                         date,
                         photoUri?.parseToString(),
                         croppedPhotoUri?.parseToString())
@@ -89,14 +90,15 @@ class NewNotePresenter(private val view: NewNoteView)
                  photoUri: Uri? = null,
                  croppedPhotoUri: Uri? = null,
                  categoryId: Long? = null) {
-        if (description.isNotEmpty()) {
+        val descriptionTrimmed = description.trim()
+        if (descriptionTrimmed.isNotEmpty()) {
             realm.executeTransaction { realm1 ->
                 // Find existing note item
                 val noteItem = realm1.where(NoteItem::class.java)
                         .equalTo(ID_FIELD, id)
                         .findFirst()
                 if (noteItem != null) {
-                    noteItem.description = description
+                    noteItem.description = descriptionTrimmed
                     noteItem.photoUri = photoUri?.parseToString()
                     noteItem.croppedPhotoUri = croppedPhotoUri?.parseToString()
                     realm1.copyToRealmOrUpdate(noteItem)

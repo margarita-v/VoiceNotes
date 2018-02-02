@@ -25,10 +25,10 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
      * @param name Name of category
      */
     fun createCategory(name: String) {
-        if (!name.isEmpty()) {
+        val nameTrimmed = name.trim()
+        if (nameTrimmed.isNotEmpty()) {
             // Check if the category with the same name exists
             view.showLoading()
-            val nameTrimmed = name.trim()
             val realmResults = performQuery(realm)
                     .equalTo(NAME_FIELD, nameTrimmed)
                     .findAll()
@@ -39,6 +39,39 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
                 view.onCreationSuccess()
             } else {
                 view.showError(R.string.category_exists)
+            }
+        } else {
+            view.showError(R.string.category_empty)
+        }
+    }
+
+    /**
+     * Function for the category editing
+     * @param id ID of category which will be edited
+     * @param name A new name of category
+     */
+    fun editCategory(id: Long, name: String) {
+        val nameTrimmed = name.trim()
+        if (nameTrimmed.isNotEmpty()) {
+            realm.executeTransaction { realm1 ->
+                view.showLoading()
+                val category = performQuery(realm1)
+                        .equalTo(ID_FIELD, id)
+                        .findFirst()
+                if (category != null && category.name != nameTrimmed) {
+                    // Check if the category with the same name exists
+                    val realmResults = performQuery(realm1)
+                            .equalTo(NAME_FIELD, nameTrimmed)
+                            .findAll()
+                    view.hideLoading()
+                    if (realmResults.isEmpty()) {
+                        category.name = nameTrimmed
+                        realm1.copyToRealmOrUpdate(category)
+                        view.onCreationSuccess()
+                    } else {
+                        view.showError(R.string.category_exists)
+                    }
+                }
             }
         } else {
             view.showError(R.string.category_empty)

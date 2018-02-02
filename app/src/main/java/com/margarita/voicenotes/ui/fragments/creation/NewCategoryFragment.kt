@@ -41,7 +41,14 @@ class NewCategoryFragment: BaseNewItemFragment() {
         }
         configureEditWidgets(etCategory, imgBtnClear)
         imgBtnSpeak.setOnClickListener { actionCallback.speak() }
-        btnSave.setOnClickListener { presenter.createCategory(etCategory.getTextAsString()) }
+        btnSave.setOnClickListener {
+            val name = etCategory.getTextAsString()
+            if (categoryForEdit == null) {
+                presenter.createCategory(name)
+            } else {
+                presenter.editCategory(categoryForEdit!!.id, name)
+            }
+        }
     }
 
     override fun onAttach(context: Context?) {
