@@ -16,8 +16,22 @@ open class Category(@PrimaryKey var id: Long = 0,
      * @param noteItem Note item which will be searched in the category's list of notes
      * @return True if the list of notes contain the given note, false otherwise
      */
-    fun containNote(noteItem: NoteItem): Boolean
-            = notes.find { it.id == noteItem.id } != null
+    fun containNote(noteItem: NoteItem): Boolean = findNote(noteItem.id) != null
+
+    /**
+     * Function for removing a note from the category's note list
+     * @param noteItem Note item which will be removed
+     */
+    fun removeNote(noteItem: NoteItem) {
+        notes.remove(findNote(noteItem.id))
+    }
+
+    /**
+     * Function for searching a note item in the category's list of notes
+     * @param id ID of searched note item
+     * @return Searched note item or null if the note item was not found
+     */
+    private fun findNote(id: Long): NoteItem? = notes.find { it.id == id }
 
     override fun toString(): String = name
 

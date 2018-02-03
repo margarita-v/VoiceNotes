@@ -69,7 +69,9 @@ class NewNotePresenter(private val view: NewNoteView)
                         croppedPhotoUri?.parseToString())
                 save(realm1, noteItem)
                 // Set category to the new note
-                setCategoryOfNote(realm1, noteItem, categoryId)
+                if (categoryId != null) {
+                    setCategoryOfNote(realm1, noteItem, categoryId)
+                }
             }
             view.onCreationSuccess()
         } else {
@@ -102,9 +104,19 @@ class NewNotePresenter(private val view: NewNoteView)
                     noteItem.photoUri = photoUri?.parseToString()
                     noteItem.croppedPhotoUri = croppedPhotoUri?.parseToString()
                     save(realm1, noteItem)
-                    setCategoryOfNote(realm1, noteItem, categoryId)
+                    // Set a new category
+                    if (categoryId != null) {
+                        setCategoryOfNote(realm1, noteItem, categoryId)
+                    } else {
+                        // Remove category: now the note has no category
+                        val category = getCategory(noteItem.id)
+                        if (category != null) {
+                            category.removeNote(noteItem)
+                            save(realm1, category)
+                        }
+                    }
                 }
-            }
+            } // transaction
             view.onEditSuccess()
         } else {
             view.showError(R.string.note_empty)
@@ -117,15 +129,13 @@ class NewNotePresenter(private val view: NewNoteView)
      * @param noteItem Note which category will be set
      * @param categoryId ID of category for the note
      */
-    private fun setCategoryOfNote(realm: Realm, noteItem: NoteItem, categoryId: Long?) {
-        if (categoryId != null) {
-            val category = performQuery(realm)
-                    .equalTo(ID_FIELD, categoryId)
-                    .findFirst()
-            if (category != null && !category.containNote(noteItem)) {
-                category.notes.add(noteItem)
-                save(realm, category)
-            }
+    private fun setCategoryOfNote(realm: Realm, noteItem: NoteItem, categoryId: Long) {
+        val category = performQuery(realm)
+                .equalTo(ID_FIELD, categoryId)
+                .findFirst()
+        if (category != null && !category.containNote(noteItem)) {
+            category.notes.add(noteItem)
+            save(realm, category)
         }
     }
 }
