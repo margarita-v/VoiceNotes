@@ -24,9 +24,14 @@ interface BaseNewItemView{
     fun showError(@StringRes messageRes: Int)
 
     /**
-     * Function which will be called if the note was created and saved successfully
+     * Function which will be called if the item was created and saved successfully
      */
     fun onCreationSuccess()
+
+    /**
+     * Function which will be called if the item was edited successfully
+     */
+    fun onEditSuccess()
 }
 
 /**

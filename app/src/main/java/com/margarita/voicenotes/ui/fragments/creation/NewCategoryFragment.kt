@@ -63,6 +63,9 @@ class NewCategoryFragment: BaseNewItemFragment() {
     override fun onCreationSuccess(): Unit
             = actionCallback.onCreationSuccess(R.string.category_created)
 
+    override fun onEditSuccess(): Unit
+            = actionCallback.onEditSuccess(R.string.category_edited)
+
     override fun setText(text: String): Unit = etCategory.setSpeechText(text)
 
     /**

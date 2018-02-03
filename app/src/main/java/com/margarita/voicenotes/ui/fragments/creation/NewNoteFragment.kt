@@ -112,6 +112,9 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     override fun onCreationSuccess(): Unit
             = selectedOptionCallback.onCreationSuccess(R.string.note_created)
 
+    override fun onEditSuccess(): Unit
+            = selectedOptionCallback.onEditSuccess(R.string.note_edited)
+
     override fun setText(text: String): Unit = etNote.setSpeechText(text)
 
     /**

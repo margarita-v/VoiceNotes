@@ -75,5 +75,11 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
          * @param messageRes String resource ID for a toast message
          */
         fun onCreationSuccess(@StringRes messageRes: Int)
+
+        /**
+         * Function which will be called when the item was edited
+         * @param messageRes String resource ID for a toast message
+         */
+        fun onEditSuccess(@StringRes messageRes: Int)
     }
 }

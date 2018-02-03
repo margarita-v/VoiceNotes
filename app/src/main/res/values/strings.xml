@@ -52,6 +52,9 @@
     <string name="note_created">New note was created</string>
     <string name="category_created">New category was created</string>
 
+    <string name="note_edited">Note was edited</string>
+    <string name="category_edited">Category was edited</string>
+
     <!-- Messages for empty lists -->
     <string name="empty_note_list">The note list is empty</string>
     <string name="empty_category_list">The category list is empty</string>

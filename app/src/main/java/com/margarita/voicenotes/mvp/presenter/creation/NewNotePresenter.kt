@@ -105,7 +105,7 @@ class NewNotePresenter(private val view: NewNoteView)
                     setCategoryOfNote(realm1, noteItem, categoryId)
                 }
             }
-            view.onCreationSuccess()
+            view.onEditSuccess()
         } else {
             view.showError(R.string.note_empty)
         }

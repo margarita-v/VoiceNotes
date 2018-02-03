@@ -97,7 +97,15 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
 
     override fun speak(): Unit = startSpeechRecognition()
 
-    override fun onCreationSuccess(messageRes: Int) {
+    override fun onCreationSuccess(messageRes: Int): Unit = finishAction(messageRes)
+
+    override fun onEditSuccess(messageRes: Int) {
+        if (usedForCreation()) {
+            finishAction(messageRes)
+        }
+    }
+
+    protected fun finishAction(messageRes: Int) {
         showToast(messageRes)
         setResult(Activity.RESULT_OK)
         finish()
@@ -139,7 +147,9 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
 
     /**
      * Function which returns true if the activity is used for creation of items,
-     * false otherwise
+     * false otherwise.
+     * If the activity is not used for creation, we don't need to launch
+     * a speech recognition service when activity is created.
      */
     protected abstract fun usedForCreation(): Boolean
 }

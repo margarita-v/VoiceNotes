@@ -69,7 +69,7 @@ class NewCategoryPresenter(private val view: BaseNewItemView)
                     if (realmResults.isEmpty()) {
                         category.name = nameTrimmed
                         save(realm1, category)
-                        view.onCreationSuccess()
+                        view.onEditSuccess()
                     } else {
                         view.showError(R.string.category_exists)
                     }
