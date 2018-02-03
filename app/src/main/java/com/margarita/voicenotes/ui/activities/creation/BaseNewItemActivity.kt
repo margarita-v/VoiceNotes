@@ -97,15 +97,7 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
 
     override fun speak(): Unit = startSpeechRecognition()
 
-    override fun onCreationSuccess(messageRes: Int): Unit = finishAction(messageRes)
-
-    override fun onEditSuccess(messageRes: Int) {
-        if (usedForCreation()) {
-            finishAction(messageRes)
-        }
-    }
-
-    protected fun finishAction(messageRes: Int) {
+    override fun onCreationSuccess(messageRes: Int) {
         showToast(messageRes)
         setResult(Activity.RESULT_OK)
         finish()

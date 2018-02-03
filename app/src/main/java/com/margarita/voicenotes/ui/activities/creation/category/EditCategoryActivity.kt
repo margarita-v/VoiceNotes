@@ -17,9 +17,4 @@ class EditCategoryActivity : NewCategoryActivity() {
     }
 
     override fun usedForCreation(): Boolean = false
-
-    override fun onEditSuccess(messageRes: Int) {
-        //TODO
-        finishAction(messageRes)
-    }
 }

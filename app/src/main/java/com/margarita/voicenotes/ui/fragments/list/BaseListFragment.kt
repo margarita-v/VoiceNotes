@@ -225,6 +225,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == EDIT_REQUEST_CODE) {
             onDataSetChanged()
+            notifyReloadNotes()
         }
         finishActionMode()
     }
@@ -239,12 +240,18 @@ abstract class BaseListFragment<ItemType: RealmObject>
         } else {
             presenter.removeAll(adapter.checkedIds)
         }
-        // Notify activity about the data set changes
+        notifyReloadNotes()
+        finishActionMode()
+        context?.showToast(getDeletedItemsMessageRes())
+    }
+
+    /**
+     * Function which notifies the activity about the data set changes
+     */
+    private fun notifyReloadNotes() {
         if (needReload()) {
             activityCallback.notesDataSetChanged()
         }
-        finishActionMode()
-        context?.showToast(getDeletedItemsMessageRes())
     }
 
     /**

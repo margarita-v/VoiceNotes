@@ -16,6 +16,4 @@ class EditNoteActivity : NewNoteActivity() {
     }
 
     override fun usedForCreation(): Boolean = false
-
-    override fun onEditSuccess(messageRes: Int): Unit = finishAction(messageRes)
 }

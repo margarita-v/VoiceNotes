@@ -28,7 +28,7 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
     protected fun configureEditWidgets(editText: EditText, imageButton: ImageButton) {
 
         // Configure image button for performing the EditText clearing
-        imageButton.setEnabledIconColor(false)
+        imageButton.setEnabledIconColor(editText.getTextAsString().isNotEmpty())
         imageButton.setOnClickListener { editText.setText("") }
 
         // Configure EditText
@@ -75,11 +75,5 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
          * @param messageRes String resource ID for a toast message
          */
         fun onCreationSuccess(@StringRes messageRes: Int)
-
-        /**
-         * Function which will be called when the item was edited
-         * @param messageRes String resource ID for a toast message
-         */
-        fun onEditSuccess(@StringRes messageRes: Int)
     }
 }

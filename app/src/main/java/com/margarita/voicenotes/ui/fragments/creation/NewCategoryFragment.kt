@@ -35,11 +35,8 @@ class NewCategoryFragment: BaseNewItemFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        if (categoryForEdit != null) {
-            showCategoryInfo(categoryForEdit!!)
-        }
         configureEditWidgets(etCategory, imgBtnClear)
+
         imgBtnSpeak.setOnClickListener { actionCallback.speak() }
         btnSave.setOnClickListener {
             val name = etCategory.getTextAsString()
@@ -48,6 +45,9 @@ class NewCategoryFragment: BaseNewItemFragment() {
             } else {
                 presenter.editCategory(categoryForEdit!!.id, name)
             }
+        }
+        if (categoryForEdit != null) {
+            showCategoryInfo(categoryForEdit!!)
         }
     }
 
@@ -64,7 +64,7 @@ class NewCategoryFragment: BaseNewItemFragment() {
             = actionCallback.onCreationSuccess(R.string.category_created)
 
     override fun onEditSuccess(): Unit
-            = actionCallback.onEditSuccess(R.string.category_edited)
+            = actionCallback.onCreationSuccess(R.string.category_edited)
 
     override fun setText(text: String): Unit = etCategory.setSpeechText(text)
 

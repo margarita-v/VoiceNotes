@@ -105,6 +105,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     override fun setCategories(categories: List<Category>) {
         adapter.addAll(categories)
         if (noteForEdit != null) {
+            configureEditWidgets(etNote, imgBtnClear)
             showNoteInfo(noteForEdit!!)
         }
     }
@@ -113,7 +114,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
             = selectedOptionCallback.onCreationSuccess(R.string.note_created)
 
     override fun onEditSuccess(): Unit
-            = selectedOptionCallback.onEditSuccess(R.string.note_edited)
+            = selectedOptionCallback.onCreationSuccess(R.string.note_edited)
 
     override fun setText(text: String): Unit = etNote.setSpeechText(text)
 
