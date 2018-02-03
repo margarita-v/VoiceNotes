@@ -59,16 +59,9 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
     protected abstract fun addAll(items: List<ItemType>)
 
     /**
-     * Function for adding all IDs to the list of checked IDs
+     * Function for getting an viewModel's ID which depends on viewModel type
      */
-    protected abstract fun checkAllIds()
-
-    /**
-     * Function for an item selection.
-     * Need for getting access to the item's ID
-     * @param item Item which was selected
-     */
-    protected abstract fun selectItem(item: BaseViewModel<ItemType>)
+    protected abstract fun getItemId(viewModel: BaseViewModel<ItemType>): Long
 
     /**
      * Function for getting a count of checked items
@@ -126,12 +119,29 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         // Change item's checked state
         val itemViewModel = items[position]
         val newState = !itemViewModel.checked
-        items[position].checked = newState
-        selectItem(itemViewModel)
+        itemViewModel.checked = newState
+
+        val id = getItemId(itemViewModel)
+        if (itemViewModel.checked) {
+            checkedIds.add(id)
+        } else {
+            checkedIds.remove(id)
+        }
+
         if (newState) {
             lastCheckedItemPosition = position
         }
         isMultiChoiceMode = getCheckedItemCount() > 0
+    }
+
+    /**
+     * Function for adding all IDs to the list of checked IDs
+     */
+    private fun checkAllIds() {
+        items.forEach {
+            it.checked = true
+            checkedIds.add(getItemId(it))
+        }
     }
 
     /**

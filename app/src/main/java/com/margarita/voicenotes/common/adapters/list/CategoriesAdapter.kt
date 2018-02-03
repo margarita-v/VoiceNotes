@@ -21,21 +21,7 @@ class CategoriesAdapter(categoryClickListener: BaseListAdapter.OnItemClickListen
     override fun addAll(items: List<Category>): Unit
             = items.forEach { this.items.add(CategoryViewModel(it)) }
 
-    override fun checkAllIds() {
-        items.forEach {
-            it.checked = true
-            checkedIds.add(it.item.id)
-        }
-    }
-
-    override fun selectItem(item: BaseViewModel<Category>) {
-        val id = item.item.id
-        if (item.checked) {
-            checkedIds.add(id)
-        } else {
-            checkedIds.remove(id)
-        }
-    }
+    override fun getItemId(viewModel: BaseViewModel<Category>): Long = viewModel.item.id
 
     /**
      * View holder for a category item

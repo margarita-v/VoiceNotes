@@ -21,21 +21,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
     override fun addAll(items: List<NoteItem>): Unit
             = items.forEach { this.items.add(NoteViewModel(it)) }
 
-    override fun checkAllIds() {
-        items.forEach {
-            it.checked = true
-            checkedIds.add(it.item.id)
-        }
-    }
-
-    override fun selectItem(item: BaseViewModel<NoteItem>) {
-        val id = item.item.id
-        if (item.checked) {
-            checkedIds.add(id)
-        } else {
-            checkedIds.remove(id)
-        }
-    }
+    override fun getItemId(viewModel: BaseViewModel<NoteItem>): Long = viewModel.item.id
 
     /**
      * View holder for a note item
