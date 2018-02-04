@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.mvp.view.BaseNewItemView
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.MessageDialog
 import kotlinx.android.synthetic.main.progress_bar.*
 
 /**
@@ -20,7 +21,9 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
 
     override fun hideLoading(): Unit = progressBar.hide()
 
-    override fun showError(messageRes: Int): Unit= context!!.showToast(messageRes)
+    override fun showError(messageRes: Int): Unit
+            = MessageDialog.newInstance(messageRes)
+                .show(fragmentManager, MessageDialog.MESSAGE_DIALOG_TAG)
 
     /**
      * Function for configuration of the edit text and its clearing button
