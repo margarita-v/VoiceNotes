@@ -6,7 +6,8 @@ import com.margarita.voicenotes.models.entities.Category
 /**
  * Interface for all views which is used for an item's creation
  */
-interface BaseNewItemView{
+interface BaseNewItemView {
+
     /**
      * Show loading animation
      */

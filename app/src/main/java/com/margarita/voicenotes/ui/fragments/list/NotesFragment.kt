@@ -14,6 +14,11 @@ import com.margarita.voicenotes.ui.activities.creation.note.EditNoteActivity
 class NotesFragment: BaseListFragment<NoteItem>() {
 
     /**
+     * Intent for the note click events
+     */
+    private val clickNoteIntent by lazy { Intent(context!!, ViewNoteActivity::class.java) }
+
+    /**
      * Intent for the note editing
      */
     private val editNoteIntent by lazy { Intent(context!!, EditNoteActivity::class.java) }
@@ -33,9 +38,8 @@ class NotesFragment: BaseListFragment<NoteItem>() {
 
     override fun getEmptyPictureRes(): Int = R.drawable.ic_note_gray_24dp
 
-    override fun showItemInfo(item: NoteItem): Unit
-            = startActivity(Intent(context, ViewNoteActivity::class.java)
-            .putExtra(getString(R.string.note_intent), item))
+    override fun onItemClick(item: NoteItem): Unit
+            = startActivity(clickNoteIntent.putExtra(getString(R.string.note_intent), item))
 
     override fun edit(item: NoteItem?) {
         editNoteIntent.putExtra(getString(R.string.note_intent), item)

@@ -7,10 +7,13 @@ import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.NoteItem
 import kotlinx.android.synthetic.main.activity_view_note.*
 
+/**
+ * Activity for showing info about the note
+ */
 class ViewNoteActivity : BaseActivity() {
 
     /**
-     * Intent for viewing a fullscreen photo
+     * Intent for showing a fullscreen photo
      */
     private val photoIntent by lazy {
         Intent(this@ViewNoteActivity, ViewPhotoActivity::class.java)

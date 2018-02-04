@@ -64,7 +64,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
     protected val itemClickListener = object: BaseListAdapter.OnItemClickListener<ItemType> {
         override fun onItemClick(item: ItemType, position: Int) {
             if (!adapter.isMultiChoiceMode) {
-                showItemInfo(item)
+                onItemClick(item)
             } else {
                 selectItem(position)
             }
@@ -123,6 +123,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
             = actionMode?.setSelectedItemsCount(
                 context!!, getActionModeTitleRes(), adapter.getCheckedItemCount())
 
+    //region Abstract functions for getting resources
     /**
      * Function for getting a string resource ID for setting a title to the ActionMode
      */
@@ -148,6 +149,18 @@ abstract class BaseListFragment<ItemType: RealmObject>
      * Function for getting a drawable resource ID for setting an icon of empty view
      */
     @DrawableRes protected abstract fun getEmptyPictureRes(): Int
+    //endregion
+
+    /**
+     * Function which will be called when the list item was clicked
+     * and multi choice mode is off
+     */
+    protected abstract fun onItemClick(item: ItemType)
+
+    /**
+     * Function for edit of chosen item
+     */
+    protected abstract fun edit(item: ItemType?)
 
     /**
      * Function for checking if activity should reload data from the local database
@@ -216,10 +229,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
 
     override fun onDataSetChanged(): Unit = presenter.loadItems()
     //endregion
-
-    protected abstract fun showItemInfo(item: ItemType)
-
-    protected abstract fun edit(item: ItemType?)
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

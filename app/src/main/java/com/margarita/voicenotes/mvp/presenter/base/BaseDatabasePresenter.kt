@@ -54,13 +54,12 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
      * Function for removing an item with the given ID
      * @param id ID of item which will be removed
      */
-    private fun remove(id: Long) {
-        realm.executeTransaction { realm1 ->
-            performQuery(realm1)
-                    .equalTo(ID_FIELD, id)
-                    .findAll()
-                    .deleteAllFromRealm()
-        }
+    private fun remove(id: Long): Unit
+            = realm.executeTransaction { realm1 ->
+                performQuery(realm1)
+                .equalTo(ID_FIELD, id)
+                .findAll()
+                .deleteAllFromRealm()
     }
 
     /**

@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_new_note.*
 import java.util.*
 
 /**
- * Fragment for creation a new note
+ * Fragment for creation or editing the notes
  */
 class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
 
@@ -123,16 +123,12 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
      */
     private fun showNoteInfo(noteItem: NoteItem) {
         configureEditText(etNote, noteItem.description)
-
-        val hasPhoto = noteItem.photoUri != null
-        configureOptionalButtons(hasPhoto)
+        configureOptionalButtons(photoUri != null)
 
         photoUri = noteItem.photoUri?.parseStringToUri()
         croppedPhotoUri = noteItem.croppedPhotoUri?.parseStringToUri()
+        ivPhoto.loadImage(context!!, croppedPhotoUri)
 
-        if (hasPhoto) {
-            ivPhoto.loadImage(context!!, croppedPhotoUri)
-        }
         // Show a note's category name
         spinnerCategory.setSelection(
                 adapter.getCategoryPosition(

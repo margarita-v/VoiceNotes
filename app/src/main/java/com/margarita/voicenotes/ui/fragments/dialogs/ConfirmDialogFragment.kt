@@ -21,6 +21,7 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
     private lateinit var confirmationListener: ConfirmationListener
 
     companion object {
+
         /**
          * Tag for a dialog showing
          */

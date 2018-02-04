@@ -12,7 +12,7 @@ import com.margarita.voicenotes.mvp.presenter.creation.NewCategoryPresenter
 import kotlinx.android.synthetic.main.fragment_new_category.*
 
 /**
- * Fragment for creation a new category
+ * Fragment for creation or editing the categories
  */
 class NewCategoryFragment: BaseNewItemFragment() {
 

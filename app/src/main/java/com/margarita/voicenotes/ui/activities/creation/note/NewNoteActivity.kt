@@ -61,6 +61,9 @@ open class NewNoteActivity :
      */
     private val takePhotoIntent by lazy { Intent(MediaStore.ACTION_IMAGE_CAPTURE) }
 
+    /**
+     * Fragment for creation of notes
+     */
     protected lateinit var newNoteFragment: NewNoteFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {

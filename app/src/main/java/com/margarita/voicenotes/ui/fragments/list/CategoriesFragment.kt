@@ -1,6 +1,5 @@
 package com.margarita.voicenotes.ui.fragments.list
 
-import android.app.Activity
 import android.content.Intent
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.CategoriesAdapter
@@ -35,8 +34,8 @@ class CategoriesFragment: BaseListFragment<Category>() {
 
     override fun getEmptyPictureRes(): Int = R.drawable.ic_collections_bookmark_gray_24dp
 
-    override fun showItemInfo(item: Category) {
-
+    override fun onItemClick(item: Category) {
+        //TODO Add filter by categories
     }
 
     override fun edit(item: Category?) {
