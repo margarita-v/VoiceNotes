@@ -27,12 +27,12 @@
     <!-- Theme for buttons with ripple effect -->
     <style name="AppTheme.ButtonThemeWithRipple">
         <item name="colorButtonNormal">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorGradientEnd</item>
+        <item name="colorControlHighlight">@color/colorRipple</item>
     </style>
 
     <!-- Theme for a note item with ripple effect -->
     <style name="AppTheme.NoteItemThemeWithRipple">
-        <item name="colorButtonNormal">@color/colorDefault</item>
+        <item name="colorButtonNormal">@color/colorWhite</item>
         <item name="colorControlHighlight">@color/colorChosenItem</item>
     </style>
 
@@ -43,21 +43,36 @@
         <item name="android:background">@color/colorDivider</item>
     </style>
 
+    <!-- Styles for a custom FAB with additional actions -->
+
     <style name="MenuLabelsStyle">
         <item name="android:background">@drawable/fab_label_background</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">@dimen/font_size_14</item>
         <item name="android:maxLines">2</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="MenuMainButtonStyle">
+        <item name="menu_labels_style">@style/MenuLabelsStyle</item>
+        <item name="menu_labels_showAnimation">@anim/jump_from_down</item>
+        <item name="menu_labels_hideAnimation">@anim/jump_to_down</item>
+        <item name="menu_animationDelayPerItem">0</item>
+        <item name="menu_shadowColor">@color/colorShadow</item>
+        <item name="menu_colorNormal">@color/colorAccent</item>
+        <item name="menu_colorPressed">@color/colorPressed</item>
+        <item name="menu_colorRipple">@color/colorRipple</item>
+        <item name="menu_labels_singleLine">true</item>
+        <item name="menu_backgroundColor">@color/colorBackground</item>
     </style>
 
     <style name="MenuButtonsStyle">
         <item name="fab_size">mini</item>
         <item name="fab_showAnimation">@anim/jump_from_down</item>
         <item name="fab_hideAnimation">@anim/jump_to_down</item>
-        <item name="fab_shadowColor">#444</item>
-        <item name="fab_colorNormal">#FFB805</item>
-        <item name="fab_colorPressed">#F2AB00</item>
-        <item name="fab_colorRipple">#D99200</item>
+        <item name="fab_shadowColor">@color/colorShadow</item>
+        <item name="fab_colorNormal">@color/colorAccent</item>
+        <item name="fab_colorPressed">@color/colorPressed</item>
+        <item name="fab_colorRipple">@color/colorRipple</item>
     </style>
 </resources>

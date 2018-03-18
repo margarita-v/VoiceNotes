@@ -21,7 +21,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100dp"
-            android:textColor="@color/colorDefault"
+            android:textColor="@color/colorWhite"
             android:textSize="@dimen/output_font_size" />
 
         <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/tap_on_mic"
-                android:textColor="@color/colorDefault"
+                android:textColor="@color/colorWhite"
                 android:textSize="@dimen/font_size_14" />
         </LinearLayout>
 

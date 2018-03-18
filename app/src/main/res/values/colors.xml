@@ -4,10 +4,14 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="colorDefault">@android:color/white</color>
+    <color name="colorPressed">#fb206b</color>
+    <color name="colorRipple">#6b394c</color>
+    <color name="colorShadow">#444</color>
+
+    <color name="colorBackground">#ccffffff</color>
+    <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorChosenItem">#b8cbf5</color>
 
     <color name="colorDivider">#1f000000</color>
     <color name="colorGradientStart">#31244e</color>
-    <color name="colorGradientEnd">#6b394c</color>
 </resources>

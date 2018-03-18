@@ -78,7 +78,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
          */
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
-            //fab.setVisible(!adapter.selectItem(position))
+            fabMenu.setVisible(!adapter.selectItem(position))
             setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
                 finishActionMode()
@@ -289,7 +289,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            //fab.show()
+            fabMenu.show()
             adapter.clearSelection()
             actionMode = null
         }

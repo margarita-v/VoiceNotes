@@ -211,7 +211,7 @@ abstract class BaseListAdapter<ItemType: RealmObject>(
         protected open fun setItemBackground(isChecked: Boolean) {
             val cardView = itemView.findViewById<CardView>(R.id.cardView)
             cardView.setBackgroundResource(
-                    if (isChecked) R.color.colorChosenItem else R.color.colorDefault)
+                    if (isChecked) R.color.colorChosenItem else R.color.colorWhite)
         }
     }
 

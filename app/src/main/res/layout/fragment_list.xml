@@ -15,50 +15,41 @@
     <include layout="@layout/empty_view" />
 
     <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/menu_yellow"
+        android:id="@+id/fabMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/margin16"
-        app:menu_labels_style="@style/MenuLabelsStyle"
-        app:menu_labels_showAnimation="@anim/jump_from_down"
-        app:menu_labels_hideAnimation="@anim/jump_to_down"
-        app:menu_animationDelayPerItem="0"
-        app:menu_shadowColor="#444"
-        app:menu_colorNormal="#FFB805"
-        app:menu_colorPressed="#F2AB00"
-        app:menu_colorRipple="#D99200"
-        app:menu_labels_singleLine="true"
-        app:menu_backgroundColor="#ccffffff">
+        style="@style/MenuMainButtonStyle">
 
         <!-- To set icons for a custom FAB, we must use attribute
             android:src, despite the AndroidStudio warnings! -->
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab12"
+            android:id="@+id/fabNewNote"
+            style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mic_white_24dp"
-            app:fab_label="Menu item 1"
-            style="@style/MenuButtonsStyle" />
+            app:fab_label="@string/fab_create_note" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab22"
+            android:id="@+id/fabNewPhoto"
+            style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_mic_white_24dp"
-            app:fab_label="Menu item 2"
-            style="@style/MenuButtonsStyle" />
+            android:src="@drawable/ic_add_a_photo_white_24dp"
+            app:fab_label="@string/fab_take_photo" />
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab32"
+            android:id="@+id/fabNewCategory"
+            style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_mic_white_24dp"
-            app:fab_label="@string/app_name"
-            style="@style/MenuButtonsStyle" />
+            android:src="@drawable/ic_book_white_24dp"
+            app:fab_label="@string/fab_create_category" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

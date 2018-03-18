@@ -28,6 +28,11 @@
     <!-- Message for a class cast exception -->
     <string name="class_cast"> must implement %1$s interface</string>
 
+    <!-- FAB menu -->
+    <string name="fab_create_note">Create a voice note</string>
+    <string name="fab_take_photo">Take a photo</string>
+    <string name="fab_create_category">Create a new category</string>
+
     <!-- Dialog for delete confirmation -->
     <string name="confirm_title">Confirmation</string>
     <string name="confirm_delete_notes">Are you sure you want delete chosen notes?</string>
