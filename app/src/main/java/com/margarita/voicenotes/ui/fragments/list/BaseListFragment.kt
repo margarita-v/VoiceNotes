@@ -11,6 +11,7 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
@@ -20,7 +21,7 @@ import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import io.realm.RealmObject
 import kotlinx.android.synthetic.main.empty_view.*
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.list_content.*
 import kotlinx.android.synthetic.main.progress_bar.*
 
 /**
@@ -78,7 +79,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
          */
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
-            fabMenu.setVisible(!adapter.selectItem(position))
+            getFabMenu().setVisible(!adapter.selectItem(position))
             setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
                 finishActionMode()
@@ -118,6 +119,9 @@ abstract class BaseListFragment<ItemType: RealmObject>
                 context!!, getActionModeTitleRes(), adapter.getCheckedItemCount())
 
     //region Abstract functions for getting resources
+
+    protected abstract fun getFabMenu(): FloatingActionMenu
+
     /**
      * Function for getting a string resource ID for setting a title to the ActionMode
      */
@@ -160,8 +164,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
      * Function for checking if activity should reload data from the local database
      */
     open fun needReload(): Boolean = false
-
-    override fun getLayoutRes(): Int = R.layout.fragment_list
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -289,7 +291,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            fabMenu.show()
+            getFabMenu().show()
             adapter.clearSelection()
             actionMode = null
         }

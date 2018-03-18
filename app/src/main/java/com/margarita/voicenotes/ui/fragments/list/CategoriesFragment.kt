@@ -1,11 +1,13 @@
 package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Intent
+import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.CategoriesAdapter
 import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.mvp.presenter.list.CategoriesPresenter
 import com.margarita.voicenotes.ui.activities.creation.category.EditCategoryActivity
+import kotlinx.android.synthetic.main.fragment_list_categories.*
 
 /**
  * Fragment for showing a list of categories
@@ -23,6 +25,10 @@ class CategoriesFragment: BaseListFragment<Category>() {
         adapter = CategoriesAdapter(itemClickListener)
         presenter = CategoriesPresenter(this)
     }
+
+    override fun getLayoutRes(): Int = R.layout.fragment_list_categories
+
+    override fun getFabMenu(): FloatingActionMenu = fabCategory
 
     override fun getActionModeTitleRes(): Int = R.string.selected_categories
 

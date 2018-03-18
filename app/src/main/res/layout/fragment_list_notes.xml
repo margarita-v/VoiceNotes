@@ -4,15 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
-
-    <include layout="@layout/progress_bar" />
-
-    <include layout="@layout/empty_view" />
+    <include layout="@layout/list_content" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/fabMenu"

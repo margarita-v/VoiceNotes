@@ -1,12 +1,14 @@
 package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Intent
+import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.list.NotesPresenter
 import com.margarita.voicenotes.ui.activities.ViewNoteActivity
 import com.margarita.voicenotes.ui.activities.creation.note.EditNoteActivity
+import kotlinx.android.synthetic.main.fragment_list_notes.*
 
 /**
  * Fragment for showing a list of notes
@@ -27,6 +29,10 @@ class NotesFragment: BaseListFragment<NoteItem>() {
         adapter = NotesAdapter(itemClickListener)
         presenter = NotesPresenter(this)
     }
+
+    override fun getLayoutRes(): Int = R.layout.fragment_list_notes
+
+    override fun getFabMenu(): FloatingActionMenu = fabMenu
 
     override fun getActionModeTitleRes(): Int = R.string.selected_notes
 

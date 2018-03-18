@@ -31,11 +31,6 @@ class MainActivity :
     }
 
     /**
-     * Index of the current visible fragment
-     */
-    private var currentFragmentIndex: Int = 0
-
-    /**
      * Flag which shows if we should reload a list of notes
      */
     private var needReloadNotes = false
@@ -93,10 +88,5 @@ class MainActivity :
             //findFragmentByTag(index).onDataSetChanged()
             needReloadNotes = false
         }*/
-        // Finish action mode, if the fragment was changed
-        if (index != currentFragmentIndex) {
-            //getCurrentFragment().finishActionMode()
-            currentFragmentIndex = index
-        }
     }
 }
