@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -42,11 +41,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
          */
         const val EDIT_REQUEST_CODE = 5
     }
-
-    /**
-     * Translation Y value for a floating action button for its animation
-     */
-    private val fabTranslationYForHide by lazy { fab.width * 1.5f }
 
     /**
      * Listener for contextual toolbar
@@ -84,7 +78,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
          */
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
-            fab.setVisible(!adapter.selectItem(position))
+            //fab.setVisible(!adapter.selectItem(position))
             setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
                 finishActionMode()
@@ -186,22 +180,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         // Setup RecyclerView
         rvList.layoutManager = LinearLayoutManager(activity)
         rvList.adapter = adapter
-        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                fabAnimate(dy > 0)
-                super.onScrolled(recyclerView, dx, dy)
-            }
-
-            /**
-             * Function for showing animation for hide and show a floating action button
-             * @param isForHide If True then we should hide FAB, show otherwise
-             */
-            private fun fabAnimate(isForHide: Boolean) {
-                val translationY = if (isForHide) fabTranslationYForHide else 0f
-                fab.animate().translationY(translationY).start()
-            }
-        })
-        fab.setOnClickListener { activityCallback.onFabClick() }
+        //fab.setOnClickListener { activityCallback.onFabClick() }
     }
 
     override fun onAttach(context: Context?) {
@@ -269,7 +248,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
      */
     private fun setupWidgets(isLoading: Boolean) {
         progressBar.setVisible(isLoading)
-        fab.setVisible(!isLoading)
+        //fab.setVisible(!isLoading)
     }
 
     /**
@@ -310,7 +289,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            fab.show()
+            //fab.show()
             adapter.clearSelection()
             actionMode = null
         }
