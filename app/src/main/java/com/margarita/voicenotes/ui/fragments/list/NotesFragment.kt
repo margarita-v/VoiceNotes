@@ -8,7 +8,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.list.NotesPresenter
-import com.margarita.voicenotes.ui.activities.ViewNoteActivity
+import com.margarita.voicenotes.ui.activities.info.ViewNoteActivity
 import com.margarita.voicenotes.ui.activities.creation.note.EditNoteActivity
 import kotlinx.android.synthetic.main.fragment_list_notes.*
 

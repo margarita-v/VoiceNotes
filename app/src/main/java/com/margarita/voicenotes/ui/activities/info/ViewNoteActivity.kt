@@ -1,10 +1,11 @@
-package com.margarita.voicenotes.ui.activities
+package com.margarita.voicenotes.ui.activities.info
 
 import android.content.Intent
 import android.os.Bundle
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.entities.NoteItem
+import com.margarita.voicenotes.ui.activities.BaseActivity
 import kotlinx.android.synthetic.main.activity_view_note.*
 
 /**

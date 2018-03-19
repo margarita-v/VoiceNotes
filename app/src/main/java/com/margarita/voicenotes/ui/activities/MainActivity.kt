@@ -61,6 +61,7 @@ class MainActivity : BaseListActivity() {
                 //TODO Start activity for result and reload a list of notes
                 //TODO if categories were changed!
                 startActivity(showCategoriesIntent)
+                closeFabMenu()
                 return true
             }
         }
@@ -72,7 +73,7 @@ class MainActivity : BaseListActivity() {
                 startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
             R.id.fabNewCategory -> createCategory()
         }
-        notesFragment.closeFabMenu()
+        closeFabMenu()
     }
 
     override fun onDataSetChanged() {
@@ -87,6 +88,8 @@ class MainActivity : BaseListActivity() {
             notesFragment.onDataSetChanged()
         }
     }
+
+    private fun closeFabMenu(): Unit = notesFragment.closeFabMenu()
 
     /**
      * Function for finishing an ActionMode for the current fragment

@@ -85,7 +85,7 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.ViewNoteActivity"
+            android:name=".ui.activities.info.ViewNoteActivity"
             android:label="@string/note_info"
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
@@ -96,15 +96,15 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.ViewPhotoActivity"
+            android:name=".ui.activities.info.ViewPhotoActivity"
             android:label="@string/photo_fullscreen"
-            android:parentActivityName=".ui.activities.ViewNoteActivity"
+            android:parentActivityName=".ui.activities.info.ViewNoteActivity"
             tools:targetApi="jelly_bean">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activities.ViewNoteActivity" />
+                android:value=".ui.activities.info.ViewNoteActivity" />
         </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
 
