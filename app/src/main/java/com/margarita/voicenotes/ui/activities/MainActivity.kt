@@ -3,6 +3,8 @@ package com.margarita.voicenotes.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.ui.activities.creation.note.NewNoteActivity
@@ -16,6 +18,13 @@ class MainActivity : BaseListActivity() {
      */
     private val createNoteIntent by lazy {
         Intent(this, NewNoteActivity::class.java)
+    }
+
+    /**
+     * Intent for showing a list of categories
+     */
+    private val showCategoriesIntent by lazy {
+        Intent(this, CategoryListActivity::class.java)
     }
 
     /**
@@ -41,6 +50,22 @@ class MainActivity : BaseListActivity() {
         setFragment(notesFragment)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_categories, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_show_categories -> {
+                //TODO Start activity for result and reload a list of notes
+                //TODO if categories were changed!
+                startActivity(showCategoriesIntent)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
     override fun onClick(view: View) {
         when (view.id) {
             R.id.fabNewNote ->
@@ -54,9 +79,7 @@ class MainActivity : BaseListActivity() {
         needReloadNotes = true
     }
 
-    override fun confirm() {
-        notesFragment.removeChosenItems()
-    }
+    override fun confirm(): Unit = notesFragment.removeChosenItems()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

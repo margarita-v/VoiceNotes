@@ -3,6 +3,7 @@
     <string name="app_name">VoiceNotes</string>
     <string name="new_note">New note</string>
     <string name="new_category">New category</string>
+    <string name="all_categories">All categories</string>
     <string name="note_info">Note info</string>
     <string name="photo_fullscreen">Full photo</string>
 
@@ -68,6 +69,7 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="speak">Speak</string>
     <string name="category">Category</string>
+    <string name="show_categories">Show categories</string>
     <string name="choose_category">Choose category</string>
     <string name="date">Date</string>
     <string name="save">Save</string>
