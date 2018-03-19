@@ -303,11 +303,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
     interface MainActivityCallback {
 
         /**
-         * Function which will be called when the FAB is clicked
-         */
-        fun onFabClick()
-
-        /**
          * Function which notify activity if the data set was changed
          */
         fun notesDataSetChanged()

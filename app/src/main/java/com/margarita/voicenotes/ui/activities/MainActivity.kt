@@ -35,6 +35,8 @@ class MainActivity :
      */
     private var needReloadNotes = false
 
+    private lateinit var notesFragment: NotesFragment
+
     companion object {
 
         /**
@@ -48,31 +50,32 @@ class MainActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        setFragment(restoreFragment() as NotesFragment? ?: NotesFragment())
+        notesFragment = restoreFragment() as NotesFragment? ?: NotesFragment()
+        setFragment(notesFragment)
     }
 
+    /*
     override fun onFabClick() {
-        /*
         when (getCurrentFragment()) {
             is NotesFragment ->
                 startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
             is CategoriesFragment ->
                 startActivityForResult(createCategoryIntent, NEW_CATEGORY_REQUEST_CODE)
-        }*/
-    }
+        }
+    }*/
 
     override fun notesDataSetChanged() {
         needReloadNotes = true
     }
 
     override fun confirm() {
-        //getCurrentFragment().removeChosenItems()
+        notesFragment.removeChosenItems()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            //getCurrentFragment().onDataSetChanged()
+            //notesFragment.onDataSetChanged()
         }
     }
 
