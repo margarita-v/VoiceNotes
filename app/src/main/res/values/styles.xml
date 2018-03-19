@@ -66,13 +66,16 @@
         <item name="menu_backgroundColor">@color/colorBackground</item>
     </style>
 
-    <style name="MenuButtonsStyle">
-        <item name="fab_size">mini</item>
+    <style name="FabStyle">
         <item name="fab_showAnimation">@anim/jump_from_down</item>
         <item name="fab_hideAnimation">@anim/jump_to_down</item>
         <item name="fab_shadowColor">@color/colorShadow</item>
         <item name="fab_colorNormal">@color/colorAccent</item>
         <item name="fab_colorPressed">@color/colorPressed</item>
         <item name="fab_colorRipple">@color/colorRipple</item>
+    </style>
+
+    <style name="MenuButtonsStyle" parent="FabStyle">
+        <item name="fab_size">mini</item>
     </style>
 </resources>

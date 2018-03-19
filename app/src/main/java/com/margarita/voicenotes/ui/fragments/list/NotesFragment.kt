@@ -41,7 +41,7 @@ class NotesFragment: BaseListFragment<NoteItem>() {
 
     override fun getLayoutRes(): Int = R.layout.fragment_list_notes
 
-    override fun getFabMenu(): FloatingActionMenu = fabMenu
+    override fun getFabView(): View = fabMenu
 
     override fun getActionModeTitleRes(): Int = R.string.selected_notes
 
@@ -60,4 +60,6 @@ class NotesFragment: BaseListFragment<NoteItem>() {
         editNoteIntent.putExtra(getString(R.string.note_intent), item)
         startActivityForResult(editNoteIntent, EDIT_REQUEST_CODE)
     }
+
+    fun closeFabMenu(): Unit = fabMenu.close(false)
 }

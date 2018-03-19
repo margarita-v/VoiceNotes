@@ -11,7 +11,6 @@ import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
@@ -79,7 +78,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
          */
         private fun selectItem(position: Int) {
             // If multi choice mode is on, fab should not be visible
-            getFabMenu().setVisible(!adapter.selectItem(position))
+            getFabView().setVisible(!adapter.selectItem(position))
             setupActionModeTitle()
             if (!adapter.isMultiChoiceMode) {
                 finishActionMode()
@@ -120,7 +119,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
 
     //region Abstract functions for getting resources
 
-    protected abstract fun getFabMenu(): FloatingActionMenu
+    protected abstract fun getFabView(): View
 
     /**
      * Function for getting a string resource ID for setting a title to the ActionMode
@@ -220,8 +219,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
         finishActionMode()
     }
 
-    fun closeFabMenu(): Unit = getFabMenu().close(false)
-
     /**
      * Function for removing the chosen items
      */
@@ -293,7 +290,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            getFabMenu().show()
+            getFabView().show()
             adapter.clearSelection()
             actionMode = null
         }

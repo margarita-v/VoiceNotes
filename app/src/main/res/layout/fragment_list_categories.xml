@@ -5,15 +5,15 @@
 
     <include layout="@layout/list_content" />
 
-    <com.github.clans.fab.FloatingActionMenu
+    <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fabCategory"
-        style="@style/MenuMainButtonStyle"
+        style="@style/FabStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:padding="@dimen/margin16"
-        android:src="@drawable/ic_mic_white_24dp" />
+        android:layout_margin="@dimen/margin16"
+        android:src="@drawable/ic_add_white_24dp" />
 
 </RelativeLayout>

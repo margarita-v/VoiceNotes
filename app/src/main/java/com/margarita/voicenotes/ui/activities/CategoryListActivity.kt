@@ -1,5 +1,7 @@
 package com.margarita.voicenotes.ui.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.margarita.voicenotes.R
@@ -21,6 +23,13 @@ class CategoryListActivity : BaseListActivity() {
 
     override fun confirm(): Unit = categoriesFragment.removeChosenItems()
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            categoriesFragment.onDataSetChanged()
+        }
+    }
+
     override fun onDataSetChanged() {
         //TODO Do something
     }
@@ -29,6 +38,5 @@ class CategoryListActivity : BaseListActivity() {
         when (view.id) {
             R.id.fabCategory -> createCategory()
         }
-        categoriesFragment.closeFabMenu()
     }
 }
