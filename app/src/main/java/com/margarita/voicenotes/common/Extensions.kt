@@ -94,7 +94,8 @@ fun ImageView.setEnabledIconColor(enabled: Boolean) {
  * @param messageRes String resource ID for a message text
  * @param duration Duration of the Toast message
  */
-fun Context.showToast(@StringRes messageRes: Int, duration: Int = Toast.LENGTH_SHORT): Unit
+fun Context.showToast(@StringRes messageRes: Int,
+                      duration: Int = Toast.LENGTH_SHORT): Unit
         = Toast.makeText(this, messageRes, duration).show()
 
 // Requested size of image cropping area

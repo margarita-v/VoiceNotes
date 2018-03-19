@@ -6,7 +6,6 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 //region Constants for creation an image file
 private const val DATE_FORMAT = "yyyyMMdd_HHmmss"
 private const val IMAGE_PREFIX = "JPEG_"

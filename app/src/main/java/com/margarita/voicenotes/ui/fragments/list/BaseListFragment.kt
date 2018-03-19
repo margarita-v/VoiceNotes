@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -43,6 +44,11 @@ abstract class BaseListFragment<ItemType: RealmObject>
     }
 
     /**
+     * Translation Y value for a floating action button view for its animation
+     */
+    private val fabTranslationYForHide by lazy { getFabView().width * 1.5f }
+
+    /**
      * Listener for contextual toolbar
      */
     private val actionModeCallback: ActionModeCallback by lazy { ActionModeCallback() }
@@ -55,7 +61,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
     /**
      * Listener for an item click event
      */
-    protected val itemClickListener = object: BaseListAdapter.OnItemClickListener<ItemType> {
+    protected val itemClickListener = object:
+            BaseListAdapter.OnItemClickListener<ItemType> {
         override fun onItemClick(item: ItemType, position: Int) {
             if (!adapter.isMultiChoiceMode) {
                 onItemClick(item)
@@ -118,9 +125,6 @@ abstract class BaseListFragment<ItemType: RealmObject>
                 context!!, getActionModeTitleRes(), adapter.getCheckedItemCount())
 
     //region Abstract functions for getting resources
-
-    protected abstract fun getFabView(): View
-
     /**
      * Function for getting a string resource ID for setting a title to the ActionMode
      */
@@ -148,6 +152,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
     @DrawableRes protected abstract fun getEmptyPictureRes(): Int
     //endregion
 
+    protected abstract fun getFabView(): View
+
     /**
      * Function which will be called when the list item was clicked
      * and multi choice mode is off
@@ -170,7 +176,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
         ivEmptyPhoto.setImageResource(getEmptyPictureRes())
         tvEmpty.setText(getEmptyMessageRes())
 
-        // Setup adapter and contextual toolbar if it was shown before configuration change
+        // Setup adapter and contextual toolbar
+        // if it was shown before configuration change
         if (adapter.itemCount == 0) {
             presenter.loadItems()
         } else if (adapter.isMultiChoiceMode) {
@@ -181,7 +188,12 @@ abstract class BaseListFragment<ItemType: RealmObject>
         // Setup RecyclerView
         rvList.layoutManager = LinearLayoutManager(activity)
         rvList.adapter = adapter
-        //fab.setOnClickListener { activityCallback.onFabClick() }
+        rvList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                fabAnimate(dy > 0)
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
     }
 
     override fun onAttach(context: Context?) {
@@ -249,7 +261,16 @@ abstract class BaseListFragment<ItemType: RealmObject>
      */
     private fun setupWidgets(isLoading: Boolean) {
         progressBar.setVisible(isLoading)
-        //fab.setVisible(!isLoading)
+        getFabView().setVisible(!isLoading)
+    }
+
+    /**
+     * Function for showing animation for hide and show a floating action button
+     * @param isForHide If True then we should hide FAB, show otherwise
+     */
+    private fun fabAnimate(isForHide: Boolean) {
+        val translationY = if (isForHide) fabTranslationYForHide else 0f
+        getFabView().animate().translationY(translationY).start()
     }
 
     /**
@@ -273,7 +294,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
                 R.id.action_delete ->
                     ConfirmDialogFragment
                             .newInstance(getConfirmDialogTitleRes())
-                            .show(fragmentManager, ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
+                            .show(fragmentManager,
+                                    ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
 
                 R.id.action_edit -> edit(adapter.getCheckedItem())
 
@@ -291,6 +313,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
 
         override fun onDestroyActionMode(mode: ActionMode) {
             getFabView().show()
+            fabAnimate(false)
             adapter.clearSelection()
             actionMode = null
         }
