@@ -51,7 +51,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
     /**
      * Listener for performing callbacks to the activity
      */
-    private lateinit var activityCallback: MainActivityCallback
+    protected lateinit var activityCallback: ListActivityCallback
 
     /**
      * Listener for an item click event
@@ -188,9 +188,9 @@ abstract class BaseListFragment<ItemType: RealmObject>
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
-            activityCallback = context as MainActivityCallback
+            activityCallback = context as ListActivityCallback
         } catch (e: ClassCastException) {
-            throwClassCastException(context, "MainActivityCallback")
+            throwClassCastException(context, "ListActivityCallback")
         }
     }
 
@@ -220,6 +220,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
         finishActionMode()
     }
 
+    fun closeFabMenu(): Unit = getFabMenu().close(false)
+
     /**
      * Function for removing the chosen items
      */
@@ -240,7 +242,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
      */
     private fun notifyReloadNotes() {
         if (needReload()) {
-            activityCallback.notesDataSetChanged()
+            activityCallback.onDataSetChanged()
         }
     }
 
@@ -300,11 +302,11 @@ abstract class BaseListFragment<ItemType: RealmObject>
     /**
      * Interface for performing callbacks to the activity
      */
-    interface MainActivityCallback {
+    interface ListActivityCallback: View.OnClickListener {
 
         /**
          * Function which notify activity if the data set was changed
          */
-        fun notesDataSetChanged()
+        fun onDataSetChanged()
     }
 }

@@ -1,6 +1,8 @@
 package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.CategoriesAdapter
@@ -24,6 +26,11 @@ class CategoriesFragment: BaseListFragment<Category>() {
     init {
         adapter = CategoriesAdapter(itemClickListener)
         presenter = CategoriesPresenter(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fabCategory.setOnClickListener(activityCallback)
     }
 
     override fun getLayoutRes(): Int = R.layout.fragment_list_categories

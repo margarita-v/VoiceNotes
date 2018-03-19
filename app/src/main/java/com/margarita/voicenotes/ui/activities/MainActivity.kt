@@ -3,31 +3,19 @@ package com.margarita.voicenotes.ui.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.ui.activities.creation.category.NewCategoryActivity
 import com.margarita.voicenotes.ui.activities.creation.note.NewNoteActivity
-import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
-import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
 import com.margarita.voicenotes.ui.fragments.list.NotesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity :
-        BaseActivity(),
-        ConfirmDialogFragment.ConfirmationListener,
-        BaseListFragment.MainActivityCallback {
+class MainActivity : BaseListActivity() {
 
     /**
      * Intent for creation a new note
      */
     private val createNoteIntent by lazy {
         Intent(this, NewNoteActivity::class.java)
-    }
-
-    /**
-     * Intent for creation a new category
-     */
-    private val createCategoryIntent by lazy {
-        Intent(this, NewCategoryActivity::class.java)
     }
 
     /**
@@ -43,7 +31,6 @@ class MainActivity :
          * Request codes
          */
         private const val NEW_NOTE_REQUEST_CODE = 6
-        private const val NEW_CATEGORY_REQUEST_CODE = 7
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,17 +41,16 @@ class MainActivity :
         setFragment(notesFragment)
     }
 
-    /*
-    override fun onFabClick() {
-        when (getCurrentFragment()) {
-            is NotesFragment ->
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.fabNewNote ->
                 startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
-            is CategoriesFragment ->
-                startActivityForResult(createCategoryIntent, NEW_CATEGORY_REQUEST_CODE)
+            R.id.fabNewCategory -> createCategory()
         }
-    }*/
+        notesFragment.closeFabMenu()
+    }
 
-    override fun notesDataSetChanged() {
+    override fun onDataSetChanged() {
         needReloadNotes = true
     }
 
@@ -75,7 +61,7 @@ class MainActivity :
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            //notesFragment.onDataSetChanged()
+            notesFragment.onDataSetChanged()
         }
     }
 

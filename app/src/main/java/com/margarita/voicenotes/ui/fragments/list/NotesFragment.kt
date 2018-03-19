@@ -1,6 +1,8 @@
 package com.margarita.voicenotes.ui.fragments.list
 
 import android.content.Intent
+import android.os.Bundle
+import android.view.View
 import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.NotesAdapter
@@ -28,6 +30,13 @@ class NotesFragment: BaseListFragment<NoteItem>() {
     init {
         adapter = NotesAdapter(itemClickListener)
         presenter = NotesPresenter(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        fabNewNote.setOnClickListener(activityCallback)
+        fabNewPhoto.setOnClickListener(activityCallback)
+        fabNewCategory.setOnClickListener(activityCallback)
     }
 
     override fun getLayoutRes(): Int = R.layout.fragment_list_notes
