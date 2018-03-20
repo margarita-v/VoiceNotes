@@ -3,13 +3,12 @@ package com.margarita.voicenotes.ui.fragments.list
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.github.clans.fab.FloatingActionMenu
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.list.NotesAdapter
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.list.NotesPresenter
-import com.margarita.voicenotes.ui.activities.info.ViewNoteActivity
 import com.margarita.voicenotes.ui.activities.creation.note.EditNoteActivity
+import com.margarita.voicenotes.ui.activities.info.ViewNoteActivity
 import kotlinx.android.synthetic.main.fragment_list_notes.*
 
 /**
@@ -27,6 +26,10 @@ class NotesFragment: BaseListFragment<NoteItem>() {
      */
     private val editNoteIntent by lazy { Intent(context!!, EditNoteActivity::class.java) }
 
+    private companion object {
+        const val FAB_MENU_OPENED_FLAG = "FAB_MENU_OPENED"
+    }
+
     init {
         adapter = NotesAdapter(itemClickListener)
         presenter = NotesPresenter(this)
@@ -34,9 +37,25 @@ class NotesFragment: BaseListFragment<NoteItem>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fabMenu.setClosedOnTouchOutside(true)
         fabNewNote.setOnClickListener(activityCallback)
         fabNewPhoto.setOnClickListener(activityCallback)
         fabNewCategory.setOnClickListener(activityCallback)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (fabMenu.isOpened) {
+            outState.putBoolean(FAB_MENU_OPENED_FLAG, true)
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val isFabMenuOpened = savedInstanceState?.getBoolean(FAB_MENU_OPENED_FLAG) ?: false
+        if (isFabMenuOpened) {
+            fabMenu.open(false)
+        }
     }
 
     override fun getLayoutRes(): Int = R.layout.fragment_list_notes

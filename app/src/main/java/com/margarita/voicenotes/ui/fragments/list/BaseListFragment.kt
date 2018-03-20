@@ -41,6 +41,8 @@ abstract class BaseListFragment<ItemType: RealmObject>
          * Request code for item editing
          */
         const val EDIT_REQUEST_CODE = 5
+
+        private const val FAB_INVISIBLE_FLAG = "FAB_INVISIBLE"
     }
 
     /**
@@ -202,6 +204,21 @@ abstract class BaseListFragment<ItemType: RealmObject>
             activityCallback = context as ListActivityCallback
         } catch (e: ClassCastException) {
             throwClassCastException(context, "ListActivityCallback")
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (getFabView().visibility != View.VISIBLE) {
+            outState.putBoolean(FAB_INVISIBLE_FLAG, true)
+        }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val isInvisible = savedInstanceState?.getBoolean(FAB_INVISIBLE_FLAG) ?: false
+        if (isInvisible) {
+            getFabView().hide()
         }
     }
 
