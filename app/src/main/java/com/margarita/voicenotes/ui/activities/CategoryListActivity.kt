@@ -16,7 +16,7 @@ class CategoryListActivity : BaseListActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+        setContentView(R.layout.activity_categories)
         categoriesFragment = restoreFragment() as CategoriesFragment? ?: CategoriesFragment()
         setFragment(categoriesFragment)
     }
