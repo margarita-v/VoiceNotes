@@ -42,6 +42,12 @@ open class NewNoteActivity :
          * Type for intent for image picking
          */
         const val IMAGE_INTENT_TYPE = "image/*"
+
+        /**
+         * Keys for Bundle
+         */
+        const val PHOTO_FILE_KEY = "PHOTO_FILE_KEY"
+        const val NEW_PHOTO_URI_KEY = "NEW_PHOTO_URI_KEY"
     }
 
     /**
@@ -70,10 +76,26 @@ open class NewNoteActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        photoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
+        newPhotoUri = savedInstanceState?.getParcelable(NEW_PHOTO_URI_KEY) as Uri?
+
         // Try to restore fragment
         newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
         fragment = newNoteFragment
         setFragment(fragment)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putSerializable(PHOTO_FILE_KEY, photoFile)
+        outState?.putParcelable(NEW_PHOTO_URI_KEY, newPhotoUri)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!isNoteCreated) {
+            deletePhotoFile()
+        }
     }
 
     override fun usedForCreation(): Boolean = true
@@ -105,10 +127,17 @@ open class NewNoteActivity :
     }
 
     override fun deletePhoto() {
-        photoFile?.delete()
+        deletePhotoFile()
         if (newNoteFragment.photoUri == newPhotoUri) {
             newNoteFragment.deletePhoto()
         }
+    }
+
+    /**
+     * Function for removing a photo file
+     */
+    private fun deletePhotoFile() {
+        photoFile?.delete()
     }
 
     /**

@@ -32,6 +32,11 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
         private const val SCREEN_ORIENTATION_CHANGED_FLAG = "ROTATED"
 
         /**
+         * Key for Bundle for saving a flag for created note
+         */
+        private const val NOTE_CREATED_FLAG = "NOTE_CREATED_FLAG"
+
+        /**
          * Request code for recognition service
          */
         const val SPEECH_REQUEST_CODE = 1
@@ -46,6 +51,11 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
      * Flag which shows if the screen orientation was changed
      */
     private var isScreenOrientationChanged = false
+
+    /**
+     * Flag which shows if the note was created successfully
+     */
+    protected var isNoteCreated = false
 
     /**
      * Intent for starting speech recognition service
@@ -78,6 +88,8 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
                     savedInstanceState.getBoolean(RECOGNITION_SERVICE_FLAG)
             isScreenOrientationChanged =
                     savedInstanceState.getBoolean(SCREEN_ORIENTATION_CHANGED_FLAG)
+            isNoteCreated =
+                    savedInstanceState.getBoolean(NOTE_CREATED_FLAG)
         }
 
         if (usedForCreation()) {
@@ -90,9 +102,12 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putBoolean(RECOGNITION_SERVICE_FLAG, isRecognitionServiceStarted)
-        // This method is always called when screen orientation is changing
-        outState?.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
+        if (outState != null) {
+            outState.putBoolean(NOTE_CREATED_FLAG, isNoteCreated)
+            outState.putBoolean(RECOGNITION_SERVICE_FLAG, isRecognitionServiceStarted)
+            // This method is always called when screen orientation is changing
+            outState.putBoolean(SCREEN_ORIENTATION_CHANGED_FLAG, true)
+        }
     }
 
     override fun speak(): Unit = startSpeechRecognition()
@@ -100,6 +115,7 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
     override fun onCreationSuccess(messageRes: Int) {
         showToast(messageRes)
         setResult(Activity.RESULT_OK)
+        isNoteCreated = true
         finish()
     }
 
