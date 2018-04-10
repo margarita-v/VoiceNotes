@@ -71,7 +71,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         imgBtnPhoto.setOnClickListener { selectedOptionCallback.takePhoto() }
         imgBtnChoosePhoto.setOnClickListener { selectedOptionCallback.pickImageFromGallery() }
         imgBtnCrop.setOnClickListener { selectedOptionCallback.cropImage(photoUri) }
-        imgBtnDelete.setOnClickListener { deleteImage() }
+        imgBtnDelete.setOnClickListener { selectedOptionCallback.deletePhoto() }
         btnSave.setOnClickListener {
             val description = etNote.getTextAsString()
             val categoryId = adapter.getChosenItemId(spinnerCategory.selectedItemPosition)
@@ -138,7 +138,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     /**
      * Function for delete a chosen photo of the note
      */
-    private fun deleteImage() {
+    fun deletePhoto() {
         ivPhoto.loadImage(context!!)
         photoUri = null
         croppedPhotoUri = null
@@ -184,5 +184,10 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
          * Function for changing a photo's thumbnail
          */
         fun cropImage(photoUri: Uri?)
+
+        /**
+         * Function for removing a photo of note
+         */
+        fun deletePhoto()
     }
 }

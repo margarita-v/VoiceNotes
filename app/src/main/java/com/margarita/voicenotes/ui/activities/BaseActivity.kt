@@ -1,6 +1,8 @@
 package com.margarita.voicenotes.ui.activities
 
+import android.content.Intent
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.support.annotation.StringRes
 import android.support.v7.app.AppCompatActivity
 import com.margarita.voicenotes.R
@@ -12,9 +14,14 @@ import com.margarita.voicenotes.ui.fragments.base.BaseFragment
  */
 abstract class BaseActivity: AppCompatActivity() {
 
-    private companion object {
-        const val FRAGMENT_TAG = "NOTE_FRAGMENT_TAG"
-        const val CONTAINER_ID = R.id.container
+    companion object {
+        private const val FRAGMENT_TAG = "NOTE_FRAGMENT_TAG"
+        private const val CONTAINER_ID = R.id.container
+
+        /**
+         * Request code for a photo selection
+         */
+        const val PICK_PHOTO_REQUEST_CODE = 2
     }
 
     /**
@@ -24,6 +31,11 @@ abstract class BaseActivity: AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+    /**
+     * Function for creation an intent for taking photos
+     */
+    protected fun createPhotoIntent(): Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
     /**
      * Function for restoring the last fragment from the fragment manager

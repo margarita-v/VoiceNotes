@@ -14,6 +14,7 @@ import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
 import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
 import com.theartofdev.edmodo.cropper.CropImage
+import java.io.File
 
 /**
  * Activity for creation of notes
@@ -31,11 +32,6 @@ open class NewNoteActivity :
          * Authority for the application's file provider
          */
         const val FILE_PROVIDER_AUTHORITY = "com.margarita.voicenotes.android.fileprovider"
-
-        /**
-         * Request code for a photo selection
-         */
-        const val PICK_PHOTO_REQUEST_CODE = 2
 
         /**
          * Request code for taking photo
@@ -57,9 +53,14 @@ open class NewNoteActivity :
     }
 
     /**
-     * Intent for taking photo
+     * Current photo for a new note
      */
-    private val takePhotoIntent by lazy { Intent(MediaStore.ACTION_IMAGE_CAPTURE) }
+    private var photoFile: File? = null
+
+    /**
+     * Uri for a new photo
+     */
+    private var newPhotoUri: Uri? = null
 
     /**
      * Fragment for creation of notes
@@ -84,12 +85,13 @@ open class NewNoteActivity :
     }
 
     override fun takePhoto() {
+        val takePhotoIntent = createPhotoIntent()
         if (checkIntentHandlers(takePhotoIntent)) {
-            val photoFile = createImageFile(
+            photoFile = createImageFile(
                     getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-            newNoteFragment.photoUri = FileProvider.getUriForFile(
-                    this, FILE_PROVIDER_AUTHORITY, photoFile)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, newNoteFragment.photoUri)
+            newPhotoUri = FileProvider.getUriForFile(
+                    this, FILE_PROVIDER_AUTHORITY, photoFile!!)
+            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, newPhotoUri)
             startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST_CODE)
         }
     }
@@ -102,33 +104,50 @@ open class NewNoteActivity :
         }
     }
 
+    override fun deletePhoto() {
+        photoFile?.delete()
+        if (newNoteFragment.photoUri == newPhotoUri) {
+            newNoteFragment.deletePhoto()
+        }
+    }
+
     /**
      * Function for cropping image of note which is using Uri from the NewNoteFragment
      */
-    private fun cropFragmentImage(): Unit = cropImage(newNoteFragment.photoUri)
+    private fun cropFragmentImage(photoUri: Uri? = newNoteFragment.photoUri): Unit
+            = cropImage(photoUri)
 
     /**
      * Function for receiving an activity's result
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != SPEECH_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                // Result of a choosing photo from gallery
-                PICK_PHOTO_REQUEST_CODE -> {
-                    // If request code is equal to request code for pick photo from gallery,
-                    // we should set photoUri, otherwise photoUri had been already set
-                    newNoteFragment.photoUri = data?.data
-                    cropFragmentImage()
+        if (requestCode != SPEECH_REQUEST_CODE) {
+            when (resultCode) {
+                Activity.RESULT_CANCELED -> {
+                    if (requestCode != PICK_PHOTO_REQUEST_CODE) {
+                        deletePhoto()
+                    }
                 }
+                Activity.RESULT_OK -> {
+                    when (requestCode) {
+                        // Result of a choosing photo from gallery
+                        PICK_PHOTO_REQUEST_CODE -> {
+                            newNoteFragment.photoUri = data?.data
+                            cropFragmentImage()
+                        }
 
-                // Result of taking photo
-                TAKE_PHOTO_REQUEST_CODE -> cropFragmentImage()
+                        // Result of taking photo
+                        TAKE_PHOTO_REQUEST_CODE -> cropFragmentImage(newPhotoUri)
 
-                // Result of image cropping
-                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE ->
-                    newNoteFragment.cropImage(CropImage.getActivityResult(data).uri)
-            }
+                        // Result of image cropping
+                        CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                            newNoteFragment.photoUri = newPhotoUri
+                            newNoteFragment.cropImage(CropImage.getActivityResult(data).uri)
+                        }
+                    }
+                } // RESULT_OK
+            } // when
         } // if
     } // fun
 }
