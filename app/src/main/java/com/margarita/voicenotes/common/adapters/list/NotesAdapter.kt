@@ -30,7 +30,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
 
         override fun bind(itemViewModel: BaseViewModel<NoteItem>): Unit = with(itemView) {
             val noteItem = itemViewModel.item
-            tvDescription.text = noteItem.description
+            tvDescription.setNoteText(noteItem.description, true)
             tvCategory.setCategoryName(getCategoryName(noteItem))
             tvDate.text = noteItem.parseDate()
             ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())

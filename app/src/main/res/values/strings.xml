@@ -9,7 +9,7 @@
 
     <!-- Errors -->
     <string name="speech_not_supported">Your device does not support speech input</string>
-    <string name="note_empty">Note can not be empty!</string>
+    <string name="note_empty">Note must contain a text or a photo!</string>
     <string name="category_empty">Category can not be empty!</string>
     <string name="category_exists">Category with this name was created earlier!</string>
     <string name="image_loading_error">Image loading error!</string>
@@ -20,6 +20,7 @@
     <string name="photo_intent">Photo full screen</string>
 
     <!-- None items -->
+    <string name="none_note">No text</string>
     <string name="none_category">No category</string>
     <string name="none_photo">No photo</string>
 

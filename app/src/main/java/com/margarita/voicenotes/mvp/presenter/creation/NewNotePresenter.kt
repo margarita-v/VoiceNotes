@@ -9,6 +9,7 @@ import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import io.realm.Realm
 import io.realm.RealmQuery
+import io.realm.Sort
 
 /**
  * Presenter for creating a new notes
@@ -24,6 +25,8 @@ class NewNotePresenter(private val view: NewNoteView)
             = realm.where(Category::class.java)
 
     override fun getSortField(): String = SORT_FIELD
+
+    override fun getSortOrder(): Sort = Sort.ASCENDING
 
     /**
      * Generate ID for a new note
@@ -46,6 +49,15 @@ class NewNotePresenter(private val view: NewNoteView)
     }
 
     /**
+     * Function for checking if the note params are valid
+     */
+    private fun checkParams(description: String,
+                            photoUri: Uri?,
+                            croppedPhotoUri: Uri?): Boolean
+
+            = description.isNotEmpty() || photoUri != null && croppedPhotoUri != null
+
+    /**
      * Function for creation a new note with the given fields
      * @param description A text of note
      * @param date Note's date
@@ -59,7 +71,7 @@ class NewNotePresenter(private val view: NewNoteView)
                    croppedPhotoUri: Uri? = null,
                    categoryId: Long? = null) {
         val descriptionTrimmed = description.trim()
-        if (descriptionTrimmed.isNotEmpty()) {
+        if (checkParams(descriptionTrimmed, photoUri, croppedPhotoUri)) {
             realm.executeTransaction { realm1 ->
                 val noteItem = NoteItem(
                         generateId(),
@@ -93,7 +105,7 @@ class NewNotePresenter(private val view: NewNoteView)
                  croppedPhotoUri: Uri? = null,
                  categoryId: Long? = null) {
         val descriptionTrimmed = description.trim()
-        if (descriptionTrimmed.isNotEmpty()) {
+        if (checkParams(descriptionTrimmed, photoUri, croppedPhotoUri)) {
             realm.executeTransaction { realm1 ->
                 // Find existing note item
                 val noteItem = realm1.where(NoteItem::class.java)

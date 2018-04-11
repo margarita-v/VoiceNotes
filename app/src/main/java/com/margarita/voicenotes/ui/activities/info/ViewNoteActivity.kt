@@ -32,7 +32,7 @@ class ViewNoteActivity : BaseActivity() {
      * @param noteItem Note which info will be shown
      */
     private fun showNoteInfo(noteItem: NoteItem) {
-        tvDescription.text = noteItem.description
+        tvDescription.setNoteText(noteItem.description)
         tvCategory.setCategoryName(getCategoryName(noteItem))
         tvDate.text = noteItem.parseDate()
         val photoUri = noteItem.photoUri?.parseStringToUri()

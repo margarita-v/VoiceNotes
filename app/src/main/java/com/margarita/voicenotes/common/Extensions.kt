@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Typeface
 import android.net.Uri
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
@@ -56,6 +57,23 @@ fun TextView.setCategoryName(name: String?) {
         text = name
     } else {
         setText(R.string.none_category)
+    }
+}
+
+/**
+ * Function for setting a note text to the text view
+ */
+fun TextView.setNoteText(text: String, changeTypeface: Boolean = false) {
+    if (text.isNotEmpty()) {
+        this.text = text
+        if (changeTypeface) {
+            setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+        }
+    } else {
+        setText(R.string.none_note)
+        if (changeTypeface) {
+            setTypeface(Typeface.DEFAULT, Typeface.ITALIC)
+        }
     }
 }
 
