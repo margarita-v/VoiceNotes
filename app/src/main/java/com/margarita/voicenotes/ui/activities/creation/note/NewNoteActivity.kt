@@ -128,7 +128,7 @@ open class NewNoteActivity :
 
     override fun deletePhoto() {
         deletePhotoFile()
-        if (newNoteFragment.photoUri == newPhotoUri) {
+        if (newPhotoUri == null || newNoteFragment.photoUri == newPhotoUri) {
             newNoteFragment.deletePhoto()
         }
     }
@@ -143,8 +143,7 @@ open class NewNoteActivity :
     /**
      * Function for cropping image of note which is using Uri from the NewNoteFragment
      */
-    private fun cropFragmentImage(photoUri: Uri? = newNoteFragment.photoUri): Unit
-            = cropImage(photoUri)
+    private fun cropFragmentImage(photoUri: Uri?): Unit = cropImage(photoUri)
 
     /**
      * Function for receiving an activity's result
@@ -163,7 +162,7 @@ open class NewNoteActivity :
                         // Result of a choosing photo from gallery
                         PICK_PHOTO_REQUEST_CODE -> {
                             newNoteFragment.photoUri = data?.data
-                            cropFragmentImage()
+                            cropFragmentImage(newNoteFragment.photoUri)
                         }
 
                         // Result of taking photo
@@ -171,7 +170,11 @@ open class NewNoteActivity :
 
                         // Result of image cropping
                         CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
-                            newNoteFragment.photoUri = newPhotoUri
+                            // If photo was picked from gallery,
+                            // photoUri of fragment had been already set
+                            if (newNoteFragment.photoUri == null) {
+                                newNoteFragment.photoUri = newPhotoUri
+                            }
                             newNoteFragment.cropImage(CropImage.getActivityResult(data).uri)
                         }
                     }
