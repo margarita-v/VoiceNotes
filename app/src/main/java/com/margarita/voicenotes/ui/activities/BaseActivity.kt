@@ -1,13 +1,18 @@
 package com.margarita.voicenotes.ui.activities
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.support.annotation.StringRes
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.replace
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
+import java.io.File
 
 /**
  * Base class for all activities
@@ -19,9 +24,26 @@ abstract class BaseActivity: AppCompatActivity() {
         private const val CONTAINER_ID = R.id.container
 
         /**
+         * Authority for the application's file provider
+         */
+        private const val FILE_PROVIDER_AUTHORITY
+                = "com.margarita.voicenotes.android.fileprovider"
+
+        /**
          * Request code for a photo selection
          */
         const val PICK_PHOTO_REQUEST_CODE = 2
+
+        /**
+         * Request code for taking photo
+         */
+        const val TAKE_PHOTO_REQUEST_CODE = 3
+
+        /**
+         * Keys for Bundle
+         */
+        const val PHOTO_FILE_KEY = "PHOTO_FILE_KEY"
+        const val NEW_PHOTO_URI_KEY = "NEW_PHOTO_URI_KEY"
     }
 
     /**
@@ -32,10 +54,40 @@ abstract class BaseActivity: AppCompatActivity() {
         return true
     }
 
+    //region Helpful function for taking photos
+    /**
+     * Function which checks if the user's device has apps which can handle intent
+     * @param intent Intent which should be handled
+     * @return True if intent could be handled, False otherwise
+     */
+    protected fun checkIntentHandlers(intent: Intent): Boolean
+            = intent.resolveActivity(packageManager) != null
+
     /**
      * Function for creation an intent for taking photos
      */
     protected fun createPhotoIntent(): Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+    /**
+     * Function for creation a photo file
+     */
+    protected fun createPhotoFile(): File = createImageFile(
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+
+    /**
+     * Function for getting a photo Uri from photo file
+     */
+    protected fun getPhotoUri(photoFile: File): Uri
+            = FileProvider.getUriForFile(this, FILE_PROVIDER_AUTHORITY, photoFile)
+
+    /**
+     * Function for showing Activity for taking photos
+     */
+    protected fun showPhotoActivity(photoIntent: Intent, photoUri: Uri) {
+        photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        startActivityForResult(photoIntent, TAKE_PHOTO_REQUEST_CODE)
+    }
+    //endregion
 
     /**
      * Function for restoring the last fragment from the fragment manager

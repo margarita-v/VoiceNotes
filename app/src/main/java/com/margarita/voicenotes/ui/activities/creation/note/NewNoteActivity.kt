@@ -4,11 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
-import android.support.v4.content.FileProvider
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.showCropActivity
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
@@ -29,25 +26,9 @@ open class NewNoteActivity :
     private companion object {
 
         /**
-         * Authority for the application's file provider
-         */
-        const val FILE_PROVIDER_AUTHORITY = "com.margarita.voicenotes.android.fileprovider"
-
-        /**
-         * Request code for taking photo
-         */
-        const val TAKE_PHOTO_REQUEST_CODE = 3
-
-        /**
          * Type for intent for image picking
          */
         const val IMAGE_INTENT_TYPE = "image/*"
-
-        /**
-         * Keys for Bundle
-         */
-        const val PHOTO_FILE_KEY = "PHOTO_FILE_KEY"
-        const val NEW_PHOTO_URI_KEY = "NEW_PHOTO_URI_KEY"
     }
 
     /**
@@ -109,12 +90,9 @@ open class NewNoteActivity :
     override fun takePhoto() {
         val takePhotoIntent = createPhotoIntent()
         if (checkIntentHandlers(takePhotoIntent)) {
-            photoFile = createImageFile(
-                    getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-            newPhotoUri = FileProvider.getUriForFile(
-                    this, FILE_PROVIDER_AUTHORITY, photoFile!!)
-            takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, newPhotoUri)
-            startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST_CODE)
+            photoFile = createPhotoFile()
+            newPhotoUri = getPhotoUri(photoFile!!)
+            showPhotoActivity(takePhotoIntent, newPhotoUri!!)
         }
     }
 

@@ -134,14 +134,6 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
         }
     }
 
-    /**
-     * Function which checks if the user's device has apps which can handle intent
-     * @param intent Intent which should be handled
-     * @return True if intent could be handled, False otherwise
-     */
-    protected fun checkIntentHandlers(intent: Intent): Boolean
-            = intent.resolveActivity(packageManager) != null
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         isRecognitionServiceStarted = false
