@@ -6,11 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.showCropActivity
-import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
 import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
-import com.theartofdev.edmodo.cropper.CropImage
 import java.io.File
 
 /**
@@ -42,7 +39,7 @@ open class NewNoteActivity :
     /**
      * Current photo for a new note
      */
-    private var photoFile: File? = null
+    protected var photoFile: File? = null
 
     /**
      * Uri for a new photo
@@ -57,25 +54,25 @@ open class NewNoteActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        photoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
-        newPhotoUri = savedInstanceState?.getParcelable(NEW_PHOTO_URI_KEY) as Uri?
-
         // Try to restore fragment
         newNoteFragment = restoreFragment() as NewNoteFragment? ?: NewNoteFragment()
         fragment = newNoteFragment
         setFragment(fragment)
+
+        photoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
+        newPhotoUri = savedInstanceState?.getParcelable(PHOTO_URI_KEY) as Uri?
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
         outState?.putSerializable(PHOTO_FILE_KEY, photoFile)
-        outState?.putParcelable(NEW_PHOTO_URI_KEY, newPhotoUri)
+        outState?.putParcelable(PHOTO_URI_KEY, newPhotoUri)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (!isNoteCreated) {
-            deletePhotoFile()
+            deletePhotoFile(photoFile)
         }
     }
 
@@ -96,32 +93,14 @@ open class NewNoteActivity :
         }
     }
 
-    override fun cropImage(photoUri: Uri?) {
-        if (photoUri != null) {
-            showCropActivity(photoUri)
-        } else {
-            showToast(R.string.image_loading_error)
-        }
-    }
+    override fun cropImage(photoUri: Uri?): Unit = crop(photoUri)
 
     override fun deletePhoto() {
-        deletePhotoFile()
+        deletePhotoFile(photoFile)
         if (newPhotoUri == null || newNoteFragment.photoUri == newPhotoUri) {
             newNoteFragment.deletePhoto()
         }
     }
-
-    /**
-     * Function for removing a photo file
-     */
-    private fun deletePhotoFile() {
-        photoFile?.delete()
-    }
-
-    /**
-     * Function for cropping image of note which is using Uri from the NewNoteFragment
-     */
-    private fun cropFragmentImage(photoUri: Uri?): Unit = cropImage(photoUri)
 
     /**
      * Function for receiving an activity's result
@@ -140,20 +119,20 @@ open class NewNoteActivity :
                         // Result of a choosing photo from gallery
                         PICK_PHOTO_REQUEST_CODE -> {
                             newNoteFragment.photoUri = data?.data
-                            cropFragmentImage(newNoteFragment.photoUri)
+                            crop(newNoteFragment.photoUri)
                         }
 
                         // Result of taking photo
-                        TAKE_PHOTO_REQUEST_CODE -> cropFragmentImage(newPhotoUri)
+                        TAKE_PHOTO_REQUEST_CODE -> crop(newPhotoUri)
 
                         // Result of image cropping
-                        CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                        CROP_PHOTO_REQUEST_CODE -> {
                             // If photo was picked from gallery,
                             // photoUri of fragment had been already set
                             if (newNoteFragment.photoUri == null) {
                                 newNoteFragment.photoUri = newPhotoUri
                             }
-                            newNoteFragment.cropImage(CropImage.getActivityResult(data).uri)
+                            newNoteFragment.setCroppedPhoto(getCroppedPhoto(data))
                         }
                     }
                 } // RESULT_OK

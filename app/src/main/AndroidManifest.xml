@@ -74,6 +74,17 @@
                 android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.activities.creation.note.NewPhotoNoteActivity"
+            android:label="@string/new_note"
+            android:parentActivityName=".ui.activities.MainActivity"
+            tools:targetApi="jelly_bean">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.activities.creation.note.EditNoteActivity"
 
             android:parentActivityName=".ui.activities.MainActivity"

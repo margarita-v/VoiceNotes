@@ -11,7 +11,10 @@ import android.support.v7.app.AppCompatActivity
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.createImageFile
 import com.margarita.voicenotes.common.replace
+import com.margarita.voicenotes.common.showCropActivity
+import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
+import com.theartofdev.edmodo.cropper.CropImage
 import java.io.File
 
 /**
@@ -40,10 +43,16 @@ abstract class BaseActivity: AppCompatActivity() {
         const val TAKE_PHOTO_REQUEST_CODE = 3
 
         /**
+         * Request code for cropping photos
+         */
+        const val CROP_PHOTO_REQUEST_CODE =  CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
+
+        /**
          * Keys for Bundle
          */
         const val PHOTO_FILE_KEY = "PHOTO_FILE_KEY"
-        const val NEW_PHOTO_URI_KEY = "NEW_PHOTO_URI_KEY"
+        const val PHOTO_URI_KEY = "PHOTO_URI_KEY"
+        const val CROPPED_PHOTO_URI_KEY = "CROPPED_PHOTO_URI_KEY"
     }
 
     /**
@@ -87,6 +96,29 @@ abstract class BaseActivity: AppCompatActivity() {
         photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         startActivityForResult(photoIntent, TAKE_PHOTO_REQUEST_CODE)
     }
+
+    /**
+     * Function for removing a photo file
+     */
+    protected fun deletePhotoFile(photoFile: File?) {
+        photoFile?.delete()
+    }
+
+    /**
+     * Function for showing a crop Activity or an error message
+     */
+    protected fun crop(photoUri: Uri?) {
+        if (photoUri != null) {
+            showCropActivity(photoUri)
+        } else {
+            showToast(R.string.image_loading_error)
+        }
+    }
+
+    /**
+     * Function for getting an Uri of cropped photo
+     */
+    protected fun getCroppedPhoto(data: Intent?): Uri = CropImage.getActivityResult(data).uri
     //endregion
 
     /**
@@ -107,4 +139,9 @@ abstract class BaseActivity: AppCompatActivity() {
      */
     protected fun getParcelableExtra(@StringRes intentRes: Int)
             = intent.getParcelableExtra(getString(intentRes)) as Parcelable
+
+    /**
+     * Function for getting an Uri from intent by key
+     */
+    protected fun getUriFromIntent(key: String): Uri? = intent.getParcelableExtra(key) as Uri?
 }

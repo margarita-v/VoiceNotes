@@ -48,14 +48,14 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     /**
      * Uri for the cropped photo of note
      */
-    private var croppedPhotoUri: Uri? = null
+    var croppedPhotoUri: Uri? = null
 
     override fun getLayoutRes(): Int = R.layout.fragment_new_note
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (croppedPhotoUri != null) {
-            ivPhoto.loadImage(context!!, croppedPhotoUri!!)
+            setCroppedPhoto(croppedPhotoUri!!)
         }
 
         // Configure spinner and load its items
@@ -155,10 +155,10 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     }
 
     /**
-     * Function for cropping a note's photo
+     * Function for setting a cropped photo of note
      * @param croppedPhotoUri Uri for a cropped photo
      */
-    fun cropImage(croppedPhotoUri: Uri) {
+    fun setCroppedPhoto(croppedPhotoUri: Uri) {
         this.croppedPhotoUri = croppedPhotoUri
         ivPhoto.loadImage(context!!, croppedPhotoUri)
         configureOptionalButtons(true)
