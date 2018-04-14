@@ -39,7 +39,7 @@ open class NewNoteActivity :
     /**
      * Current photo for a new note
      */
-    protected var photoFile: File? = null
+    private var newPhotoFile: File? = null
 
     /**
      * Uri for a new photo
@@ -59,20 +59,20 @@ open class NewNoteActivity :
         fragment = newNoteFragment
         setFragment(fragment)
 
-        photoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
+        newPhotoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
         newPhotoUri = savedInstanceState?.getParcelable(PHOTO_URI_KEY) as Uri?
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putSerializable(PHOTO_FILE_KEY, photoFile)
+        outState?.putSerializable(PHOTO_FILE_KEY, newPhotoFile)
         outState?.putParcelable(PHOTO_URI_KEY, newPhotoUri)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         if (!isNoteCreated) {
-            deletePhotoFile(photoFile)
+            deletePhotoFile(newPhotoFile)
         }
     }
 
@@ -87,8 +87,8 @@ open class NewNoteActivity :
     override fun takePhoto() {
         val takePhotoIntent = createPhotoIntent()
         if (checkIntentHandlers(takePhotoIntent)) {
-            photoFile = createPhotoFile()
-            newPhotoUri = getPhotoUri(photoFile!!)
+            newPhotoFile = createPhotoFile()
+            newPhotoUri = getPhotoUri(newPhotoFile!!)
             showPhotoActivity(takePhotoIntent, newPhotoUri!!)
         }
     }
@@ -96,10 +96,25 @@ open class NewNoteActivity :
     override fun cropImage(photoUri: Uri?): Unit = crop(photoUri)
 
     override fun deletePhoto() {
-        deletePhotoFile(photoFile)
+        // Delete photo file and set it to null
+        deletePhotoFile(newPhotoFile)
+        if (newPhotoFile == newNoteFragment.photoFile) {
+            newNoteFragment.photoFile = null
+        }
+        newPhotoFile = null
+
+        // Call fragment's method to change UI
         if (newPhotoUri == null || newNoteFragment.photoUri == newPhotoUri) {
             newNoteFragment.deletePhoto()
         }
+    }
+
+    /**
+     * Function for removing an old photo file of note and setting a new photo file
+     */
+    private fun deleteAndSetPhoto(photoFile: File? = null) {
+        deletePhotoFile(newNoteFragment.photoFile)
+        newNoteFragment.photoFile = photoFile
     }
 
     /**
@@ -118,6 +133,7 @@ open class NewNoteActivity :
                     when (requestCode) {
                         // Result of a choosing photo from gallery
                         PICK_PHOTO_REQUEST_CODE -> {
+                            deleteAndSetPhoto()
                             newNoteFragment.photoUri = data?.data
                             crop(newNoteFragment.photoUri)
                         }
@@ -127,6 +143,7 @@ open class NewNoteActivity :
 
                         // Result of image cropping
                         CROP_PHOTO_REQUEST_CODE -> {
+                            deleteAndSetPhoto(newPhotoFile)
                             // If photo was picked from gallery,
                             // photoUri of fragment had been already set
                             if (newNoteFragment.photoUri == null) {

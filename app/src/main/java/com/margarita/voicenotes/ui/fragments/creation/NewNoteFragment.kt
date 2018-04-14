@@ -13,6 +13,7 @@ import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
 import kotlinx.android.synthetic.main.fragment_new_note.*
+import java.io.File
 import java.util.*
 
 /**
@@ -39,6 +40,11 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
      * Listener for user's selected action callback
      */
     private lateinit var selectedOptionCallback: SelectedOption
+
+    /**
+     * Photo file for note
+     */
+    var photoFile: File? = null
 
     /**
      * Uri for the photo of note

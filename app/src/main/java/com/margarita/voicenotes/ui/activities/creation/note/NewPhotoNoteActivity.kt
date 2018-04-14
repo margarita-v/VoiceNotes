@@ -8,8 +8,9 @@ class NewPhotoNoteActivity: NewNoteActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val photoFile = intent.getSerializableExtra(PHOTO_FILE_KEY) as File?
         if (photoFile == null) {
-            photoFile = intent.getSerializableExtra(PHOTO_FILE_KEY) as File?
+            newNoteFragment.photoFile = photoFile
             newNoteFragment.photoUri = getUriFromIntent(PHOTO_URI_KEY)
             newNoteFragment.croppedPhotoUri = getUriFromIntent(CROPPED_PHOTO_URI_KEY)
         }
