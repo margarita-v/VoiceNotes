@@ -26,6 +26,17 @@ open class NewNoteActivity :
          * Type for intent for image picking
          */
         const val IMAGE_INTENT_TYPE = "image/*"
+
+        /**
+         * Value for default photo request code when nothing is chosen
+         */
+        const val DEFAULT_PHOTO_REQUEST_CODE = -1
+
+        /**
+         * Key for Bundle for saving previous and last photo request codes
+         */
+        const val PREVIOUS_PHOTO_REQUEST_CODE = "PREVIOUS_PHOTO_REQUEST_CODE"
+        const val LAST_PHOTO_REQUEST_CODE = "LAST_PHOTO_REQUEST_CODE"
     }
 
     /**
@@ -51,6 +62,12 @@ open class NewNoteActivity :
      */
     protected lateinit var newNoteFragment: NewNoteFragment
 
+    /**
+     * Codes of previous and last requests for a photo addition
+     */
+    private var previousPhotoRequestCode = DEFAULT_PHOTO_REQUEST_CODE
+    private var lastPhotoRequestCode = DEFAULT_PHOTO_REQUEST_CODE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,20 +76,31 @@ open class NewNoteActivity :
         fragment = newNoteFragment
         setFragment(fragment)
 
-        newPhotoFile = savedInstanceState?.getSerializable(PHOTO_FILE_KEY) as File?
-        newPhotoUri = savedInstanceState?.getParcelable(PHOTO_URI_KEY) as Uri?
+        if (savedInstanceState != null) {
+            newPhotoFile = savedInstanceState.getSerializable(PHOTO_FILE_KEY) as File?
+            newPhotoUri = savedInstanceState.getParcelable(PHOTO_URI_KEY) as Uri?
+            previousPhotoRequestCode =
+                    getPhotoRequestCode(savedInstanceState, PREVIOUS_PHOTO_REQUEST_CODE)
+            lastPhotoRequestCode =
+                    getPhotoRequestCode(savedInstanceState, LAST_PHOTO_REQUEST_CODE)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putSerializable(PHOTO_FILE_KEY, newPhotoFile)
-        outState?.putParcelable(PHOTO_URI_KEY, newPhotoUri)
+        if (!isNoteCreated && outState != null) {
+            outState.putSerializable(PHOTO_FILE_KEY, newPhotoFile)
+            outState.putParcelable(PHOTO_URI_KEY, newPhotoUri)
+            outState.putInt(PREVIOUS_PHOTO_REQUEST_CODE, previousPhotoRequestCode)
+            outState.putInt(LAST_PHOTO_REQUEST_CODE, lastPhotoRequestCode)
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onBackPressed() {
+        super.onBackPressed()
         if (!isNoteCreated) {
             deletePhotoFile(newPhotoFile)
+            deletePhotoFile(newNoteFragment.photoFile)
         }
     }
 
@@ -110,6 +138,12 @@ open class NewNoteActivity :
     }
 
     /**
+     * Function for getting a photo request code from Bundle
+     */
+    private fun getPhotoRequestCode(bundle: Bundle, key: String): Int
+            = bundle.getInt(key, DEFAULT_PHOTO_REQUEST_CODE)
+
+    /**
      * Function for removing an old photo file of note and setting a new photo file
      */
     private fun deleteAndSetPhoto(photoFile: File? = null) {
@@ -125,30 +159,51 @@ open class NewNoteActivity :
         if (requestCode != SPEECH_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_CANCELED -> {
-                    if (requestCode != PICK_PHOTO_REQUEST_CODE) {
+                    if (lastPhotoRequestCode != PICK_PHOTO_REQUEST_CODE /*||
+                            requestCode == CROP_PHOTO_REQUEST_CODE &&
+                            lastPhotoRequestCode == TAKE_PHOTO_REQUEST_CODE*/
+                            && newPhotoFile != null
+                            && newNoteFragment.photoFile != newPhotoFile) {
                         deletePhoto()
+
+                        // Cancel of saving photo request codes
+                        lastPhotoRequestCode = previousPhotoRequestCode
+                        previousPhotoRequestCode = DEFAULT_PHOTO_REQUEST_CODE
                     }
                 }
                 Activity.RESULT_OK -> {
                     when (requestCode) {
                         // Result of a choosing photo from gallery
                         PICK_PHOTO_REQUEST_CODE -> {
-                            deleteAndSetPhoto()
-                            newNoteFragment.photoUri = data?.data
-                            crop(newNoteFragment.photoUri)
+                            //deleteAndSetPhoto()
+                            newPhotoUri = data?.data
+                            //newNoteFragment.photoUri = data?.data
+                            crop(newPhotoUri)
+
+                            previousPhotoRequestCode = lastPhotoRequestCode
+                            lastPhotoRequestCode = PICK_PHOTO_REQUEST_CODE
                         }
 
                         // Result of taking photo
-                        TAKE_PHOTO_REQUEST_CODE -> crop(newPhotoUri)
+                        TAKE_PHOTO_REQUEST_CODE -> {
+                            crop(newPhotoUri)
+
+                            previousPhotoRequestCode = lastPhotoRequestCode
+                            lastPhotoRequestCode = TAKE_PHOTO_REQUEST_CODE
+                        }
 
                         // Result of image cropping
                         CROP_PHOTO_REQUEST_CODE -> {
-                            deleteAndSetPhoto(newPhotoFile)
-                            // If photo was picked from gallery,
-                            // photoUri of fragment had been already set
-                            if (newNoteFragment.photoUri == null) {
+                            if (newPhotoFile!= null
+                                    && newNoteFragment.photoFile != newPhotoFile) {
+                                deleteAndSetPhoto(newPhotoFile)
+                            }
+
+                            if (newPhotoUri != null) {
                                 newNoteFragment.photoUri = newPhotoUri
                             }
+                            newPhotoUri = null
+
                             newNoteFragment.setCroppedPhoto(getCroppedPhoto(data))
                         }
                     }
