@@ -213,6 +213,8 @@ open class NewNoteActivity :
                             if (newPhotoFile!= null
                                     && newNoteFragment.photoFile != newPhotoFile) {
                                 deleteAndSetPhoto(newPhotoFile)
+                            } else if (lastPhotoRequestCode == PICK_PHOTO_REQUEST_CODE) {
+                                deleteAndSetPhoto()
                             }
 
                             if (newPhotoUri != null) {

@@ -134,9 +134,9 @@ class MainActivity : BaseListActivity() {
                                 .putExtra(CROPPED_PHOTO_URI_KEY, getCroppedPhoto(data))
                         startActivityForResult(intent, NEW_NOTE_REQUEST_CODE)
                     }
-                }
+                } // when (requestCode)
             }
-        }
+        } // when (resultCode)
     }
 
     /**
