@@ -99,7 +99,7 @@ open class NewNoteActivity :
     }
 
     override fun onBackPressed() {
-        ConfirmDialogFragment.newInstance(R.string.confirm_cancel_note_create)
+        ConfirmDialogFragment.newInstance(getExitMessageResId())
                 .show(supportFragmentManager, ConfirmDialogFragment.SHOWING_TAG)
     }
 
@@ -152,6 +152,11 @@ open class NewNoteActivity :
             newNoteFragment.deletePhoto()
         }
     }
+
+    /**
+     * Function for getting a string resource ID for a correct exit message
+     */
+    protected open fun getExitMessageResId(): Int = R.string.confirm_cancel_note_create
 
     /**
      * Function for getting a photo request code from Bundle
