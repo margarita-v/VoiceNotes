@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
 import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import java.io.File
 
 /**
@@ -15,7 +16,8 @@ import java.io.File
  */
 open class NewNoteActivity :
         BaseNewItemActivity(R.string.create_note),
-        NewNoteFragment.SelectedOption {
+        NewNoteFragment.SelectedOption,
+        ConfirmDialogFragment.ConfirmationListener {
 
     /**
      * Storage of static constants
@@ -97,10 +99,21 @@ open class NewNoteActivity :
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        if (!isNoteCreated) {
-            deletePhotoFile(newPhotoFile)
-            deletePhotoFile(newNoteFragment.photoFile)
+        ConfirmDialogFragment.newInstance(R.string.confirm_cancel_note_create)
+                .show(supportFragmentManager, ConfirmDialogFragment.SHOWING_TAG)
+    }
+
+    override fun confirm(tag: String) {
+        when (tag) {
+            ConfirmDialogFragment.DELETE_CONFIRM_TAG -> deletePhoto()
+            else -> {
+                // Cancel note creation
+                if (!isNoteCreated) {
+                    deletePhotoFile(newPhotoFile)
+                    deletePhotoFile(newNoteFragment.photoFile)
+                }
+                finish()
+            }
         }
     }
 
@@ -123,7 +136,10 @@ open class NewNoteActivity :
 
     override fun cropImage(photoUri: Uri?): Unit = crop(photoUri)
 
-    override fun deletePhoto() {
+    /**
+     * Function for removing a photo of note
+     */
+    private fun deletePhoto() {
         // Delete photo file and set it to null
         deletePhotoFile(newPhotoFile)
         if (newPhotoFile == newNoteFragment.photoFile) {

@@ -12,6 +12,7 @@ import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
+import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import java.io.File
 import java.util.*
@@ -77,7 +78,12 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         imgBtnPhoto.setOnClickListener { selectedOptionCallback.takePhoto() }
         imgBtnChoosePhoto.setOnClickListener { selectedOptionCallback.pickImageFromGallery() }
         imgBtnCrop.setOnClickListener { selectedOptionCallback.cropImage(photoUri) }
-        imgBtnDelete.setOnClickListener { selectedOptionCallback.deletePhoto() }
+        imgBtnDelete.setOnClickListener {
+            ConfirmDialogFragment.newInstance(
+                    messageRes = R.string.confirm_delete_note_photo,
+                    tag = ConfirmDialogFragment.DELETE_CONFIRM_TAG)
+                    .show(fragmentManager, ConfirmDialogFragment.SHOWING_TAG)
+        }
         btnSave.setOnClickListener {
             val description = etNote.getTextAsString()
             val categoryId = adapter.getChosenItemId(spinnerCategory.selectedItemPosition)
@@ -190,10 +196,5 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
          * Function for changing a photo's thumbnail
          */
         fun cropImage(photoUri: Uri?)
-
-        /**
-         * Function for removing a photo of note
-         */
-        fun deletePhoto()
     }
 }

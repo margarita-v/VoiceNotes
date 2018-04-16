@@ -39,6 +39,8 @@
     <string name="confirm_title">Confirmation</string>
     <string name="confirm_delete_notes">Are you sure you want delete chosen notes?</string>
     <string name="confirm_delete_categories">Are you sure you want delete chosen categories?</string>
+    <string name="confirm_cancel_note_create">Are you sure you want to cancel a note creation?</string>
+    <string name="confirm_delete_note_photo">Delete this photo?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="categories_deleted">Chosen categories were deleted</string>

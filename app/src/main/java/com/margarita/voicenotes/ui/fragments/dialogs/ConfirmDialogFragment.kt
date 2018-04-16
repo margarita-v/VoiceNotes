@@ -25,13 +25,24 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
         /**
          * Tag for a dialog showing
          */
-        const val CONFIRM_DIALOG_TAG = "CONFIRM_DIALOG_TAG"
+        const val SHOWING_TAG = "SHOWING_TAG"
 
         /**
          * Keys for Bundle
          */
         private const val TITLE_KEY = "TITLE_KEY"
         private const val MESSAGE_KEY = "MESSAGE_KEY"
+        private const val TAG_KEY = "TAG_KEY"
+
+        /**
+         * Tag for a dialog for confirmation of removing items
+         */
+        const val DELETE_CONFIRM_TAG = "DELETE_CONFIRM_TAG"
+
+        /**
+         * Default tag for a dialog usage
+         */
+        private const val DEFAULT_USAGE_TAG = "DEFAULT_TAG"
 
         /**
          * String resources IDs for default title and message
@@ -46,15 +57,22 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
          * @return Instance of confirmation dialog
          */
         fun newInstance(@StringRes messageRes: Int,
-                        @StringRes titleRes: Int = DEFAULT_TITLE_RES): ConfirmDialogFragment {
+                        @StringRes titleRes: Int = DEFAULT_TITLE_RES,
+                        tag: String = DEFAULT_USAGE_TAG): ConfirmDialogFragment {
             val dialog = ConfirmDialogFragment()
             val args = Bundle()
             args.putInt(TITLE_KEY, titleRes)
             args.putInt(MESSAGE_KEY, messageRes)
+            args.putString(TAG_KEY, tag)
             dialog.arguments = args
             return dialog
         }
     }
+
+    /**
+     * Tag for a dialog usage (optional field)
+     */
+    private var usageTag = DEFAULT_USAGE_TAG
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -76,7 +94,10 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
     override fun onClick(dialogInterface: DialogInterface?, i: Int) {
         when (i) {
             Dialog.BUTTON_NEGATIVE -> dismiss()
-            Dialog.BUTTON_POSITIVE -> confirmationListener.confirm()
+            Dialog.BUTTON_POSITIVE -> {
+                usageTag = arguments?.getString(TAG_KEY) ?: DEFAULT_USAGE_TAG
+                confirmationListener.confirm(usageTag)
+            }
         }
     }
 
@@ -88,6 +109,6 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
         /**
          * Function which will be called if the user confirmed his action
          */
-        fun confirm()
+        fun confirm(tag: String)
     }
 }

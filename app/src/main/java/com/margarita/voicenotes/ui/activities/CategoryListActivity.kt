@@ -21,7 +21,7 @@ class CategoryListActivity : BaseListActivity() {
         setFragment(categoriesFragment)
     }
 
-    override fun confirm(): Unit = categoriesFragment.removeChosenItems()
+    override fun confirm(tag: String): Unit = categoriesFragment.removeChosenItems()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

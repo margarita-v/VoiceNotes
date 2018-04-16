@@ -312,7 +312,7 @@ abstract class BaseListFragment<ItemType: RealmObject>
                     ConfirmDialogFragment
                             .newInstance(getConfirmDialogTitleRes())
                             .show(fragmentManager,
-                                    ConfirmDialogFragment.CONFIRM_DIALOG_TAG)
+                                    ConfirmDialogFragment.SHOWING_TAG)
 
                 R.id.action_edit -> edit(adapter.getCheckedItem())
 

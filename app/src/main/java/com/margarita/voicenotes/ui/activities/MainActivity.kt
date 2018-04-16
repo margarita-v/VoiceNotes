@@ -112,7 +112,7 @@ class MainActivity : BaseListActivity() {
         needReloadNotes = true
     }
 
-    override fun confirm(): Unit = notesFragment.removeChosenItems()
+    override fun confirm(tag: String): Unit = notesFragment.removeChosenItems()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
