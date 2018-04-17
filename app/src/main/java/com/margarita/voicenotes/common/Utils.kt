@@ -25,6 +25,18 @@ fun createImageFile(storageDir: File): File {
 }
 
 /**
+ * Function for creation an image file with a given name
+ */
+fun createImageFile(fileName: String, storageDir: File): File
+        = File.createTempFile(fileName, IMAGE_EXTENSION, storageDir)
+
+/**
+ * Function for getting a file name without extension for a given Uri
+ */
+fun String.getFileNameWithoutExt(): String
+        = this.parseStringToUri().lastPathSegment.removeSuffix(IMAGE_EXTENSION)
+
+/**
  * Function for getting a note's category
  */
 fun getCategory(noteItem: NoteItem): Category? = BaseDatabasePresenter.getCategory(noteItem.id)

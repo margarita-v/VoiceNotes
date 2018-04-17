@@ -52,7 +52,7 @@ open class NewNoteActivity :
     /**
      * Current photo for a new note
      */
-    private var newPhotoFile: File? = null
+    protected var newPhotoFile: File? = null
 
     /**
      * Uri for a new photo
@@ -142,8 +142,18 @@ open class NewNoteActivity :
     private fun deletePhoto() {
         // Delete photo file and set it to null
         deletePhotoFile(newPhotoFile)
-        if (newPhotoFile == newNoteFragment.photoFile) {
-            newNoteFragment.photoFile = null
+        val savedPhotoFile = newNoteFragment.photoFile
+        if (newPhotoFile == null || newPhotoFile == savedPhotoFile) {
+            if (savedPhotoFile != null) {
+                deletePhotoFile(savedPhotoFile)
+                newNoteFragment.photoFile = null
+            } else {
+                //TODO If not used for edit
+                contentResolver.delete(
+                        newNoteFragment.photoUri!!,
+                        null,
+                        null)
+            }
         }
         newPhotoFile = null
 

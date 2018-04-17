@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
 import com.margarita.voicenotes.R
+import com.margarita.voicenotes.common.getFileNameWithoutExt
 import com.margarita.voicenotes.common.parseToString
 import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.models.entities.NoteItem
@@ -47,7 +48,21 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
 
     override fun save() = newNoteFragment.save()
 
-    override fun cancelSaving() = finish()
+    override fun cancelSaving() {
+        // Delete a new photo
+        deletePhotoFile(newPhotoFile)
+
+        // Restore an old photo, if it was deleted
+        if (noteForEdit.photoUri != null && newNoteFragment.photoFile == null) {
+            val newFile = createPhotoFile(noteForEdit.photoUri!!.getFileNameWithoutExt())
+            val newUri = getPhotoUri(newFile)
+            newNoteFragment.photoUri = newUri
+            //TODO Update photo uri
+            newNoteFragment.save()
+        } else {
+            finish()
+        }
+    }
 
     override fun usedForCreation() = false
 

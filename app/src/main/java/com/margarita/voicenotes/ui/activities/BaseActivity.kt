@@ -78,10 +78,20 @@ abstract class BaseActivity: AppCompatActivity() {
     protected fun createPhotoIntent(): Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
     /**
+     * Function for getting path to the storage dir
+     */
+    private fun getStorageDir(): File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+    /**
      * Function for creation a photo file
      */
-    protected fun createPhotoFile(): File = createImageFile(
-            getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+    protected fun createPhotoFile(): File = createImageFile(getStorageDir())
+
+    /**
+     * Function for creation a photo file with a given name
+     */
+    protected fun createPhotoFile(fileName: String): File
+            = createImageFile(fileName, getStorageDir())
 
     /**
      * Function for getting a photo Uri from photo file
