@@ -2,6 +2,7 @@ package com.margarita.voicenotes.models.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.margarita.voicenotes.common.getCategory
 import com.margarita.voicenotes.common.parseDate
 import io.realm.RealmObject
 import io.realm.RealmResults
@@ -17,7 +18,22 @@ open class NoteItem(@PrimaryKey var id: Long = 0,
                     val categories: RealmResults<Category>? = null)
     : RealmObject(), Parcelable {
 
+    /**
+     * Function for parsing a date to the nice format
+     */
     fun parseDate(): String = date.parseDate()
+
+    /**
+     * Function which checks if the note's fields are different to given fields
+     */
+    fun isDifferentFrom(description: String,
+                      categoryId: Long?,
+                      photoUri: String? = null,
+                      croppedPhotoUri: String? = null): Boolean
+            = this.description != description ||
+                this.photoUri != photoUri ||
+                this.croppedPhotoUri != croppedPhotoUri ||
+                getCategory(this)?.id != categoryId
 
     //region Parcelable implementation
     constructor(parcel: Parcel) : this(

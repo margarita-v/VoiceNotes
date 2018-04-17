@@ -1,5 +1,6 @@
 package com.margarita.voicenotes.common
 
+import com.margarita.voicenotes.models.entities.Category
 import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import java.io.File
@@ -24,7 +25,11 @@ fun createImageFile(storageDir: File): File {
 }
 
 /**
+ * Function for getting a note's category
+ */
+fun getCategory(noteItem: NoteItem): Category? = BaseDatabasePresenter.getCategory(noteItem.id)
+
+/**
  * Function for getting a category name for the note
  */
-fun getCategoryName(noteItem: NoteItem): String?
-        = BaseDatabasePresenter.getCategory(noteItem.id)?.name
+fun getCategoryName(noteItem: NoteItem): String? = getCategory(noteItem)?.name

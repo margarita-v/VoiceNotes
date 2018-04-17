@@ -13,7 +13,7 @@ import com.margarita.voicenotes.common.throwClassCastException
 /**
  * Confirmation dialog fragment
  */
-class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
+open class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
 
     /**
      * Callback to calling activity or fragment
@@ -51,15 +51,12 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
         private const val DEFAULT_MESSAGE_RES = R.string.confirm_delete_notes
 
         /**
-         * Function for creation an instance of confirmation dialog
-         * @param messageRes String resource ID for the dialog's message
-         * @param titleRes String resource ID for the dialog's title
-         * @return Instance of confirmation dialog
+         * Function for a simple dialog configuration
          */
-        fun newInstance(@StringRes messageRes: Int,
-                        @StringRes titleRes: Int = DEFAULT_TITLE_RES,
-                        tag: String = DEFAULT_USAGE_TAG): ConfirmDialogFragment {
-            val dialog = ConfirmDialogFragment()
+        fun configureDialog(dialog: DialogFragment,
+                            @StringRes messageRes: Int,
+                            @StringRes titleRes: Int = DEFAULT_TITLE_RES,
+                            tag: String = DEFAULT_USAGE_TAG): DialogFragment {
             val args = Bundle()
             args.putInt(TITLE_KEY, titleRes)
             args.putInt(MESSAGE_KEY, messageRes)
@@ -67,6 +64,18 @@ class ConfirmDialogFragment: DialogFragment(), DialogInterface.OnClickListener {
             dialog.arguments = args
             return dialog
         }
+
+        /**
+         * Function for creation an instance of confirmation dialog
+         * @param messageRes String resource ID for the dialog's message
+         * @param titleRes String resource ID for the dialog's title
+         * @return Instance of confirmation dialog
+         */
+        fun newInstance(@StringRes messageRes: Int,
+                        @StringRes titleRes: Int = DEFAULT_TITLE_RES,
+                        tag: String = DEFAULT_USAGE_TAG): ConfirmDialogFragment
+                = configureDialog(ConfirmDialogFragment(), messageRes, titleRes, tag)
+                    as ConfirmDialogFragment
     }
 
     /**

@@ -84,25 +84,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
                     tag = ConfirmDialogFragment.DELETE_CONFIRM_TAG)
                     .show(fragmentManager, ConfirmDialogFragment.SHOWING_TAG)
         }
-        btnSave.setOnClickListener {
-            val description = etNote.getTextAsString()
-            val categoryId = adapter.getChosenItemId(spinnerCategory.selectedItemPosition)
-            if (noteForEdit == null) {
-                presenter.createNote(
-                        description,
-                        Calendar.getInstance().timeInMillis,
-                        photoUri,
-                        croppedPhotoUri,
-                        categoryId)
-            } else {
-                presenter.editNote(
-                        noteForEdit!!.id,
-                        description,
-                        photoUri,
-                        croppedPhotoUri,
-                        categoryId)
-            }
-        }
+        btnSave.setOnClickListener { save() }
     }
 
     override fun onAttach(context: Context?) {
@@ -129,6 +111,39 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
             = selectedOptionCallback.onCreationSuccess(R.string.note_edited)
 
     override fun setText(text: String): Unit = etNote.setSpeechText(text)
+
+    /**
+     * Function for saving a note
+     */
+    fun save() {
+        val description = getDescription()
+        val categoryId = getCategoryId()
+        if (noteForEdit == null) {
+            presenter.createNote(
+                    description,
+                    Calendar.getInstance().timeInMillis,
+                    photoUri,
+                    croppedPhotoUri,
+                    categoryId)
+        } else {
+            presenter.editNote(
+                    noteForEdit!!.id,
+                    description,
+                    photoUri,
+                    croppedPhotoUri,
+                    categoryId)
+        }
+    }
+
+    /**
+     * Function for getting a note's description
+     */
+    fun getDescription(): String = etNote.getTextAsString()
+
+    /**
+     * Function for getting an ID of the note's category
+     */
+    fun getCategoryId(): Long? = adapter.getChosenItemId(spinnerCategory.selectedItemPosition)
 
     /**
      * Function for showing a note's info
