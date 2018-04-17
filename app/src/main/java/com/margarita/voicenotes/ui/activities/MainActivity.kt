@@ -117,7 +117,13 @@ class MainActivity : BaseListActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
-            Activity.RESULT_CANCELED -> deletePhotoFile(photoFile)
+            Activity.RESULT_CANCELED -> {
+                when (requestCode) {
+                    NEW_NOTE_REQUEST_CODE,
+                    TAKE_PHOTO_REQUEST_CODE,
+                    CROP_PHOTO_REQUEST_CODE -> deletePhotoFile(photoFile)
+                }
+            }
             Activity.RESULT_OK -> {
                 when (requestCode) {
                     // Result of creation of a new note

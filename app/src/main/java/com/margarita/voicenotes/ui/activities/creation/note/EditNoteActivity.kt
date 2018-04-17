@@ -55,6 +55,7 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
             // User replaced an old photo. We should check if the note has description
             if (newNoteFragment.photoUri != null || newNoteFragment.getDescription() != "") {
                 contentResolver.delete(oldUri, null, null)
+                newNoteFragment.save()
             } else {
                 newNoteFragment.showError(R.string.note_empty)
             }
