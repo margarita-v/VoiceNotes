@@ -147,13 +147,13 @@ open class NewNoteActivity :
             if (savedPhotoFile != null) {
                 deletePhotoFile(savedPhotoFile)
                 newNoteFragment.photoFile = null
-            } else {
+            } /* else {
                 //TODO If not used for edit
                 contentResolver.delete(
                         newNoteFragment.photoUri!!,
                         null,
                         null)
-            }
+            }*/
         }
         newPhotoFile = null
 

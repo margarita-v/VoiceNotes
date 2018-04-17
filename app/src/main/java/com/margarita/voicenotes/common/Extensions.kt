@@ -24,6 +24,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import java.io.FileNotFoundException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -84,9 +85,13 @@ fun TextView.setNoteText(text: String, changeTypeface: Boolean = false) {
  */
 fun ImageView.loadImage(context: Context, uri: Uri? = null) {
     if (uri != null) {
-        Glide.with(context)
-                .load(uri)
-                .into(this)
+        try {
+            Glide.with(context)
+                    .load(uri)
+                    .into(this)
+        } catch (e: FileNotFoundException) {
+
+        }
     } else {
         setImageDrawable(ContextCompat.getDrawable(context, R.mipmap.ic_launcher))
     }

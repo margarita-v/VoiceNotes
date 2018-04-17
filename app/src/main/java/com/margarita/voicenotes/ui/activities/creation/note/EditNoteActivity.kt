@@ -6,7 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.getFileNameWithoutExt
+import com.margarita.voicenotes.common.parseStringToUri
 import com.margarita.voicenotes.common.parseToString
 import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.models.entities.NoteItem
@@ -41,27 +41,32 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
                     .newInstance(R.string.confirm_cancel_note_edit)
                     .show(supportFragmentManager, CancelEditDialogFragment.SHOWING_TAG)
         } else {
-            //TODO Delete a new photo; Restore an old photo
-            cancelSaving()
+            finish()
         }
     }
 
-    override fun save() = newNoteFragment.save()
+    override fun save() {
+        val oldUri = noteForEdit.photoUri?.parseStringToUri()
+
+        // Check if the photo was saved in the internal storage
+        if (oldUri != null
+                && newNoteFragment.photoUri != oldUri
+                && oldUri.toString().startsWith(COMMON_URI_STRING)) {
+            // User replaced an old photo. We should check if the note has description
+            if (newNoteFragment.photoUri != null || newNoteFragment.getDescription() != "") {
+                contentResolver.delete(oldUri, null, null)
+            } else {
+                newNoteFragment.showError(R.string.note_empty)
+            }
+        } else {
+            newNoteFragment.save()
+        }
+    }
 
     override fun cancelSaving() {
         // Delete a new photo
         deletePhotoFile(newPhotoFile)
-
-        // Restore an old photo, if it was deleted
-        if (noteForEdit.photoUri != null && newNoteFragment.photoFile == null) {
-            val newFile = createPhotoFile(noteForEdit.photoUri!!.getFileNameWithoutExt())
-            val newUri = getPhotoUri(newFile)
-            newNoteFragment.photoUri = newUri
-            //TODO Update photo uri
-            newNoteFragment.save()
-        } else {
-            finish()
-        }
+        finish()
     }
 
     override fun usedForCreation() = false

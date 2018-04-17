@@ -33,6 +33,11 @@ abstract class BaseActivity: AppCompatActivity() {
                 = "com.margarita.voicenotes.android.fileprovider"
 
         /**
+         * Usual Uri String value for internal photos
+         */
+        const val COMMON_URI_STRING = "content://$FILE_PROVIDER_AUTHORITY/images/"
+
+        /**
          * Request code for a photo selection
          */
         const val PICK_PHOTO_REQUEST_CODE = 2
@@ -78,20 +83,10 @@ abstract class BaseActivity: AppCompatActivity() {
     protected fun createPhotoIntent(): Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
     /**
-     * Function for getting path to the storage dir
-     */
-    private fun getStorageDir(): File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-
-    /**
      * Function for creation a photo file
      */
-    protected fun createPhotoFile(): File = createImageFile(getStorageDir())
-
-    /**
-     * Function for creation a photo file with a given name
-     */
-    protected fun createPhotoFile(fileName: String): File
-            = createImageFile(fileName, getStorageDir())
+    protected fun createPhotoFile(): File
+            = createImageFile(getExternalFilesDir(Environment.DIRECTORY_PICTURES))
 
     /**
      * Function for getting a photo Uri from photo file
