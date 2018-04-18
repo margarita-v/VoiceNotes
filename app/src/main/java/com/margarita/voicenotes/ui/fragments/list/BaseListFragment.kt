@@ -18,7 +18,7 @@ import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
 import com.margarita.voicenotes.mvp.presenter.list.BaseListPresenter
 import com.margarita.voicenotes.mvp.view.BaseView
 import com.margarita.voicenotes.ui.fragments.base.BaseFragment
-import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.confirm.ConfirmDialogFragment
 import io.realm.RealmObject
 import kotlinx.android.synthetic.main.empty_view.*
 import kotlinx.android.synthetic.main.list_content.*

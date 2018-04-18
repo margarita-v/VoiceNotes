@@ -10,6 +10,7 @@ import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.showToast
 import com.margarita.voicenotes.ui.activities.BaseActivity
 import com.margarita.voicenotes.ui.fragments.creation.BaseNewItemFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.confirm.CancelEditDialogFragment
 import java.util.*
 
 /**
@@ -144,6 +145,14 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
             fragment.setText(resultArray[0].capitalize())
         }
     }
+
+    /**
+     * Function for showing a confirmation dialog for cancel editing
+     */
+    protected fun showCancelDialog(): Unit =
+            CancelEditDialogFragment
+                    .newInstance(R.string.confirm_cancel_edit)
+                    .show(supportFragmentManager, CancelEditDialogFragment.SHOWING_TAG)
 
     /**
      * Function which returns true if the activity is used for creation of items,

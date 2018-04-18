@@ -12,7 +12,7 @@ import com.margarita.voicenotes.models.entities.NoteItem
 import com.margarita.voicenotes.mvp.presenter.base.BaseDatabasePresenter
 import com.margarita.voicenotes.mvp.presenter.creation.NewNotePresenter
 import com.margarita.voicenotes.mvp.view.NewNoteView
-import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.confirm.ConfirmDialogFragment
 import kotlinx.android.synthetic.main.fragment_new_note.*
 import java.io.File
 import java.util.*
@@ -115,7 +115,7 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
     /**
      * Function for saving a note
      */
-    fun save() {
+    override fun save() {
         val description = getDescription()
         val categoryId = getCategoryId()
         if (noteForEdit == null) {

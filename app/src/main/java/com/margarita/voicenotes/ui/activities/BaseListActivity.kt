@@ -2,7 +2,7 @@ package com.margarita.voicenotes.ui.activities
 
 import android.content.Intent
 import com.margarita.voicenotes.ui.activities.creation.category.NewCategoryActivity
-import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.confirm.ConfirmDialogFragment
 import com.margarita.voicenotes.ui.fragments.list.BaseListFragment
 
 /**
