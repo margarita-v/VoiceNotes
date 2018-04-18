@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
 import com.margarita.voicenotes.R
-import com.margarita.voicenotes.common.parseStringToUri
 import com.margarita.voicenotes.common.parseToString
 import com.margarita.voicenotes.common.throwClassCastException
 import com.margarita.voicenotes.models.entities.NoteItem
@@ -33,10 +32,10 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
     override fun onBackPressed() {
         // Check if the note fields were changed
         if (noteForEdit.isDifferentFrom(
-                        newNoteFragment.getDescription(),
-                        newNoteFragment.getCategoryId(),
-                        newNoteFragment.photoUri?.parseToString(),
-                        newNoteFragment.croppedPhotoUri?.parseToString())) {
+                        description = newNoteFragment.getDescription(),
+                        categoryId = newNoteFragment.getCategoryId(),
+                        photoUri = newNoteFragment.photoUri?.parseToString(),
+                        croppedPhotoUri = newNoteFragment.croppedPhotoUri?.parseToString())) {
             CancelEditDialogFragment
                     .newInstance(R.string.confirm_cancel_note_edit)
                     .show(supportFragmentManager, CancelEditDialogFragment.SHOWING_TAG)
@@ -46,7 +45,7 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
     }
 
     override fun save() {
-        val oldUri = noteForEdit.photoUri?.parseStringToUri()
+        val oldUri = noteForEdit.getPhotoUri()
 
         // Check if the photo was saved in the internal storage
         if (oldUri != null
@@ -67,6 +66,12 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
     override fun cancelSaving() {
         // Delete a new photo
         deletePhotoFile(newPhotoFile)
+
+        // Delete an old saved photo, if the photo was changed
+        if (newNoteFragment.photoFile != null &&
+                noteForEdit.getPhotoUri() != newNoteFragment.photoUri) {
+            deletePhotoFile(newNoteFragment.photoFile)
+        }
         finish()
     }
 

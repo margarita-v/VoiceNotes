@@ -33,7 +33,7 @@ class NotesAdapter(noteClickListener: OnItemClickListener<NoteItem>)
             tvDescription.setNoteText(noteItem.description, true)
             tvCategory.setCategoryName(getCategoryName(noteItem))
             tvDate.text = noteItem.parseDate()
-            ivPhoto.loadImage(context, noteItem.croppedPhotoUri?.parseStringToUri())
+            ivPhoto.loadImage(context, noteItem.getCroppedPhotoUri())
         }
     }
 }

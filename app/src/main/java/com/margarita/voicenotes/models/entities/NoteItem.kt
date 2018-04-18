@@ -1,9 +1,11 @@
 package com.margarita.voicenotes.models.entities
 
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.margarita.voicenotes.common.getCategory
 import com.margarita.voicenotes.common.parseDate
+import com.margarita.voicenotes.common.parseStringToUri
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.LinkingObjects
@@ -34,6 +36,16 @@ open class NoteItem(@PrimaryKey var id: Long = 0,
                 this.photoUri != photoUri ||
                 this.croppedPhotoUri != croppedPhotoUri ||
                 getCategory(this)?.id != categoryId
+
+    /**
+     * Function for getting a photoUri parsed from String to Uri
+     */
+    fun getPhotoUri(): Uri? = photoUri?.parseStringToUri()
+
+    /**
+     * Function for getting a cropped photo uri parsed from String to Uri
+     */
+    fun getCroppedPhotoUri(): Uri? = croppedPhotoUri?.parseStringToUri()
 
     //region Parcelable implementation
     constructor(parcel: Parcel) : this(

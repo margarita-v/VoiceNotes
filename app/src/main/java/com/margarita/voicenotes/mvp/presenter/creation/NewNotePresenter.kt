@@ -54,7 +54,6 @@ class NewNotePresenter(private val view: NewNoteView)
     private fun checkParams(description: String,
                             photoUri: Uri?,
                             croppedPhotoUri: Uri?): Boolean
-
             = description.isNotEmpty() || photoUri != null && croppedPhotoUri != null
 
     /**
@@ -74,11 +73,11 @@ class NewNotePresenter(private val view: NewNoteView)
         if (checkParams(descriptionTrimmed, photoUri, croppedPhotoUri)) {
             realm.executeTransaction { realm1 ->
                 val noteItem = NoteItem(
-                        generateId(),
-                        descriptionTrimmed,
-                        date,
-                        photoUri?.parseToString(),
-                        croppedPhotoUri?.parseToString())
+                        id = generateId(),
+                        description = descriptionTrimmed,
+                        date = date,
+                        photoUri = photoUri?.parseToString(),
+                        croppedPhotoUri = croppedPhotoUri?.parseToString())
                 save(realm1, noteItem)
                 // Set category to the new note
                 if (categoryId != null) {

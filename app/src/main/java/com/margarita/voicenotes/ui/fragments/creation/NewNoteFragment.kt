@@ -120,18 +120,18 @@ class NewNoteFragment: BaseNewItemFragment(), NewNoteView {
         val categoryId = getCategoryId()
         if (noteForEdit == null) {
             presenter.createNote(
-                    description,
-                    Calendar.getInstance().timeInMillis,
-                    photoUri,
-                    croppedPhotoUri,
-                    categoryId)
+                    description = description,
+                    date = Calendar.getInstance().timeInMillis,
+                    photoUri = photoUri,
+                    croppedPhotoUri = croppedPhotoUri,
+                    categoryId = categoryId)
         } else {
             presenter.editNote(
-                    noteForEdit!!.id,
-                    description,
-                    photoUri,
-                    croppedPhotoUri,
-                    categoryId)
+                    id = noteForEdit!!.id,
+                    description = description,
+                    photoUri = photoUri,
+                    croppedPhotoUri = croppedPhotoUri,
+                    categoryId = categoryId)
         }
     }
 

@@ -35,7 +35,7 @@ class ViewNoteActivity : BaseActivity() {
         tvDescription.setNoteText(noteItem.description)
         tvCategory.setCategoryName(getCategoryName(noteItem))
         tvDate.text = noteItem.parseDate()
-        val photoUri = noteItem.photoUri?.parseStringToUri()
+        val photoUri = noteItem.getPhotoUri()
         if (photoUri != null) {
             ivPhoto.loadImage(this, photoUri)
             ivPhoto.setOnClickListener {

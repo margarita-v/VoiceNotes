@@ -140,27 +140,23 @@ open class NewNoteActivity :
      * Function for removing a photo of note
      */
     private fun deletePhoto() {
-        // Delete photo file and set it to null
-        deletePhotoFile(newPhotoFile)
-        val savedPhotoFile = newNoteFragment.photoFile
-        if (newPhotoFile == null || newPhotoFile == savedPhotoFile) {
-            if (savedPhotoFile != null) {
-                deletePhotoFile(savedPhotoFile)
-                newNoteFragment.photoFile = null
-            } /* else {
-                //TODO If not used for edit
-                contentResolver.delete(
-                        newNoteFragment.photoUri!!,
-                        null,
-                        null)
-            }*/
+        // If a new photo file is null, we should delete an old saved file
+        if (newPhotoFile == null) {
+            deletePhotoFile(newNoteFragment.photoFile)
+            newNoteFragment.photoFile = null
+        } else {
+            // Delete a new photo file
+            deletePhotoFile(newPhotoFile)
+            newPhotoFile = null
         }
-        newPhotoFile = null
 
-        // Call fragment's method to change UI
+        // Call fragment's method to change UI.
+        // If a new photo uri was not set (if we want to delete an existing photo)
+        // or if we delete a new photo
         if (newPhotoUri == null || newNoteFragment.photoUri == newPhotoUri) {
             newNoteFragment.deletePhoto()
         }
+        newPhotoUri = null
     }
 
     /**
@@ -183,6 +179,15 @@ open class NewNoteActivity :
     }
 
     /**
+     * Function for changing saved photo request codes and performing an image cropping
+     */
+    private fun cropAndSetRequestCode(requestCode: Int) {
+        crop(newPhotoUri)
+        previousPhotoRequestCode = lastPhotoRequestCode
+        lastPhotoRequestCode = requestCode
+    }
+
+    /**
      * Function for receiving an activity's result
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -190,53 +195,43 @@ open class NewNoteActivity :
         if (requestCode != SPEECH_REQUEST_CODE) {
             when (resultCode) {
                 Activity.RESULT_CANCELED -> {
-                    if (lastPhotoRequestCode != PICK_PHOTO_REQUEST_CODE /*||
-                            requestCode == CROP_PHOTO_REQUEST_CODE &&
-                            lastPhotoRequestCode == TAKE_PHOTO_REQUEST_CODE*/
-                            && newPhotoFile != null
-                            && newNoteFragment.photoFile != newPhotoFile) {
+                    if (lastPhotoRequestCode != PICK_PHOTO_REQUEST_CODE) {
                         deletePhoto()
-
-                        // Cancel of saving photo request codes
-                        lastPhotoRequestCode = previousPhotoRequestCode
-                        previousPhotoRequestCode = DEFAULT_PHOTO_REQUEST_CODE
                     }
+                    // Cancel of saving photo request codes
+                    lastPhotoRequestCode = previousPhotoRequestCode
+                    previousPhotoRequestCode = DEFAULT_PHOTO_REQUEST_CODE
                 }
                 Activity.RESULT_OK -> {
                     when (requestCode) {
                         // Result of a choosing photo from gallery
                         PICK_PHOTO_REQUEST_CODE -> {
-                            //deleteAndSetPhoto()
                             newPhotoUri = data?.data
-                            //newNoteFragment.photoUri = data?.data
-                            crop(newPhotoUri)
-
-                            previousPhotoRequestCode = lastPhotoRequestCode
-                            lastPhotoRequestCode = PICK_PHOTO_REQUEST_CODE
+                            cropAndSetRequestCode(PICK_PHOTO_REQUEST_CODE)
                         }
 
                         // Result of taking photo
-                        TAKE_PHOTO_REQUEST_CODE -> {
-                            crop(newPhotoUri)
-
-                            previousPhotoRequestCode = lastPhotoRequestCode
-                            lastPhotoRequestCode = TAKE_PHOTO_REQUEST_CODE
-                        }
+                        TAKE_PHOTO_REQUEST_CODE ->
+                            // A new photo uri was set before starting the photo activity
+                            cropAndSetRequestCode(TAKE_PHOTO_REQUEST_CODE)
 
                         // Result of image cropping
                         CROP_PHOTO_REQUEST_CODE -> {
-                            if (newPhotoFile!= null
-                                    && newNoteFragment.photoFile != newPhotoFile) {
+                            if (newPhotoFile != null) {
+                                // Set a new photo file
                                 deleteAndSetPhoto(newPhotoFile)
+                                newPhotoFile = null
                             } else if (lastPhotoRequestCode == PICK_PHOTO_REQUEST_CODE) {
+                                // Photo was picked from gallery,
+                                // so we should to delete an old photo file
                                 deleteAndSetPhoto()
                             }
 
+                            // Set a new photo Uri
                             if (newPhotoUri != null) {
                                 newNoteFragment.photoUri = newPhotoUri
                             }
                             newPhotoUri = null
-
                             newNoteFragment.setCroppedPhoto(getCroppedPhoto(data))
                         }
                     }
