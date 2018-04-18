@@ -1,8 +1,10 @@
 package com.margarita.voicenotes.ui.fragments.creation
 
+import android.os.Bundle
 import android.support.annotation.StringRes
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageButton
@@ -62,6 +64,11 @@ abstract class BaseNewItemFragment: BaseFragment(), BaseNewItemView {
      * Function for setting a speech result to the EditText
      */
     abstract fun setText(text: String)
+
+    /**
+     * Function for saving an item to the database
+     */
+    abstract fun save()
 
     /**
      * Base interface for performing callbacks to the activity

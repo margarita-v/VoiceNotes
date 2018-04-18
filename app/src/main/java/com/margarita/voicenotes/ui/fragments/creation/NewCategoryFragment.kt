@@ -38,14 +38,7 @@ class NewCategoryFragment: BaseNewItemFragment() {
         configureEditWidgets(etCategory, imgBtnClear)
 
         imgBtnSpeak.setOnClickListener { actionCallback.speak() }
-        btnSave.setOnClickListener {
-            val name = etCategory.getTextAsString()
-            if (categoryForEdit == null) {
-                presenter.createCategory(name)
-            } else {
-                presenter.editCategory(categoryForEdit!!.id, name)
-            }
-        }
+        btnSave.setOnClickListener { save() }
         if (categoryForEdit != null) {
             showCategoryInfo(categoryForEdit!!)
         }
@@ -67,6 +60,20 @@ class NewCategoryFragment: BaseNewItemFragment() {
             = actionCallback.onCreationSuccess(R.string.category_edited)
 
     override fun setText(text: String): Unit = etCategory.setSpeechText(text)
+
+    override fun save() {
+        val name = getCategoryName()
+        if (categoryForEdit == null) {
+            presenter.createCategory(name)
+        } else {
+            presenter.editCategory(categoryForEdit!!.id, name)
+        }
+    }
+
+    /**
+     * Function for gettting a name of category
+     */
+    fun getCategoryName(): String = etCategory.getTextAsString()
 
     /**
      * Function for showing a category's info

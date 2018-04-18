@@ -8,7 +8,7 @@ import android.provider.MediaStore
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.ui.activities.creation.BaseNewItemActivity
 import com.margarita.voicenotes.ui.fragments.creation.NewNoteFragment
-import com.margarita.voicenotes.ui.fragments.dialogs.ConfirmDialogFragment
+import com.margarita.voicenotes.ui.fragments.dialogs.confirm.ConfirmDialogFragment
 import java.io.File
 
 /**
