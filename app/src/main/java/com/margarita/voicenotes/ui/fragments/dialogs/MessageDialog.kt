@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v4.app.DialogFragment
+import com.margarita.voicenotes.R
 
 /**
  * Dialog for showing the message
@@ -22,7 +23,7 @@ class MessageDialog: DialogFragment(), DialogInterface.OnClickListener {
         /**
          * Dialog's title
          */
-        private const val TITLE = "Error"
+        private const val TITLE_RES = R.string.error
 
         /**
          * Key for Bundle
@@ -45,7 +46,7 @@ class MessageDialog: DialogFragment(), DialogInterface.OnClickListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog
             = AlertDialog.Builder(context)
-                .setTitle(TITLE)
+                .setTitle(TITLE_RES)
                 .setMessage(arguments!!.getInt(MESSAGE_KEY))
                 .setPositiveButton(getString(android.R.string.ok), this)
                 .create()

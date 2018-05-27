@@ -8,6 +8,7 @@
     <string name="photo_fullscreen">Full photo</string>
 
     <!-- Errors -->
+    <string name="error">Error</string>
     <string name="speech_not_supported">Your device does not support speech input</string>
     <string name="note_empty">Note must contain a text or a photo!</string>
     <string name="category_empty">Category can not be empty!</string>
