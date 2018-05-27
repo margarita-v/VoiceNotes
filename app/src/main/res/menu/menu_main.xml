@@ -5,9 +5,16 @@
     tools:context=".ui.activities.MainActivity">
 
     <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_show_categories"
         android:title="@string/show_categories"
         android:orderInCategory="100"
         android:icon="@drawable/ic_collections_bookmark_white_24dp"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

@@ -76,7 +76,7 @@ class MainActivity : BaseListActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_categories, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 

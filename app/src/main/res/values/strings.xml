@@ -73,6 +73,7 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="speak">Speak</string>
     <string name="category">Category</string>
+    <string name="search">Search</string>
     <string name="show_categories">Show categories</string>
     <string name="choose_category">Choose category</string>
     <string name="date">Date</string>
