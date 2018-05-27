@@ -2,6 +2,7 @@ package com.margarita.voicenotes.common.adapters.list
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.*
 import com.margarita.voicenotes.models.BaseViewModel

@@ -88,4 +88,5 @@
     <string name="select_all">Select all</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="empty_search">Notes are not found</string>
 </resources>

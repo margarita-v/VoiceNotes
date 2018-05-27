@@ -38,7 +38,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
-
         </activity>
         <activity
             android:name=".ui.activities.creation.category.NewCategoryActivity"
@@ -53,7 +52,6 @@
         </activity>
         <activity
             android:name=".ui.activities.creation.category.EditCategoryActivity"
-
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
 
@@ -86,7 +84,6 @@
         </activity>
         <activity
             android:name=".ui.activities.creation.note.EditNoteActivity"
-
             android:parentActivityName=".ui.activities.MainActivity"
             tools:targetApi="jelly_bean">
 
@@ -128,6 +125,17 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".ui.activities.SearchActivity"
+            android:label="@string/search"
+            android:parentActivityName=".ui.activities.MainActivity"
+            tools:targetApi="jelly_bean">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

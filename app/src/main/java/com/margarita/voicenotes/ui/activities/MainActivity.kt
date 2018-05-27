@@ -89,9 +89,13 @@ class MainActivity : BaseListActivity() {
                 closeFabMenu()
                 return true
             }
+            R.id.action_search -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun onClick(view: View) {
         when (view.id) {
             R.id.fabNewNote -> startActivityForResult(createNoteIntent, NEW_NOTE_REQUEST_CODE)
