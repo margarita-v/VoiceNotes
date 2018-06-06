@@ -8,6 +8,9 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.Sort
 
+/**
+ * Presenter for searching
+ */
 class SearchNotesPresenter(private val view: SearchView) {
 
     /**

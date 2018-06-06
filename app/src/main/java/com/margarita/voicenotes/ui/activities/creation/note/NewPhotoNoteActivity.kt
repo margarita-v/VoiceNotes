@@ -21,5 +21,5 @@ class NewPhotoNoteActivity: NewNoteActivity() {
         }
     }
 
-    override fun usedForCreation(): Boolean = false
+    override fun isUsedForCreation(): Boolean = false
 }

@@ -68,7 +68,7 @@ class EditNoteActivity : NewNoteActivity(), CancelEditDialogFragment.CancelEditL
         finish()
     }
 
-    override fun usedForCreation() = false
+    override fun isUsedForCreation() = false
 
     override fun getExitMessageResId() = R.string.confirm_cancel_edit
 }

@@ -36,5 +36,5 @@ class EditCategoryActivity : NewCategoryActivity(), CancelEditDialogFragment.Can
 
     override fun cancelSaving() = finish()
 
-    override fun usedForCreation(): Boolean = false
+    override fun isUsedForCreation(): Boolean = false
 }

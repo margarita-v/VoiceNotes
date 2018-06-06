@@ -117,7 +117,7 @@ open class NewNoteActivity :
         }
     }
 
-    override fun usedForCreation(): Boolean = true
+    override fun isUsedForCreation(): Boolean = true
 
     override fun pickImageFromGallery() {
         if (checkIntentHandlers(pickPhotoFromGalleryIntent)) {

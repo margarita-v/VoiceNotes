@@ -22,5 +22,5 @@ open class NewCategoryActivity : BaseNewItemActivity(R.string.create_category) {
         setFragment(fragment)
     }
 
-    override fun usedForCreation(): Boolean = true
+    override fun isUsedForCreation(): Boolean = true
 }

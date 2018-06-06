@@ -93,7 +93,7 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
                     savedInstanceState.getBoolean(NOTE_CREATED_FLAG)
         }
 
-        if (usedForCreation()) {
+        if (isUsedForCreation()) {
             startSpeechRecognition()
         }
 
@@ -160,5 +160,5 @@ abstract class BaseNewItemActivity(@StringRes private val speechMessageRes: Int)
      * If the activity is not used for creation, we don't need to launch
      * a speech recognition service when activity is created.
      */
-    protected abstract fun usedForCreation(): Boolean
+    protected abstract fun isUsedForCreation(): Boolean
 }
