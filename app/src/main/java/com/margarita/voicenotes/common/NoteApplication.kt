@@ -1,4 +1,4 @@
-package com.margarita.voicenotes
+package com.margarita.voicenotes.common
 
 import android.app.Application
 import io.realm.Realm

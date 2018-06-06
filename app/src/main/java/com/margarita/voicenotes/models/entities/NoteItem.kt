@@ -15,9 +15,7 @@ open class NoteItem(@PrimaryKey var id: Long = 0,
                     var description: String = "",
                     private var date: Long = 0,
                     var photoUri: String? = null,
-                    var croppedPhotoUri: String? = null,
-                    @LinkingObjects("notes")
-                    val categories: RealmResults<Category>? = null)
+                    var croppedPhotoUri: String? = null)
     : RealmObject(), Parcelable {
 
     /**
