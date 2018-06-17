@@ -90,4 +90,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="empty_search">Notes are not found</string>
+    <string name="category_filter">Фильтр по категории</string>
 </resources>

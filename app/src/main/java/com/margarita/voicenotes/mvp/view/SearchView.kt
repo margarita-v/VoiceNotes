@@ -22,4 +22,6 @@ interface SearchView {
     fun setCategories(items: List<Category>)
 
     fun setSearchResult(items: List<NoteItem>)
+
+    fun clearSearchResult()
 }

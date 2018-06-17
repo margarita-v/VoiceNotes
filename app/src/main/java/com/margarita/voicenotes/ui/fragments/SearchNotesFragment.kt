@@ -3,6 +3,7 @@ package com.margarita.voicenotes.ui.fragments
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.AdapterView
 import com.margarita.voicenotes.R
 import com.margarita.voicenotes.common.adapters.CategorySpinnerAdapter
 import com.margarita.voicenotes.common.adapters.list.BaseListAdapter
@@ -53,12 +54,26 @@ class SearchNotesFragment : BaseFragment(), SearchView {
         rvList.adapter = notesAdapter
 
         spinnerCategory.adapter = categoriesAdapter
+        spinnerCategory.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) { }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                hideEmptyView()
+            }
+        }
+
         if (categoriesAdapter.hasOnlyNoneCategory()) {
             presenter.loadCategories()
         }
     }
 
-    fun search(query: String) = presenter.searchNotes(query)
+    fun search(query: String) = presenter.searchNotes(query, getCategoryId())
+
+    /**
+     * Function for getting an ID of the note's category
+     */
+    private fun getCategoryId(): Long?
+            = categoriesAdapter.getChosenItemId(spinnerCategory.selectedItemPosition)
 
     override fun getLayoutRes(): Int = R.layout.fragment_search
 
@@ -66,13 +81,23 @@ class SearchNotesFragment : BaseFragment(), SearchView {
 
     override fun setSearchResult(items: List<NoteItem>) = notesAdapter.setItems(items)
 
+    override fun clearSearchResult() = notesAdapter.clear()
+
     override fun showLoading() = progressBar.show()
 
     override fun hideLoading() = progressBar.hide()
 
-    override fun showEmptyView() = layoutEmpty.show()
+    override fun showEmptyView() {
+        clearSearchResult()
+        layoutEmpty.show()
+    }
 
-    override fun hideEmptyView() = layoutEmpty.hide()
+    override fun hideEmptyView() {
+        if (layoutEmpty.visibility == View.VISIBLE) {
+            layoutEmpty.hide()
+        }
+        clearSearchResult()
+    }
 
     override fun showError(messageRes: Int) = context!!.showToast(messageRes)
 }

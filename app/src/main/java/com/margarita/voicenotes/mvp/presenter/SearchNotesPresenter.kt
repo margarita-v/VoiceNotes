@@ -36,6 +36,7 @@ class SearchNotesPresenter(private val view: SearchView) {
     }
 
     fun searchNotes(text: String, categoryId: Long? = null) {
+        view.hideEmptyView()
         view.showLoading()
         val items = getNotes(text)
 
@@ -64,12 +65,20 @@ class SearchNotesPresenter(private val view: SearchView) {
         return realm.copyFromRealm(realmResults)
     }
 
-    private fun getNotes(text: String) : List<NoteItem> {
-        val realmResults = realm.where(NoteItem::class.java)
-                .contains(NOTE_ITEM_SEARCH_FIELD, text, Case.INSENSITIVE)
-                .sort(NOTE_ITEM_SORT_FIELD, NOTE_ITEM_SORT_ORDER)
-                .findAll()
-        return realm.copyFromRealm(realmResults)
+    private fun getNotes(text: String): List<NoteItem> {
+        return if (text.isNotEmpty()) {
+            val allNotes = realm.where(NoteItem::class.java)
+                    .sort(NOTE_ITEM_SORT_FIELD, NOTE_ITEM_SORT_ORDER)
+                    .findAll()
+            realm.copyFromRealm(allNotes)
+                    .filter { it.description.toLowerCase().contains(text.toLowerCase()) }
+        } else {
+            val realmResults = realm.where(NoteItem::class.java)
+                    .equalTo(NOTE_ITEM_SEARCH_FIELD, text, Case.INSENSITIVE)
+                    .sort(NOTE_ITEM_SORT_FIELD, NOTE_ITEM_SORT_ORDER)
+                    .findAll()
+            realm.copyFromRealm(realmResults)
+        }
     }
 
     private fun filterNotes(notes: List<NoteItem>, categoryId: Long) : List<NoteItem> {

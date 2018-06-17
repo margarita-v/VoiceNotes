@@ -11,6 +11,8 @@
         android:spinnerMode="dialog"
         android:prompt="@string/choose_category"/>
 
+    <View style="@style/Divider" />
+
     <include layout="@layout/list_content" />
 
 </LinearLayout>
