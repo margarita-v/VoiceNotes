@@ -56,6 +56,8 @@ class MainActivity : BaseListActivity() {
          * Request codes
          */
         private const val NEW_NOTE_REQUEST_CODE = 6
+
+        private const val CATEGORY_LIST_CODE = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,9 +85,7 @@ class MainActivity : BaseListActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_show_categories -> {
-                //TODO Start activity for result and reload a list of notes
-                //TODO if categories were changed!
-                startActivity(showCategoriesIntent)
+                startActivityForResult(showCategoriesIntent, CATEGORY_LIST_CODE)
                 closeFabMenu()
                 return true
             }
@@ -130,6 +130,9 @@ class MainActivity : BaseListActivity() {
             }
             Activity.RESULT_OK -> {
                 when (requestCode) {
+                    // Result of changing a list of categories
+                    CATEGORY_LIST_CODE -> notesFragment.onDataSetChanged()
+
                     // Result of creation of a new note
                     NEW_NOTE_REQUEST_CODE -> notesFragment.onDataSetChanged()
 

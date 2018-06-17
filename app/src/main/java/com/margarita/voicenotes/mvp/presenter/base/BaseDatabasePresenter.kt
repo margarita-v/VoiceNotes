@@ -66,7 +66,7 @@ abstract class BaseDatabasePresenter<T: RealmObject> {
      * Function for removing all items by the given list of IDs
      * @param ids IDs of items which will be removed
      */
-    protected fun removeByIds(ids: Set<Long>): Unit = ids.forEach { remove(it) }
+    protected open fun removeByIds(ids: Set<Long>): Unit = ids.forEach { remove(it) }
 
     /**
      * Function for removing all items in the table
