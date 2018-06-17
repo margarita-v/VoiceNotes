@@ -64,15 +64,15 @@ class SearchNotesFragment : BaseFragment(), SearchView {
 
     override fun setCategories(items: List<Category>) = categoriesAdapter.addAll(items)
 
+    override fun setSearchResult(items: List<NoteItem>) = notesAdapter.setItems(items)
+
     override fun showLoading() = progressBar.show()
 
     override fun hideLoading() = progressBar.hide()
 
     override fun showEmptyView() = layoutEmpty.show()
 
+    override fun hideEmptyView() = layoutEmpty.hide()
+
     override fun showError(messageRes: Int) = context!!.showToast(messageRes)
-
-    override fun setItems(items: List<NoteItem>) = notesAdapter.setItems(items)
-
-    override fun onDataSetChanged() { }
 }

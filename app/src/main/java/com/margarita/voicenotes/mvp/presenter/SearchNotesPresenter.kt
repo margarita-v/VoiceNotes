@@ -32,11 +32,7 @@ class SearchNotesPresenter(private val view: SearchView) {
         val items = getCategories()
         view.hideLoading()
 
-        if (items.isEmpty()) {
-            view.showEmptyView()
-        } else {
-            view.setCategories(items)
-        }
+        view.setCategories(items)
     }
 
     fun searchNotes(text: String, categoryId: Long? = null) {
@@ -48,7 +44,7 @@ class SearchNotesPresenter(private val view: SearchView) {
             if (items.isEmpty()) {
                 view.showEmptyView()
             } else {
-                view.setItems(items)
+                view.setSearchResult(items)
             }
         } else {
             val filteredItems = filterNotes(items, categoryId)
@@ -56,7 +52,7 @@ class SearchNotesPresenter(private val view: SearchView) {
             if (filteredItems.isEmpty()) {
                 view.showEmptyView()
             } else {
-                view.setItems(filteredItems)
+                view.setSearchResult(filteredItems)
             }
         }
     }

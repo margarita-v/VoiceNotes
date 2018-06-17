@@ -18,12 +18,13 @@ class SearchActivity : BaseActivity() {
         setFragment(searchFragment)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_search, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
+        val searchItem = menu.findItem(R.id.action_search)
         val searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-        searchView.requestFocus()
+        searchView.callOnClick()
 
+        searchView.setIconifiedByDefault(true)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -32,9 +33,14 @@ class SearchActivity : BaseActivity() {
                 return true
             }
 
-
             override fun onQueryTextChange(newText: String): Boolean = false
         })
+
+        searchView.setOnCloseListener {
+            searchView.onActionViewCollapsed()
+            searchFragment.hideEmptyView()
+            true
+        }
         return true
     }
 }
